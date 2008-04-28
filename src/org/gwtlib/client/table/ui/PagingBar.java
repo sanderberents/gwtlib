@@ -219,6 +219,8 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       button.addClickListener(clickListener);
       button.addStyleDependentName(STYLE_ACTIVE);
       DOM.setStyleAttribute(button.getElement(), "cursor", "pointer");
+    } else {
+      button.setEnabled(false);
     }
     return button;
   }
