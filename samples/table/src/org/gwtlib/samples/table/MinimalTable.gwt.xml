@@ -4,5 +4,5 @@
   <source path="client"/>
   <source path="rpc"/>
 
-  <entry-point class="org.gwtlib.samples.table.client.ui.PagingTableEntryPoint"/>
+  <entry-point class="org.gwtlib.samples.table.client.ui.MinimalTableEntryPoint"/>
 </module>

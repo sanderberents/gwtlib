@@ -23,7 +23,6 @@ import org.gwtlib.client.table.ColumnLayout;
 import org.gwtlib.client.table.ContentProvider;
 import org.gwtlib.client.table.Row;
 import org.gwtlib.client.table.Rows;
-import org.gwtlib.client.table.ui.AbstractContentProvider;
 import org.gwtlib.client.table.ui.Column;
 import org.gwtlib.client.table.ui.PagingBar;
 import org.gwtlib.client.table.ui.PagingTable;
@@ -44,7 +43,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Paging table demo.
+ * A demonstration of many paging table features.
  * 
  * @author Sander Berents
  */
@@ -82,7 +81,7 @@ public class PagingTableEntryPoint implements EntryPoint {
     // Now configure the table
     ColumnLayout layout = new ColumnLayout(columns);
     final PagingTable table = new PagingTable(layout, new PagingBar(TOTAL_SIZE, 10));
-    ContentProvider provider = new AbstractContentProvider(table) {
+    ContentProvider provider = new ContentProvider() {
       // Simulate retrieval of sample data, in requested sort order
       public void load(int begin, int end, final int sortId, boolean ascending) {
         final int sign = ascending ? 1 : -1;
@@ -121,7 +120,7 @@ public class PagingTableEntryPoint implements EntryPoint {
         }
         Row[] srows = new Row[Math.min(end - begin, tmp.length - begin)];
         for(int i = 0; i < srows.length; ++i) srows[i] = tmp[begin + i];
-        _callback.onSuccess(new Rows(srows, begin, sortId, ascending));
+        table.onSuccess(new Rows(srows, begin, sortId, ascending));
       }
     };
     table.setContentProvider(provider);

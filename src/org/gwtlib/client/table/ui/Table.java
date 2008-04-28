@@ -27,6 +27,7 @@ import org.gwtlib.client.table.RowsCache;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SourcesClickEvents;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -130,7 +131,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       _table.getRowFormatter().addStyleName(r, i % 2 == 0 ? STYLE_ROW_EVEN : STYLE_ROW_ODD);
       if(row.hasState(Row.State.SELECT)) _table.getRowFormatter().addStyleName(r, STYLE_ROW_SELECT);
     }
-    int nclear = _size - rows.size();
+    int nclear = Math.min(_size - rows.size(), _table.getRowCount() - rows.size() - 1);
     while(nclear-- > 0) { 
       for(int j = 0; j < _layout.getTotalColumnCount(); ++j) {
         Column column = _layout.getColumn(j);
@@ -220,6 +221,11 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
           _table.setWidget(r, c, widget);
         }
       }
+    }
+    for(; r < _size; ++r) {
+      for(int c = 0; c < _layout.getTotalColumnCount(); ++c) {
+        _table.setWidget(r, c, new Label());
+      }      
     }
     refreshRowState();
     _begin = pos;

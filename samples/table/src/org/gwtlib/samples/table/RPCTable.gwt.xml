@@ -1,0 +1,10 @@
+<module>
+  <inherits name="org.gwtlib.samples.resources.Resources"/>
+
+  <source path="client"/>
+  <source path="rpc"/>
+
+  <entry-point class="org.gwtlib.samples.table.client.ui.RPCTableEntryPoint"/>
+  
+  <servlet path="/person-service" class="org.gwtlib.samples.table.server.PersonServiceServlet"/>
+</module>

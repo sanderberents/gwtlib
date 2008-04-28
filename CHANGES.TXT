@@ -2,7 +2,7 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
-0.1.0 (2008-04-27)
+0.1.0 (2008-04-28)
 ------------------
 
- - Add table component (Table, PagingTable, PagingBar, etc) and sample.
+ - Add table component (Table, PagingTable, PagingBar, etc) and samples.
