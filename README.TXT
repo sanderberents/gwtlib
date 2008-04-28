@@ -5,7 +5,21 @@
                                (see LICENSE.TXT)
 ------------------------------------------------------------------------------
 
-GWTLIB (http://www.gwtlib.org) is a GWT widget library. 
+GWTLib (http://www.gwtlib.org) is a GWT widget library. 
+
+
+
+USING GWTLIB
+------------------------------------------------------------------------------
+
+To use GWTLib, add the gwtlib.jar file to your classpath and the line
+
+  <inherits name="org.gwtlib.GWTLib"/>
+
+to your module XML file.
+
+The image and stylesheet resources from the example projects are not included in the 
+gwtlib.jar file. Please include equivalent resources in your project.
 
 
 
@@ -29,3 +43,21 @@ The included examples are:
 
   * PagingTable
     A demonstration of many paging table features, e.g. sorting, selection, paging, etc.
+
+
+
+BUILDING GWTLIB
+------------------------------------------------------------------------------
+
+The prerequisites for building GWTLib are GWT 1.4 and ant. Create a file named 
+"build.properties" in the base directory, or a file named "gwtlib.build.properties" 
+in your home directory.
+
+In this file, add the line
+
+gwtdir=<PATH TO YOUR GWT DIRECTORY>
+
+If you now run ant using bin/build.xml, it will create the jar file as well as
+the zip file containing the complete distribution. If you only want to generate the
+jar file, run ant with target "jar". Use target "clean" for cleanup.
+

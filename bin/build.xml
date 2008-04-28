@@ -1,0 +1,63 @@
+<!--
+ * Copyright 2008 Sander Berents
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+-->
+
+<!--
+  This file is used in conjunction with ant to build GWTLib.
+
+  You may override the defaults defined in "default.properties" by creating 
+  a file named "build.properties" in the base directory, or a file 
+  named "gwtlib.build.properties" in your home directory.
+-->
+<project name="gwtlib" default="zip" basedir="..">
+  <property file="${user.home}/gwtlib.build.properties" />
+  <property file="${basedir}/build.properties" />
+  <property file="${basedir}/bin/default.properties" />
+
+  <path id="compile.classpath">
+    <pathelement location="${gwtdir}/gwt-user.jar"/>
+    <pathelement location="${gwtdir}/gwt-dev-windows.jar"/>
+  </path>
+
+  <target name="init">
+    <mkdir dir="${builddir}"/>
+  </target>
+
+  <target name="clean">
+    <delete dir="${builddir}" failonerror="false"/>
+    <delete file="${distdir}/gwtlib.jar" failonerror="false"/>
+    <delete file="${distdir}/gwtlib-dist.zip" failonerror="false"/>
+  </target>
+	
+  <target name="compile" depends="init">
+    <mkdir dir="${builddir}"/>
+    <javac srcdir="${basedir}/src" destdir="${builddir}" source="1.4">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar destfile="${distdir}/gwtlib.jar">
+      <fileset dir="${builddir}" />
+      <fileset dir="${basedir}/src" />
+    </jar>
+  </target>
+
+  <target name="zip" depends="jar">
+    <jar destfile="${distdir}/gwtlib-dist.zip">
+      <fileset dir="${basedir}" includes="bin/**,src/**,samples/**,*.TXT,gwtlib.jar" />
+    </jar>
+  </target>
+</project>
