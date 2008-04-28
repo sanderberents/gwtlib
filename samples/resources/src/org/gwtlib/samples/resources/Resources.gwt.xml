@@ -1,0 +1,5 @@
+<module>
+  <inherits name="org.gwtlib.GWTLib"/>
+
+  <stylesheet src="gwtlib.css"/>
+</module>
