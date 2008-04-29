@@ -50,4 +50,8 @@ public class PagingTable extends Table {
       }
     });
   }
+  
+  public PagingBar getPagingBar() {
+    return _paging;
+  }
 }

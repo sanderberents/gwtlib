@@ -149,6 +149,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     fetch(_begin, _begin + _size);
   }
 
+  public void reset() {
+    _begin = 0;
+    _cache.clear();
+    update();
+  }
+
   protected void fetch(int begin, int end) {
     int sortId = -1;
     boolean ascending = false;
@@ -185,6 +191,14 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       _begin = 0;
       fetch(_begin, _size);
     }
+  }
+
+  /**
+   * Returns displayed rows.
+   * @return
+   */
+  public Rows getRows() {
+    return getRows(_begin);
   }
 
   protected void renderHeader() {
@@ -244,8 +258,8 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   public void onSuccess(Rows rows) {
-    fireRenderEvent();
     _cache.merge(rows);
+    fireRenderEvent();
     renderHeader();
     render(rows.getBegin());
     fireRenderedEvent();

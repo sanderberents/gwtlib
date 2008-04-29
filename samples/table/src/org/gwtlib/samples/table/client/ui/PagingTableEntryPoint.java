@@ -127,10 +127,8 @@ public class PagingTableEntryPoint implements EntryPoint {
     table.addTableListener(new TableListenerAdapter() {
       public void onRowClicked(SourcesTableEvents sender, Row row) {
         GWT.log("Row clicked (id " + row.getId() + ")", null);
-        for(int i = 0; i < rows.length; ++i) {
-          rows[i].setState(Row.State.NONE);
-          row.setState(Row.State.SELECT);
-        }
+        for(int i = 0; i < rows.length; ++i) rows[i].setState(Row.State.NONE);
+        row.setState(Row.State.SELECT);
         table.refreshRowState();
       }
 
