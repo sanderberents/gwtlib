@@ -22,9 +22,9 @@
   named "gwtlib.build.properties" in your home directory.
 -->
 <project name="gwtlib" default="zip" basedir="..">
-  <property file="${user.home}/gwtlib.build.properties" />
-  <property file="${basedir}/build.properties" />
-  <property file="${basedir}/bin/default.properties" />
+  <property file="${user.home}/gwtlib.build.properties"/>
+  <property file="${basedir}/build.properties"/>
+  <property file="${basedir}/bin/default.properties"/>
 
   <path id="compile.classpath">
     <pathelement location="${gwtdir}/gwt-user.jar"/>
@@ -37,10 +37,11 @@
 
   <target name="clean">
     <delete dir="${builddir}" failonerror="false"/>
+    <delete dir="${javadocdir}" failonerror="false"/>
     <delete file="${distdir}/gwtlib.jar" failonerror="false"/>
     <delete file="${distdir}/gwtlib-dist.zip" failonerror="false"/>
   </target>
-	
+
   <target name="compile" depends="init">
     <mkdir dir="${builddir}"/>
     <javac srcdir="${basedir}/src" destdir="${builddir}" source="1.4">
@@ -50,14 +51,32 @@
 
   <target name="jar" depends="compile">
     <jar destfile="${distdir}/gwtlib.jar">
-      <fileset dir="${builddir}" />
-      <fileset dir="${basedir}/src" />
+      <fileset dir="${builddir}"/>
+      <fileset dir="${basedir}/src"/>
     </jar>
   </target>
 
-  <target name="zip" depends="jar">
+  <target name="javadoc">
+    <mkdir dir="${javadocdir}"/>
+    <javadoc packagenames="org.gwtlib.*"
+             sourcepath="src"
+             destdir="${javadocdir}"
+             windowtitle="GWTLib"
+             source="1.4"
+             author="true"
+             version="true"
+             use="true"
+             failonerror="true">
+      <doctitle><![CDATA[<h2>GWTLib</h2>]]></doctitle>
+      <bottom><![CDATA[Copyright 2008 Sander Berents]]></bottom>
+      <classpath refid="compile.classpath"/>
+      <link href="http://google-web-toolkit.googlecode.com/svn/javadoc/1.4"/>
+    </javadoc>
+  </target>
+
+  <target name="zip" depends="jar,javadoc">
     <jar destfile="${distdir}/gwtlib-dist.zip">
-      <fileset dir="${basedir}" includes="bin/**,src/**,samples/**,*.TXT,gwtlib.jar" />
+      <fileset dir="${basedir}" includes="bin/**,src/**,samples/**,doc/**,*.TXT,gwtlib.jar"/>
     </jar>
   </target>
 </project>
