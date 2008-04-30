@@ -32,7 +32,7 @@ public class StringRenderer implements Renderer {
   protected boolean _asHTML;
 
   public StringRenderer() {
-    this(false, false);
+    this(true);
   }
 
   public StringRenderer(boolean wordWrap) {

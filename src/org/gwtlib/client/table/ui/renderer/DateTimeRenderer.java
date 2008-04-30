@@ -31,13 +31,19 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DateTimeRenderer implements Renderer {
   protected DateTimeFormat _format;
+  protected boolean _wordWrap;
 
   public DateTimeRenderer(DateTimeFormat format) {
+    this(format, true);
+  }
+
+  public DateTimeRenderer(DateTimeFormat format, boolean wordWrap) {
     _format = format;
+    _wordWrap = wordWrap;
   }
 
   public Widget render(Row row, Column column, Object value) {
     String text = _format.format((Date)value);
-    return new Label(text);
+    return new Label(text, _wordWrap);
   }
 }

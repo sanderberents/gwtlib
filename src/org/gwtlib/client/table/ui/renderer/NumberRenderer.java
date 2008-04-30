@@ -29,24 +29,30 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class NumberRenderer implements Renderer {
   protected NumberFormat _format;
+  protected boolean _wordWrap;
 
   public NumberRenderer(NumberFormat format) {
+    this(format, true);
+  }
+
+  public NumberRenderer(NumberFormat format, boolean wordWrap) {
     _format = format;
+    _wordWrap = wordWrap;
   }
 
   public Widget render(Row row, Column column, Object value) {
     if(value instanceof Double) {
       String text = _format.format(((Double)value).doubleValue());
-      return new Label(text);
+      return new Label(text, _wordWrap);
     } else if(value instanceof Float) {
       String text = _format.format(((Float)value).floatValue());
-      return new Label(text);
+      return new Label(text, _wordWrap);
     } else if(value instanceof Long) {
       String text = _format.format(((Long)value).longValue());
-      return new Label(text);
+      return new Label(text, _wordWrap);
     } else if(value instanceof Integer) {
       String text = _format.format(((Integer)value).intValue());
-      return new Label(text);
+      return new Label(text, _wordWrap);
     }
     return null;
   }

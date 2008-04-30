@@ -82,7 +82,7 @@
  PagingBar
  *************************************/
 .gwtlib-PagingBar {
- font-family:Verdana;
+  font-family:Verdana;
   font-size:11px;
   width:100%;
 }
@@ -95,25 +95,83 @@
 .gwtlib-PagingBar-browser {
   margin:0px 2em 0px 2em;
   text-align:left;
+  white-space:nowrap;
 }
 
-.gwtlib-PagingBar-page {
+.gwtlib-PagingBar-browser-first {
+  background-image:url("img/first_e.gif");
+  background-position:center center;
+  background-repeat:no-repeat;
+  width:18px;
+  height:16px;
+  cursor:pointer;
+}
+
+.gwtlib-PagingBar-browser-first-up-disabled {
+  background-image:url("img/first_d.gif");
+  cursor:default;
+}
+
+.gwtlib-PagingBar-browser-prev {
+  background-image:url("img/prev_e.gif");
+  background-position:center center;
+  background-repeat:no-repeat;
+  width:18px;
+  height:16px;
+  cursor:pointer;
+}
+
+.gwtlib-PagingBar-browser-prev-up-disabled {
+  background-image:url("img/prev_d.gif");
+  cursor:default;
+}
+
+.gwtlib-PagingBar-browser-next {
+  background-image:url("img/next_e.gif");
+  background-position:center center;
+  background-repeat:no-repeat;
+  width:18px;
+  height:16px;
+  cursor:pointer;
+}
+
+.gwtlib-PagingBar-browser-next-up-disabled {
+  background-image:url("img/next_d.gif");
+  cursor:default;
+}
+
+.gwtlib-PagingBar-browser-last {
+  background-image:url("img/last_e.gif");
+  background-position:center center;
+  background-repeat:no-repeat;
+  width:18px;
+  height:16px;
+  cursor:pointer;
+}
+
+.gwtlib-PagingBar-browser-last-up-disabled {
+  background-image:url("img/last_d.gif");
+  cursor:default;
+}
+
+.gwtlib-PagingBar-browser-page {
+  font-size: 11px;
   vertical-align:top;
   padding:0px 2px 0px 2px;
   display:inline;
-}
-
-.gwtlib-PagingBar-page-active {
-  color:blue;
-}
-
-.gwtlib-PagingBar-page-selected {
   font-weight:bold;
+  cursor:default;
+}
+
+.gwtlib-PagingBar-browser-page-enabled {
+  color:blue;
+  font-weight:normal;
+  cursor:pointer;
 }
 
 .gwtlib-PagingBar-goto {
   font-size:11px;
-	margin:0px 1em 0px 1em;
+  margin:0px 1em 0px 1em;
   padding:0px 2px 0px 2px;
   display:inline;
 }
@@ -122,6 +180,20 @@
   white-space:nowrap;
 }
   
+.gwtlib-PagingBar-gotoButton {
+  background-image:url("img/go_e.gif");
+  background-position:center center;
+  background-repeat:no-repeat;
+  width:26px;
+  height:17px;
+  cursor:pointer;
+}
+
+.gwtlib-PagingBar-gotoButton-up-disabled {
+  background-image:url("img/go_d.gif");
+  cursor:default;
+}
+
 .gwtlib-PagingBar-pagesizes {
   margin:0px 4px 0px 4px;
   display:inline;

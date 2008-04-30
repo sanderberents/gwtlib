@@ -19,18 +19,15 @@ import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ChangeListenerCollection;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -51,25 +48,18 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   private static final String STYLE_GOTO        = "gwtlib-PagingBar-goto";
   private static final String STYLE_GOTO_BUTTON = "gwtlib-PagingBar-gotoButton";
   private static final String STYLE_PAGESIZE    = "gwtlib-PagingBar-pagesize";
-  private static final String STYLE_PAGE        = "gwtlib-PagingBar-page";
-  private static final String STYLE_ACTIVE      = "active";
-  private static final String STYLE_SELECTED    = "selected";
+  private static final String STYLE_PAGE        = "gwtlib-PagingBar-browser-page";
+  private static final String STYLE_ENABLED     = "enabled";
   
+  private static final String[] STYLES_BROWSER  = {
+    "gwtlib-PagingBar-browser-first", "gwtlib-PagingBar-browser-prev", 
+    "gwtlib-PagingBar-browser-next", "gwtlib-PagingBar-browser-last"
+  };
+
   private static final int FIRST = 0;
   private static final int PREV  = 1;
   private static final int NEXT  = 2;
   private static final int LAST  = 3;
-
-  private static final Image IMG_GO_ENABLE     = new Image("img/go_e.gif");
-  private static final Image IMG_GO_DISABLE    = new Image("img/go_d.gif");
-  private static final Image[] IMG_BROWSER_ENABLE  = {
-    new Image("img/first_e.gif"), new Image("img/prev_e.gif"), 
-    new Image("img/next_e.gif"), new Image("img/last_e.gif")
-  };
-  private static final Image[] IMG_BROWSER_DISABLE = {
-    new Image("img/first_d.gif"), new Image("img/prev_d.gif"),
-    new Image("img/next_d.gif"), new Image("img/last_d.gif")
-  };
 
   private static final int DEFAULT_LIMIT = 60000;
 
@@ -102,20 +92,17 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     _pageSize = pageSize;
     _pageSizes = pageSizes;
     _pages = computeNumPages();
-    
-    // Create current position widget
-    _positionWidget = (Label)createPositionWidget();
-    updatePositionWidget(_positionWidget);
-    // Create page browser widget
-    _browserWidget = (FlowPanel)createBrowserWidget();
-    updateBrowserWidget(_browserWidget);
-    // Create go to widget
-    _gotoWidget = (HorizontalPanel)createGotoWidget();
-    updateGotoWidget(_gotoWidget);
-    // Create page sizes widget
-    _pageSizesWidget = (HorizontalPanel)createPageSizeWidget();
-    updatePageSizeWidget(_pageSizesWidget);
-    // Combine them all
+
+    // Create widgets in protected methods to provide customization hooks
+    _positionWidget = createPositionWidget();
+    if(_positionWidget != null) updatePositionWidget(_positionWidget);
+    _browserWidget = createBrowserWidget();
+    if(_browserWidget != null) updateBrowserWidget(_browserWidget);
+    _gotoWidget = createGotoWidget();
+    if(_gotoWidget != null) updateGotoWidget(_gotoWidget);
+    _pageSizesWidget = createPageSizeWidget();
+    if(_pageSizesWidget != null) updatePageSizeWidget(_pageSizesWidget);
+    // Combine all the above created widgets
     Widget panel = create();
     initWidget(panel);
     setStyleName(STYLE);
@@ -166,13 +153,13 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   }
 
   protected Widget createBrowserWidget() {
-    FlowPanel panel = new FlowPanel();
+    HorizontalPanel panel = new HorizontalPanel();
     panel.setStylePrimaryName(STYLE_BROWSER);
     return panel;
   }
   
   protected void updateBrowserWidget(Widget widget) {
-    FlowPanel panel = (FlowPanel)widget;
+    HorizontalPanel panel = (HorizontalPanel)widget;
     int minpage = _page > 2 ? _page - 2 : 0;
     int maxpage = minpage + 4;
     if(maxpage >= _pages) {
@@ -180,16 +167,16 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       minpage = _pages > 4 ? _pages - 4 : 0;
     }
     panel.clear();
-    panel.add(createBrowserItemWidget(FIRST, _page > 0, false));
-    panel.add(createBrowserItemWidget(PREV, _page > 0, false));
+    panel.add(createBrowserItemWidget(FIRST, _page > 0));
+    panel.add(createBrowserItemWidget(PREV, _page > 0));
     for(int i = minpage; i <= maxpage; ++i) {
-      panel.add(createBrowserItemWidget(String.valueOf(i + 1), i != _page, i == _page));
+      panel.add(createBrowserItemWidget(String.valueOf(i + 1), i != _page));
     }
-    panel.add(createBrowserItemWidget(NEXT, _page < _pages - 1, false));
-    panel.add(createBrowserItemWidget(LAST, _page < _pages - 1, false));
+    panel.add(createBrowserItemWidget(NEXT, _page < _pages - 1));
+    panel.add(createBrowserItemWidget(LAST, _page < _pages - 1));
   }
 
-  protected Widget createBrowserItemWidget(final int type, boolean clickable, boolean selected) {
+  protected Widget createBrowserItemWidget(final int type, boolean enabled) {
     final ClickListener clickListener = new ClickListener() {
       public void onClick(Widget sender) {
         switch(type) {
@@ -209,29 +196,18 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
         fireChange(sender);
       }
     };
-
     PushButton button = new PushButton();
-    button.getUpFace().setImage(IMG_BROWSER_ENABLE[type]);
-    button.getUpDisabledFace().setImage(IMG_BROWSER_DISABLE[type]);
-    button.setStylePrimaryName(STYLE_PAGE);
-    if(selected) button.addStyleDependentName(STYLE_SELECTED);
-    if(clickable) {
-      button.addClickListener(clickListener);
-      button.addStyleDependentName(STYLE_ACTIVE);
-      DOM.setStyleAttribute(button.getElement(), "cursor", "pointer");
-    } else {
-      button.setEnabled(false);
-    }
+    button.setStylePrimaryName(STYLES_BROWSER[type]);
+    button.setEnabled(enabled);
+    if(enabled) button.addClickListener(clickListener);
     return button;
   }
 
-  protected Widget createBrowserItemWidget(String text, boolean clickable, boolean selected) {
+  protected Widget createBrowserItemWidget(String text, boolean enabled) {
     Label label = new Label(text);
     label.setStylePrimaryName(STYLE_PAGE);
-    if(selected) label.addStyleDependentName(STYLE_SELECTED);
-    if(clickable) {
-      label.addStyleDependentName(STYLE_ACTIVE);
-      DOM.setStyleAttribute(label.getElement(), "cursor", "pointer");
+    if(enabled) {
+      label.addStyleDependentName(STYLE_ENABLED);
       label.addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
           String text = ((Label)sender).getText();
@@ -249,9 +225,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     gotoPage.setMaxLength(maxlen);
     gotoPage.setVisibleLength(maxlen);
     final PushButton go = new PushButton();
-    go.getUpFace().setImage(IMG_GO_ENABLE);
-    go.getUpDisabledFace().setImage(IMG_GO_DISABLE);
-    go.addStyleName(STYLE_GOTO_BUTTON);
+    go.setStylePrimaryName(STYLE_GOTO_BUTTON);
     go.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         setPage(Integer.parseInt(gotoPage.getText()) - 1);
