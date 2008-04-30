@@ -74,6 +74,19 @@ public interface TableListener {
   public boolean onSortColumn(SourcesTableEvents sender, Column column, boolean ascending);
 
   /**
+   * Fired before data is being loaded.
+   * @param sender
+   */
+  public void onLoad(SourcesTableEvents sender);
+
+  /**
+   * Fired after data has been loaded or an error occurred during loading.
+   * @param sender
+   * @param success
+   */
+  public void onLoaded(SourcesTableEvents sender, boolean success);
+
+  /**
    * Fired before a table is about to be redrawn.
    * @param sender
    */

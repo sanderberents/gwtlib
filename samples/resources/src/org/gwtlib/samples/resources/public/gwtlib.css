@@ -199,3 +199,17 @@
   display:inline;
   white-space:nowrap;
 }
+
+.gwtlib-PagingBar-loading {
+  background-image:url("img/loading.gif");
+  background-position:center center;
+  background-repeat:no-repeat;
+  width:16px;
+  height:16px;
+}
+
+.gwtlib-PagingBar-loading-up-disabled {
+  background-image:none;
+  width:16px;
+  height:16px;
+}

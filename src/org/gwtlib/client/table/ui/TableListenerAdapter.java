@@ -49,6 +49,12 @@ public class TableListenerAdapter implements TableListener {
     return true;
   }
 
+  public void onLoad(SourcesTableEvents sender) {
+  }
+
+  public void onLoaded(SourcesTableEvents sender, boolean success) {
+  }
+
   public void onRender(SourcesTableEvents sender) {
   }
 

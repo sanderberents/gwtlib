@@ -48,6 +48,14 @@ public class PagingTable extends Table {
         _paging.update();
         return true;
       }
+
+      public void onLoad(SourcesTableEvents sender) {
+        _paging.setLoading(true);
+      }
+
+      public void onLoaded(SourcesTableEvents sender, boolean success) {
+        _paging.setLoading(false);
+      }
     });
   }
   

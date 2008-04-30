@@ -167,6 +167,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     if(rows.size() == end - begin) {
       onSuccess(rows);
     } else {
+      fireLoadEvent();
       _provider.load(begin, end, sortId, ascending);
     }
   }
@@ -259,6 +260,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
 
   public void onSuccess(Rows rows) {
     _cache.merge(rows);
+    fireLoadedEvent(true);
     fireRenderEvent();
     renderHeader();
     render(rows.getBegin());
@@ -266,6 +268,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   public void onFailure(Throwable caught) {
+    fireLoadedEvent(false);
   }
 
   public void addTableListener(TableListener listener) {
@@ -311,6 +314,20 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       if(!listener.onSortColumn(this, column, ascending)) return false;
     }
     return true;
+  }
+
+  protected void fireLoadEvent() {
+    for(int i = 0; i < _listeners.size(); ++i) {
+      TableListener listener = (TableListener)_listeners.get(i);
+      listener.onLoad(this);
+    }
+  }
+
+  protected void fireLoadedEvent(boolean success) {
+    for(int i = 0; i < _listeners.size(); ++i) {
+      TableListener listener = (TableListener)_listeners.get(i);
+      listener.onLoaded(this, success);
+    }
   }
 
   protected void fireRenderEvent() {

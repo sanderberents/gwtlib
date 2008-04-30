@@ -49,6 +49,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   private static final String STYLE_GOTO_BUTTON = "gwtlib-PagingBar-gotoButton";
   private static final String STYLE_PAGESIZE    = "gwtlib-PagingBar-pagesize";
   private static final String STYLE_PAGE        = "gwtlib-PagingBar-browser-page";
+  private static final String STYLE_LOADING     = "gwtlib-PagingBar-loading";
   private static final String STYLE_ENABLED     = "enabled";
   
   private static final String[] STYLES_BROWSER  = {
@@ -69,8 +70,10 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   private int _pageSize;
   private int[] _pageSizes;
   private int _pages;    // Number of pages, computed from size/limit/pageSize
+  private boolean _loading;
 
   private Widget _positionWidget;
+  private Widget _loadingWidget;
   private Widget _browserWidget;
   private Widget _gotoWidget;
   private Widget _pageSizesWidget;
@@ -96,6 +99,8 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     // Create widgets in protected methods to provide customization hooks
     _positionWidget = createPositionWidget();
     if(_positionWidget != null) updatePositionWidget(_positionWidget);
+    _loadingWidget = createLoadingWidget();
+    if(_loadingWidget != null) updateLoadingWidget(_loadingWidget);
     _browserWidget = createBrowserWidget();
     if(_browserWidget != null) updateBrowserWidget(_browserWidget);
     _gotoWidget = createGotoWidget();
@@ -117,6 +122,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     HorizontalPanel panel = new HorizontalPanel();
     panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
     if(_positionWidget != null) panel.add(_positionWidget);
+    if(_loadingWidget != null) panel.add(_loadingWidget);
     if(_browserWidget != null) panel.add(_browserWidget);
     panel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
     if(_gotoWidget != null) panel.add(_gotoWidget);
@@ -150,6 +156,16 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       }
     }
     ((Label)widget).setText(s);
+  }
+
+  protected Widget createLoadingWidget() {
+    PushButton loading = new PushButton();
+    loading.setStylePrimaryName(STYLE_LOADING);
+    return loading;
+  }
+
+  protected void updateLoadingWidget(Widget widget) {
+    ((PushButton)widget).setEnabled(_loading);
   }
 
   protected Widget createBrowserWidget() {
@@ -347,6 +363,15 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   public void setLimit(int limit) {
     _limit = limit;
     _pages = computeNumPages();
+  }
+
+  /**
+   * Sets loading status.
+   * @param loading
+   */
+  public void setLoading(boolean loading) {
+    _loading = loading;
+    updateLoadingWidget(_loadingWidget);
   }
 
   /**
