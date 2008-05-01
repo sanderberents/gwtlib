@@ -33,10 +33,19 @@ public class DateTimeRenderer implements Renderer {
   protected DateTimeFormat _format;
   protected boolean _wordWrap;
 
+  /**
+   * Creates a renderer for rendering word-wrapped dates.
+   * @param format
+   */
   public DateTimeRenderer(DateTimeFormat format) {
     this(format, true);
   }
 
+  /**
+   * Creates a renderer for rendering optionally word-wrapped dates.
+   * @param format
+   * @param wordWrap
+   */
   public DateTimeRenderer(DateTimeFormat format, boolean wordWrap) {
     _format = format;
     _wordWrap = wordWrap;

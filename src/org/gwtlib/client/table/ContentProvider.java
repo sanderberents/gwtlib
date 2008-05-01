@@ -21,5 +21,13 @@ package org.gwtlib.client.table;
  * @author Sander Berents
  */
 public interface ContentProvider {
+  /**
+   * Invoked by <code>Table</code> for retrieving data.
+   * @param begin Zero based begin offset.
+   * @param end Zero based end offset (size = <code>end - begin</code>).
+   * @param sortId Sort column identifier or null. 
+   * @param ascending True for ascending sorting, false for descending sorting. 
+   *   Should be ignored if <code>sortId</code> is null.
+   */
   public void load(int begin, int end, int sortId, boolean ascending);
 }

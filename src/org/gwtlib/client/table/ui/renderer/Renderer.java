@@ -26,5 +26,12 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Sander Berents
  */
 public interface Renderer {
+  /**
+   * Invoked by <code>Table</code> for rendering one of its cells.
+   * @param row
+   * @param column
+   * @param value
+   * @return
+   */
   public Widget render(Row row, Column column, Object value);  
 }

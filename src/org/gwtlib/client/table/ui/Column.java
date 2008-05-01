@@ -25,7 +25,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Column.
- * CSS Style Rules
+ * 
+ * CSS Style Rules:
  * <ul>
  * <li>.gwtlib-Column { the column header without sorting }</li>
  * <li>.gwtlib-Column .gwtlib-Column-sortable { column is sortable }</li>

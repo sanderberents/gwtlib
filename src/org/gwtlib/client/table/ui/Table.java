@@ -35,10 +35,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Table.
- * CSS Style Rules
+ * 
+ * CSS Style Rules:
  * <ul>
  * <li>.gwtlib-Table { the table itself }</li>
  * <li>.gwtlib-Header { the table header cells }</li>
+ * <li>.gwtlib-Header-sortable { the table header cell for a sortable column }</li>
+ * <li>.gwtlib-Column-ascending { the table header cell for a ascending sorted column }</li>
+ * <li>.gwtlib-Column-descending { the table header cell for a descending sorted column }</li>
+ * <li>.gwtlib-Row { a row }</li>
+ * <li>.gwtlib-Row-even { an even row }</li>
+ * <li>.gwtlib-Row-odd { an odd row }</li>
+ * <li>.gwtlib-Row-empty { a row without data (when there is less data than table rows) }</li>
+ * <li>.gwtlib-Row-selected { a row that has the <code>Row.State.SELECT</code> state set }</li>
  * </ul>
  *
  * @author Sander Berents
@@ -53,7 +62,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   private static final String STYLE_ROW        = "gwtlib-Row";
   private static final String STYLE_ROW_EVEN   = "gwtlib-Row-even";
   private static final String STYLE_ROW_ODD    = "gwtlib-Row-odd";
-  private static final String STYLE_ROW_EMPTY  = "gwtlib-Row-rempty";
+  private static final String STYLE_ROW_EMPTY  = "gwtlib-Row-empty";
   private static final String STYLE_ROW_SELECT = "gwtlib-Row-selected";
 
   public interface Style {
@@ -107,16 +116,28 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       }
     });
   }
-  
+
+  /**
+   * Sets the content provider. This is required.
+   * @param provider
+   */
   public void setContentProvider(ContentProvider provider) {
     _provider = provider;
   }
   
+  /**
+   * Sets the number of rows to display in the table and redraws it.
+   * @param size
+   */
   public void setSize(int size) {
     _size = size;
     update();
   }
 
+  /**
+   * Sets the top row offset and redraws the table.
+   * @param pos Zero based position.
+   */
   public void setPosition(int pos) {
     _begin = pos;
     update();
@@ -145,10 +166,17 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     }
   }
 
+  /**
+   * Redraws the table.
+   */
   public void update() {
     fetch(_begin, _begin + _size);
   }
 
+  /**
+   * Clears the row cache, resets the current position to zero, fetches 
+   * up to <code>size</code> rows of data and redraws the table.
+   */
   public void reset() {
     _begin = 0;
     _cache.clear();
@@ -195,7 +223,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   /**
-   * Returns displayed rows.
+   * Returns currently displayed rows.
    * @return
    */
   public Rows getRows() {
@@ -258,6 +286,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     return rows;
   }
 
+  /**
+   * Should be called by the handler of <code>ContentProvider</code> requests to 
+   * pass the loaded rows to the table. Usually this will be called by an asynchronous
+   * callback <code>AsyncCallback.onSuccess</code> implementation.
+   * @param rows
+   */
   public void onSuccess(Rows rows) {
     _cache.merge(rows);
     fireLoadedEvent(true);
@@ -267,6 +301,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     fireRenderedEvent();
   }
 
+  /**
+   * Should be called by the handler of <code>ContentProvider</code> requests when
+   * a failure occurs. Usually this will be called by an asynchronous callback
+   * <code>AsyncCallback.onFailure</code> implementation.
+   * @param caught
+   */
   public void onFailure(Throwable caught) {
     fireLoadedEvent(false);
   }

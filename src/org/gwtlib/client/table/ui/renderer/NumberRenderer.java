@@ -31,10 +31,19 @@ public class NumberRenderer implements Renderer {
   protected NumberFormat _format;
   protected boolean _wordWrap;
 
+  /**
+   * Creates a renderer for rendering word-wrapped numbers.
+   * @param format
+   */
   public NumberRenderer(NumberFormat format) {
     this(format, true);
   }
 
+  /**
+   * Creates a renderer for rendering optionally word-wrapped numbers.
+   * @param format
+   * @param wordWrap
+   */
   public NumberRenderer(NumberFormat format, boolean wordWrap) {
     _format = format;
     _wordWrap = wordWrap;

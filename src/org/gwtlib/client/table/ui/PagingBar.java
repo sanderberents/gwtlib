@@ -39,6 +39,35 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Paging bar.
  * 
+ * CSS Style Rules:
+ * <ul>
+ * <li>.gwtlib-PagingBar { the paging bar itself }</li>
+ * <li>.gwtlib-PagingBar-position { current position section }</li>
+ * <li>.gwtlib-PagingBar-browser { browser secion }</li>
+ * <li>.gwtlib-PagingBar-goto { go to page selection section }</li>
+ * <li>.gwtlib-PagingBar-gotoButton { go to button of page selection section }</li>
+ * <li>.gwtlib-PagingBar-gotoButton-up { go to button of page selection section }</li>
+ * <li>.gwtlib-PagingBar-gotoButton-up-disabled { go to button of page selection section in disabled state }</li>
+ * <li>.gwtlib-PagingBar-pagesize { page size section }</li>
+ * <li>.gwtlib-PagingBar-browser-first { first page button }</li>
+ * <li>.gwtlib-PagingBar-browser-first-up { first page button in enabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-first-up-disabled { first page button in disabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-prev { previous page button }</li>
+ * <li>.gwtlib-PagingBar-browser-prev-up { previous page button in enabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-prev-up-disabled { previous page button in disabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-next { next page button }</li>
+ * <li>.gwtlib-PagingBar-browser-next-up { next page button in enabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-next-up-disabled { next page button in disabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-last { last page button }</li>
+ * <li>.gwtlib-PagingBar-browser-last-up { last page button in enabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-last-up-disabled { last page button in disabled state }</li>
+ * <li>.gwtlib-PagingBar-browser-page { currently selected page }</li>
+ * <li>.gwtlib-PagingBar-browser-page-enabled { other selectable page }</li>
+ * <li>.gwtlib-PagingBar-loading { data loading status }</li>
+ * <li>.gwtlib-PagingBar-loading-up { data loading status }</li>
+ * <li>.gwtlib-PagingBar-loading-up-disabled { data loading status (finished loading) }</li>
+ * </ul>
+ * 
  * @author Sander Berents
  */
 public class PagingBar extends Composite implements SourcesChangeEvents {

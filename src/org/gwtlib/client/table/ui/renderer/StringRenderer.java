@@ -31,14 +31,26 @@ public class StringRenderer implements Renderer {
   protected boolean _wordWrap;
   protected boolean _asHTML;
 
+  /**
+   * Creates a renderer for rendering word-wrapped non-HTML strings.
+   */
   public StringRenderer() {
     this(true);
   }
 
+  /**
+   * Creates a renderer for rendering optionally word-wrapped non-HTML strings.
+   * @param wordWrap
+   */
   public StringRenderer(boolean wordWrap) {
     this(wordWrap, false);
   }
 
+  /**
+   * Creates a renderer for rendering optionally word-wrapped HTML or non-HTML strings.
+   * @param wordWrap
+   * @param asHTML
+   */
   public StringRenderer(boolean wordWrap, boolean asHTML) {
     _wordWrap = wordWrap;
     _asHTML = asHTML;

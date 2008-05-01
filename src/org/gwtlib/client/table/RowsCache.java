@@ -53,7 +53,7 @@ public class RowsCache {
   }
 
   /**
-   * Retrieves a continues set of rows from the cache.
+   * Retrieves a continuous set of rows from the cache.
    * @param pos Offset of first row.
    * @param end Offset of last row minus 1.
    * @param sortId

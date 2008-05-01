@@ -17,18 +17,27 @@ package org.gwtlib.client.table.ui;
 
 import org.gwtlib.client.table.ColumnLayout;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * A subclass of table which adds paging support.
+ * A subclass of table which adds paging support using a paging bar.
+ * 
+ * CSS Style Rules:
+ * <ul>
+ * <li>(see Table CSS style rules)</li>
+ * </ul>
  * 
  * @author Sander Berents
  */
 public class PagingTable extends Table {
   protected PagingBar _paging;
 
+  /**
+   * Creates a new paging table with the given column layout and paging bar.
+   * @param layout
+   * @param paging
+   */
   public PagingTable(ColumnLayout layout, PagingBar paging) {
     super(layout, false);
     _paging = paging;
@@ -37,7 +46,6 @@ public class PagingTable extends Table {
 
     paging.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {
-        GWT.log("Position update to " + _paging.getPosition(), null);
         setPosition(_paging.getPosition());
       }
     });
@@ -59,6 +67,10 @@ public class PagingTable extends Table {
     });
   }
   
+  /**
+   * Returns the paging bar.
+   * @return
+   */
   public PagingBar getPagingBar() {
     return _paging;
   }
