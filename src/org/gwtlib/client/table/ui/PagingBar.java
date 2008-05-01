@@ -185,6 +185,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       }
     }
     ((Label)widget).setText(s);
+    widget.setVisible(_size > 0);
   }
 
   protected Widget createLoadingWidget() {
@@ -219,6 +220,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     }
     panel.add(createBrowserItemWidget(NEXT, _page < _pages - 1));
     panel.add(createBrowserItemWidget(LAST, _page < _pages - 1));
+    widget.setVisible(_size > 0);
   }
 
   protected Widget createBrowserItemWidget(final int type, boolean enabled) {
@@ -307,6 +309,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   }
 
   protected void updateGotoWidget(Widget widget) {
+    widget.setVisible(_size > 0);
   }
 
   protected Widget createPageSizeWidget() {
@@ -320,7 +323,6 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   }
 
   protected void updatePageSizeWidget(Widget widget) {
-    _pageSizesWidget.setVisible(_pageSizes != null && _pageSizes.length > 1);
     if(_pageSizes != null) {
       final ListBox sizes = (ListBox)((HorizontalPanel)_pageSizesWidget).getWidget(1);
       sizes.clear();
@@ -338,6 +340,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
         }
       });
     }
+    widget.setVisible(_size > 0 && _pageSizes != null && _pageSizes.length > 1);
   }
 
   /**

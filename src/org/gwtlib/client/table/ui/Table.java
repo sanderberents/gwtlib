@@ -23,6 +23,7 @@ import org.gwtlib.client.table.ContentProvider;
 import org.gwtlib.client.table.Row;
 import org.gwtlib.client.table.Rows;
 import org.gwtlib.client.table.RowsCache;
+import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.ClickListener;
@@ -39,6 +40,8 @@ import com.google.gwt.user.client.ui.Widget;
  * CSS Style Rules:
  * <ul>
  * <li>.gwtlib-Table { the table itself }</li>
+ * <li>.gwtlib-Table-empty { no data message }</li>
+ * <li>.gwtlib-Table-error { error message }</li>
  * <li>.gwtlib-Header { the table header cells }</li>
  * <li>.gwtlib-Header-sortable { the table header cell for a sortable column }</li>
  * <li>.gwtlib-Column-ascending { the table header cell for a ascending sorted column }</li>
@@ -64,6 +67,8 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   private static final String STYLE_ROW_ODD    = "gwtlib-Row-odd";
   private static final String STYLE_ROW_EMPTY  = "gwtlib-Row-empty";
   private static final String STYLE_ROW_SELECT = "gwtlib-Row-selected";
+  private static final String STYLE_NO_DATA    = "gwtlib-Table-empty";
+  private static final String STYLE_ERROR      = "gwtlib-Table-error";
 
   public interface Style {
     public static final int SINGLE_SELECT = 1 << 0;
@@ -79,6 +84,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   protected int _begin = 0;
   protected int _size = 10;
   protected List _listeners;
+  protected Messages _messages = (Messages)GWT.create(Messages.class);
 
   public Table(ColumnLayout layout) {
     this(layout, true);
@@ -271,6 +277,16 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       }      
     }
     refreshRowState();
+    FlexTable.FlexCellFormatter formatter = (FlexTable.FlexCellFormatter)_table.getCellFormatter();
+    if(rows.size() == 0) {
+      _table.setWidget(1, 0, new Label(_messages.none()));
+      formatter.setStylePrimaryName(1, 0, STYLE_NO_DATA);
+      formatter.setColSpan(1, 0, _layout.getVisibleColumnCount());
+      formatter.setRowSpan(1, 0, _size);
+    } else {
+      formatter.setColSpan(1, 0, 1);
+      formatter.setRowSpan(1, 0, 1);
+    }
     _begin = pos;
   }
 
@@ -308,7 +324,15 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
    * @param caught
    */
   public void onFailure(Throwable caught) {
+    _cache.clear();
     fireLoadedEvent(false);
+    fireRenderEvent();
+    renderHeader();
+    render(_begin);
+    FlexTable.FlexCellFormatter formatter = (FlexTable.FlexCellFormatter)_table.getCellFormatter();
+    _table.setWidget(1, 0, new Label(_messages.error(caught == null ? null : caught.getMessage())));
+    formatter.setStylePrimaryName(1, 0, STYLE_ERROR);
+    fireRenderedEvent();
   }
 
   public void addTableListener(TableListener listener) {

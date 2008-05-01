@@ -36,16 +36,27 @@
   height: 100%;
 }
 
+.gwtlib-Table-empty {
+  vertical-align:top;
+  font-style:italic;
+}
+
+.gwtlib-Table-error {
+  vertical-align:top;
+  font-weight:bold;
+  color:red;
+}
+
 .gwtlib-Header {
   color:#666666;
   font-weight:bold;
   vertical-align:middle;
-	background-color:#c3d9ff;
+  background-color:#c3d9ff;
 }
 
 .gwtlib-Header-sortable {
   color:black;
- 	cursor:pointer;
+  cursor:pointer;
 }
 
 .gwtlib-Row {

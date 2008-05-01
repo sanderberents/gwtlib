@@ -25,6 +25,8 @@ public interface Messages extends com.google.gwt.i18n.client.Messages {
   String poslimit(int pos, int size, int limit);
   String range(int from, int to, int size);
   String rangelimit(int from, int to, int size, int limit);
+  String none();
+  String error(String message);
   String page(int page, int numPages);
   String go();
   String pagesize1();
