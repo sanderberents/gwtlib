@@ -2,6 +2,24 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+0.1.1 (2008-05-01)
+------------------
+
+New features:
+
+ - API additions to Table and PagingTable.
+ - Remove hard coded image file names from PagingBar. Use style sheets throughout.
+ - Add word wrap option to NumberRenderer and DateTimeRenderer.
+ - Add data loading status support to PagingBar and PagingTable.
+ - Hide PagingBar elements if there is no data.
+ - Support for missing data message in Table.
+ - Support for error message in Table when onFailure is used.
+ - Add javadoc to build process and include in distribution.
+
+Bug fixes:
+
+  - Enable default word wrap for StringRenderer.
+
 0.1.0 (2008-04-28)
 ------------------
 

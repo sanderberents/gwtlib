@@ -90,6 +90,11 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     this(layout, true);
   }
 
+  public Table(Messages messages, ColumnLayout layout) {
+    this(layout, true);
+    _messages = messages;
+  }
+
   protected Table(ColumnLayout layout, boolean initWidget) {
     super(Style.SINGLE_SELECT);
     _layout = layout;
