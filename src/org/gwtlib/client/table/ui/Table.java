@@ -165,12 +165,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     }
     int nclear = Math.min(_size - rows.size(), _table.getRowCount() - rows.size() - 1);
     while(nclear-- > 0) { 
-      for(int j = 0; j < _layout.getTotalColumnCount(); ++j) {
+      for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
         Column column = _layout.getColumn(j);
         if(column.isVisible()) {
           _table.getRowFormatter().setStyleName(r, STYLE_ROW); 
           _table.getRowFormatter().addStyleName(r, STYLE_ROW_EMPTY); 
-          _table.clearCell(r, j);
+          _table.clearCell(r, c++);
         }
       }
       ++r;
@@ -242,13 +242,14 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   protected void renderHeader() {
-    for(int i = 0; i < _layout.getTotalColumnCount(); ++i) {
+    for(int i = 0, c = 0; i < _layout.getTotalColumnCount(); ++i) {
       Column column = _layout.getColumn(i);
       if(column.isVisible()) {
-        _table.setWidget(0, i, column);
-        _table.getCellFormatter().setStylePrimaryName(0, i, STYLE_HEADER);
-        if(column.isSortable()) _table.getCellFormatter().addStyleName(0, i, STYLE_SORTABLE);
-        setColumnSortStyle(i, column.getSortDirection());
+        _table.setWidget(0, c, column);
+        _table.getCellFormatter().setStylePrimaryName(0, c, STYLE_HEADER);
+        if(column.isSortable()) _table.getCellFormatter().addStyleName(0, c, STYLE_SORTABLE);
+        setColumnSortStyle(c, column.getSortDirection());
+        c++;
       }
     }
   }
@@ -259,8 +260,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     int r = 1;
     for(int i = 0; i < rows.size(); ++i, ++r) {
       final Row row = rows.getRow(i);
-      for(int j = 0; j < _layout.getTotalColumnCount(); ++j) {
-        int c = j;
+      for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
         final Column column = _layout.getColumn(j);
         if(column.isVisible()) {
           final Widget widget = column.getRenderer().render(row, column, row.getValue(j));
@@ -272,27 +272,39 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
             });
           }
           fireRenderCellEvent(row, column, widget);
-          _table.setWidget(r, c, widget);
+          _table.setWidget(r, c++, widget);
         }
       }
     }
-    for(; r < _size; ++r) {
-      for(int c = 0; c < _layout.getTotalColumnCount(); ++c) {
-        _table.setWidget(r, c, new Label());
+    for(; r <= _size; ++r) {
+      for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
+        final Column column = _layout.getColumn(j);
+        if(column.isVisible()) _table.setWidget(r, c++, new Label());
       }      
     }
+    resetEmpty();
     refreshRowState();
+  }
+
+  protected void renderEmpty(String message, String style) {
+    int r = 1;
+    while(_table.getRowCount() > 1) _table.removeRow(1);
+    _table.setWidget(r, 0, new Label(message));
     FlexTable.FlexCellFormatter formatter = (FlexTable.FlexCellFormatter)_table.getCellFormatter();
-    if(rows.size() == 0) {
-      _table.setWidget(1, 0, new Label(_messages.none()));
-      formatter.setStylePrimaryName(1, 0, STYLE_NO_DATA);
-      formatter.setColSpan(1, 0, _layout.getVisibleColumnCount());
-      formatter.setRowSpan(1, 0, _size);
-    } else {
-      formatter.setColSpan(1, 0, 1);
-      formatter.setRowSpan(1, 0, 1);
-    }
-    _begin = pos;
+    formatter.setColSpan(r, 0, _layout.getVisibleColumnCount());
+    formatter.setRowSpan(r, 0, _size);
+    formatter.setStylePrimaryName(r, 0, style);
+    _table.getRowFormatter().setStyleName(r, STYLE_ROW); 
+    _table.getRowFormatter().addStyleName(r, STYLE_ROW_EMPTY);
+  }
+
+  protected void resetEmpty() {
+    int r = 1;
+    FlexTable.FlexCellFormatter formatter = (FlexTable.FlexCellFormatter)_table.getCellFormatter();
+    formatter.removeStyleName(r, 0, STYLE_NO_DATA);
+    formatter.removeStyleName(r, 0, STYLE_ERROR);
+    formatter.setColSpan(r, 0, 1);
+    formatter.setRowSpan(r, 0, 1);
   }
 
   protected Rows getRows(int begin) {
@@ -318,7 +330,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     fireLoadedEvent(true);
     fireRenderEvent();
     renderHeader();
-    render(rows.getBegin());
+    if(rows.size() == 0) {
+      renderEmpty(_messages.none(), STYLE_NO_DATA);
+    } else {
+      render(rows.getBegin());
+    }
+    _begin = rows.getBegin();
     fireRenderedEvent();
   }
 
@@ -334,12 +351,10 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     fireRenderEvent();
     renderHeader();
     render(_begin);
-    FlexTable.FlexCellFormatter formatter = (FlexTable.FlexCellFormatter)_table.getCellFormatter();
-    _table.setWidget(1, 0, new Label(_messages.error(caught == null ? null : caught.getMessage())));
-    formatter.setStylePrimaryName(1, 0, STYLE_ERROR);
+    renderEmpty(_messages.error(caught == null ? null : caught.getMessage()), STYLE_ERROR);
     fireRenderedEvent();
   }
-
+  
   public void addTableListener(TableListener listener) {
     _listeners.add(listener);
   }
