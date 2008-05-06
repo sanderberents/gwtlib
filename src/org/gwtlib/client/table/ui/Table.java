@@ -58,6 +58,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class Table extends AbstractComposite implements SourcesTableEvents {
   private static final String STYLE            = "gwtlib-Table";
   private static final String STYLE_SCROLL     = "gwtlib-Table-scroll";
+  private static final String STYLE_HEADER_ROW = "gwtlib-Header-Row";
   private static final String STYLE_HEADER     = "gwtlib-Header";
   private static final String STYLE_SORTABLE   = "gwtlib-Header-sortable";
   private static final String STYLE_ASCENDING  = "gwtlib-Column-ascending";
@@ -116,9 +117,10 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         GWT.log("onCellClicked " + row + "," + col, null);
         fireCellClickedEvent(row, col);
         if(row == 0) {
-          Column column = _layout.getColumn(col);
+          int c = toActualColumnPos(col);
+          Column column = _layout.getColumn(c);
           if(column.isSortable()) {
-            sort(col, column.getSortDirection() != Column.Sort.ASCENDING);
+            sort(c, column.getSortDirection() != Column.Sort.ASCENDING);
           }
         } else {
           Row r = _cache.getRow(_begin + row - 1);
@@ -127,7 +129,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       }
     });
   }
-
+  
   /**
    * Sets the content provider. This is required.
    * @param provider
@@ -223,7 +225,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     if(fireSortColumnEvent(col, ascending)) {
       int sortColumn = _layout.getSortColumn();
       if(sortColumn != -1) {
-        setColumnSortStyle(sortColumn, Column.Sort.NONE);
+        setColumnSortStyle(toVisibleColumnPos(sortColumn), Column.Sort.NONE);
         _layout.getColumn(sortColumn).setSortDirection(Column.Sort.NONE);
       }
       int dir = ascending ? Column.Sort.ASCENDING : Column.Sort.DESCENDING;
@@ -242,6 +244,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   protected void renderHeader() {
+    _table.getRowFormatter().setStylePrimaryName(0, STYLE_HEADER_ROW);
     for(int i = 0, c = 0; i < _layout.getTotalColumnCount(); ++i) {
       Column column = _layout.getColumn(i);
       if(column.isVisible()) {
@@ -433,6 +436,32 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       TableListener listener = (TableListener)_listeners.get(i);
       listener.onRenderCell(this, row, column, widget);
     }
+  }
+
+  /**
+   * Converts visible column to actual column.
+   * @param col
+   * @return
+   */
+  private int toActualColumnPos(int col) {
+    int pos = -1;
+    while(col >= 0) {
+      if(_layout.getColumn(++pos).isVisible()) --col;
+    }
+    return pos;
+  }
+
+  /**
+   * Converts visible column to actual column.
+   * @param col
+   * @return
+   */
+  private int toVisibleColumnPos(int col) {
+    int pos = -1;
+    while(col >= 0) {
+      if(_layout.getColumn(col--).isVisible()) ++pos;
+    }
+    return pos;
   }
 
   private void setColumnSortStyle(int col, int dir) {
