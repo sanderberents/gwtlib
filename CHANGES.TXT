@@ -2,6 +2,18 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+0.1.2 (2008-05-07)
+------------------
+
+New features:
+
+ - Add table header row style.
+
+Bug fixes:
+
+ - Fix table rendering issues.
+ - Fix sorting issue when there are hidden columns.
+
 0.1.1 (2008-05-01)
 ------------------
 
@@ -18,7 +30,7 @@ New features:
 
 Bug fixes:
 
-  - Enable default word wrap for StringRenderer.
+ - Enable default word wrap for StringRenderer.
 
 0.1.0 (2008-04-28)
 ------------------
