@@ -68,6 +68,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   private static final String STYLE_ROW_ODD    = "gwtlib-Row-odd";
   private static final String STYLE_ROW_EMPTY  = "gwtlib-Row-empty";
   private static final String STYLE_ROW_SELECT = "gwtlib-Row-selected";
+  private static final String STYLE_CELL       = "gwtlib-Cell";
   private static final String STYLE_NO_DATA    = "gwtlib-Table-empty";
   private static final String STYLE_ERROR      = "gwtlib-Table-error";
 
@@ -275,7 +276,9 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
             });
           }
           fireRenderCellEvent(row, column, widget);
-          _table.setWidget(r, c++, widget);
+          _table.setWidget(r, c, widget);
+          _table.getFlexCellFormatter().addStyleName(r, c, STYLE_CELL);
+          c++;
         }
       }
     }
