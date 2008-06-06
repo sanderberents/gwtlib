@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.gwtlib.client.ui;
+package org.gwtlib.client.list.ui;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -24,11 +24,11 @@ import com.google.gwt.user.client.ui.ListBox;
  *
  * @author Sander Berents
  */
-public class StyledListBox extends ListBox {
-  public StyledListBox() {
+public class StyleListBox extends ListBox {
+  public StyleListBox() {
   }
 
-  public StyledListBox(boolean isMultipleSelect) {
+  public StyleListBox(boolean isMultipleSelect) {
     super(isMultipleSelect);
   }
 

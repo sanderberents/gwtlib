@@ -230,3 +230,14 @@
   width:16px;
   height:16px;
 }
+
+/*************************************
+ StyleListBox
+ *************************************/
+.gwtlib-StyleListBox-even {
+}
+
+.gwtlib-StyleListBox-odd {
+  background-color:#f2f5f9;
+}
+ 

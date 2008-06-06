@@ -1,0 +1,5 @@
+<module>
+  <inherits name="org.gwtlib.samples.resources.Resources"/>
+
+  <entry-point class="org.gwtlib.samples.list.client.ui.ListEntryPoint"/>
+</module>
