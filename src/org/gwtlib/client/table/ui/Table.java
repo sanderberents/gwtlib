@@ -144,6 +144,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
    * @param size
    */
   public void setSize(int size) {
+    clear();
     _size = size;
     update();
   }
@@ -194,7 +195,18 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   public void reset() {
     _begin = 0;
     _cache.clear();
+    while(_table.getRowCount() > 1) _table.removeRow(1);
     update();
+  }
+
+  /**
+   * Clears the row cache, resets the current position to zero.
+   */
+  public void clear() {
+    _begin = 0;
+    _cache.clear();
+    while(_table.getRowCount() > 1) _table.removeRow(1);
+    render(0);
   }
 
   protected void fetch(int begin, int end) {
