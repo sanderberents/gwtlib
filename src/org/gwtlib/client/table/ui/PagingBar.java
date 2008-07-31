@@ -328,6 +328,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       sizes.clear();
       for(int i = 0; i < _pageSizes.length; ++i) {
         sizes.addItem(String.valueOf(_pageSizes[i]));
+        if(_pageSize == _pageSizes[i]) sizes.setSelectedIndex(i);
       }
       sizes.addChangeListener(new ChangeListener() {
         public void onChange(Widget sender) {

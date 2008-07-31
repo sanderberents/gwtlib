@@ -46,7 +46,16 @@ public class PagingTable extends Table {
 
     paging.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {
-        setPosition(_paging.getPosition());
+        if(_size == _paging.getPageSize()) {
+          setPosition(_paging.getPosition());
+        } else {
+          clear();
+          _begin = _paging.getPosition();
+          _size = _paging.getPageSize();
+          _cache.clear();
+          while(_table.getRowCount() > 1) _table.removeRow(1);
+          update();
+        }
       }
     });
     

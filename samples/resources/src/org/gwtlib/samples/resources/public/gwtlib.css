@@ -211,10 +211,18 @@
   cursor:default;
 }
 
-.gwtlib-PagingBar-pagesizes {
-  margin:0px 4px 0px 4px;
-  display:inline;
+.gwtlib-PagingBar-pagesize {
+  font-size:11px;
+  margin:0px 4px 0px 1em;
+  padding:0px 2px 0px 2px;
+}
+
+.gwtlib-PagingBar-pagesize .gwt-HTML {
   white-space:nowrap;
+}
+
+.gwtlib-PagingBar-pagesize .gwt-ListBox {
+  font-size:11px;
 }
 
 .gwtlib-PagingBar-loading {

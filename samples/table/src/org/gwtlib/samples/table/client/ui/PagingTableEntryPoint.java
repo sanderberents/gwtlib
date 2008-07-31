@@ -80,7 +80,7 @@ public class PagingTableEntryPoint implements EntryPoint {
     }
     // Now configure the table
     ColumnLayout layout = new ColumnLayout(columns);
-    final PagingTable table = new PagingTable(layout, new PagingBar(TOTAL_SIZE, 10));
+    final PagingTable table = new PagingTable(layout, new PagingBar(0, TOTAL_SIZE, 10, new int[] { 5, 10, 20 }));
     ContentProvider provider = new ContentProvider() {
       // Simulate retrieval of sample data, in requested sort order
       public void load(int begin, int end, final int sortId, boolean ascending) {
