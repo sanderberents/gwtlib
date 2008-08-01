@@ -417,6 +417,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       _browserWidget.setVisible(computeNumPages() > 1);
     }
     if(_gotoWidget != null) _gotoWidget.setVisible(computeNumPages() > 1);
+    if(_pageSizesWidget != null) _pageSizesWidget.setVisible(_size > 0 && _pageSizes != null && _pageSizes.length > 1);
     setVisible(computeNumPages() > 0);
   }
 
