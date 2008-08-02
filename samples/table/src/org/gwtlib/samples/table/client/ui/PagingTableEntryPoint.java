@@ -40,6 +40,10 @@ import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
+import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -60,13 +64,15 @@ public class PagingTableEntryPoint implements EntryPoint {
   }
 
   private void init(RootPanel root) {
-    VerticalPanel panel = new VerticalPanel();
+    Grid grid = new Grid(3, 1);
     final PagingTable table = createTable();
-    panel.add(table);
+    grid.setWidget(0, 0, table);
+    HorizontalPanel hpanel = new HorizontalPanel();
+    hpanel.add(new Label("Show Column:"));
     for(int i = 0; i < table.getColumnLayout().getTotalColumnCount(); ++i) {
-      final CheckBox checkbox = new CheckBox("Show column " + i);
+      final CheckBox checkbox = new CheckBox(String.valueOf(i));
       checkbox.setChecked(true);
-      panel.add(checkbox);
+      hpanel.add(checkbox);
       final int ii = i;
       checkbox.addClickListener(new ClickListener() {
         public void onClick(Widget sender) {
@@ -75,22 +81,26 @@ public class PagingTableEntryPoint implements EntryPoint {
         }
       });
     }
-    panel.add(new Button("Clear", new ClickListener() {
+    grid.setWidget(1, 0, hpanel);
+    hpanel = new HorizontalPanel();
+    hpanel.add(new Button("Clear", new ClickListener() {
       public void onClick(Widget sender) {
         table.clear();
       }      
     }));
-    panel.add(new Button("Reset", new ClickListener() {
+    hpanel.add(new Button("Reset", new ClickListener() {
       public void onClick(Widget sender) {
         table.reset();
       }      
     }));
-    panel.add(new Button("Simulate Failure", new ClickListener() {
+    hpanel.add(new Button("Simulate Failure", new ClickListener() {
       public void onClick(Widget sender) {
         table.onFailure(null);
       }      
     }));
-    root.add(panel);
+    grid.setWidget(2, 0, hpanel);
+    root.add(grid);
+    //grid.setSize("100%", "100%");
   }
 
   private PagingTable createTable() {

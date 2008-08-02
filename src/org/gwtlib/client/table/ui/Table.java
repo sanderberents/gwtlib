@@ -26,8 +26,11 @@ import org.gwtlib.client.table.RowsCache;
 import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SourcesClickEvents;
@@ -85,6 +88,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   protected RowsCache _cache;
   protected int _begin = 0;
   protected int _size = 10;
+  protected int _minsize = _size;
   protected List _listeners;
   protected Messages _messages = (Messages)GWT.create(Messages.class);
 
@@ -103,13 +107,21 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     _cache = new RowsCache();
     _listeners = new ArrayList();
     _panel = new VerticalPanel();
+    //Element body = DOM.getChild(_panel.getElement(), 0);
+    //DOM.setStyleAttribute(body, "width", "100%");
+    //DOM.setStyleAttribute(body, "height", "100%"); 
     _table = new FlexTable();
-/*
-    _scroll = new ScrollPanel(_table);
-    _scroll.setStylePrimaryName(STYLE_SCROLL);
-    panel.add(_scroll);
-*/
+    _table.addStyleName("contents");
+
+    //_scroll = new ScrollPanel(_table);
+    //_scroll.setStylePrimaryName(STYLE_SCROLL);
+    //_panel.add(_scroll);
     _panel.add(_table);
+    _panel.setCellVerticalAlignment(_table, HasVerticalAlignment.ALIGN_TOP);
+    //_panel.setCellVerticalAlignment(_scroll, HasVerticalAlignment.ALIGN_TOP);
+    //_panel.setCellHeight(_scroll, "100%");
+    //_panel.setCellWidth(_scroll, "100%");
+
     if(initWidget) initWidget(_panel);
     _table.setStylePrimaryName(STYLE);
 
@@ -147,6 +159,14 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     clear();
     _size = size;
     update();
+  }
+
+  /**
+   * Sets the minimal number of rows to display in the table.
+   * @param size
+   */
+  public void setMinimumSize(int size) {
+    _minsize = size;
   }
 
   /**
@@ -302,13 +322,11 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         }
       }
     }
-    if(_begin > 0) {
-      for(; r <= _size; ++r) {
-        for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
-          final Column column = _layout.getColumn(j);
-          if(column.isVisible()) _table.setWidget(r, c++, new Label());
-        }      
-      }
+    for(; r <= Math.min(_minsize, _size); ++r) {
+      for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
+        final Column column = _layout.getColumn(j);
+        if(column.isVisible()) _table.setWidget(r, c++, new Label());
+      }      
     }
     resetEmpty();
     refreshRowState();

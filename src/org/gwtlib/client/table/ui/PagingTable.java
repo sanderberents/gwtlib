@@ -43,6 +43,7 @@ public class PagingTable extends Table {
     _paging = paging;
     _panel.add(paging);
     initWidget(_panel);
+    //setSize("100%", "100%");
 
     paging.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {
