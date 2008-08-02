@@ -52,8 +52,6 @@ public class PagingTable extends Table {
           clear();
           _begin = _paging.getPosition();
           _size = _paging.getPageSize();
-          _cache.clear();
-          while(_table.getRowCount() > 1) _table.removeRow(1);
           update();
         }
       }
@@ -82,5 +80,17 @@ public class PagingTable extends Table {
    */
   public PagingBar getPagingBar() {
     return _paging;
+  }
+  
+  public void reset() {
+    super.reset();
+    _paging.setPage(0);
+    _paging.update();
+  }
+
+  public void clear() {
+    super.clear();
+    _paging.setPage(0);
+    _paging.update();
   }
 }

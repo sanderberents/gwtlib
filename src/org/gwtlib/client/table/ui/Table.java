@@ -195,7 +195,6 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   public void reset() {
     _begin = 0;
     _cache.clear();
-    while(_table.getRowCount() > 1) _table.removeRow(1);
     update();
   }
 
@@ -205,7 +204,8 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   public void clear() {
     _begin = 0;
     _cache.clear();
-    while(_table.getRowCount() > 1) _table.removeRow(1);
+    while(_table.getRowCount() > 0) _table.removeRow(0);
+    renderHeader();
     render(0);
   }
 
@@ -246,6 +246,14 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       _begin = 0;
       fetch(_begin, _size);
     }
+  }
+
+  /**
+   * Returns the column layout information.
+   * @return
+   */
+  public ColumnLayout getColumnLayout() {
+    return _layout;
   }
 
   /**
@@ -294,11 +302,13 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         }
       }
     }
-    for(; r <= _size; ++r) {
-      for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
-        final Column column = _layout.getColumn(j);
-        if(column.isVisible()) _table.setWidget(r, c++, new Label());
-      }      
+    if(_begin > 0) {
+      for(; r <= _size; ++r) {
+        for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
+          final Column column = _layout.getColumn(j);
+          if(column.isVisible()) _table.setWidget(r, c++, new Label());
+        }      
+      }
     }
     resetEmpty();
     refreshRowState();
@@ -319,10 +329,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   protected void resetEmpty() {
     int r = 1;
     FlexTable.FlexCellFormatter formatter = (FlexTable.FlexCellFormatter)_table.getCellFormatter();
-    formatter.removeStyleName(r, 0, STYLE_NO_DATA);
-    formatter.removeStyleName(r, 0, STYLE_ERROR);
-    formatter.setColSpan(r, 0, 1);
-    formatter.setRowSpan(r, 0, 1);
+    if(_table.getRowCount() > 1) {
+      formatter.removeStyleName(r, 0, STYLE_NO_DATA);
+      formatter.removeStyleName(r, 0, STYLE_ERROR);
+      formatter.setColSpan(r, 0, 1);
+      formatter.setRowSpan(r, 0, 1);
+    }
   }
 
   protected Rows getRows(int begin) {
@@ -344,6 +356,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
    * @param rows
    */
   public void onSuccess(Rows rows) {
+    while(_table.getRowCount() > 0) _table.removeRow(0);
     _cache.merge(rows);
     fireLoadedEvent(true);
     fireRenderEvent();
@@ -364,6 +377,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
    * @param caught
    */
   public void onFailure(Throwable caught) {
+    while(_table.getRowCount() > 0) _table.removeRow(0);
     _cache.clear();
     fireLoadedEvent(false);
     fireRenderEvent();

@@ -37,9 +37,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Random;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -58,6 +60,40 @@ public class PagingTableEntryPoint implements EntryPoint {
   }
 
   private void init(RootPanel root) {
+    VerticalPanel panel = new VerticalPanel();
+    final PagingTable table = createTable();
+    panel.add(table);
+    for(int i = 0; i < table.getColumnLayout().getTotalColumnCount(); ++i) {
+      final CheckBox checkbox = new CheckBox("Show column " + i);
+      checkbox.setChecked(true);
+      panel.add(checkbox);
+      final int ii = i;
+      checkbox.addClickListener(new ClickListener() {
+        public void onClick(Widget sender) {
+          table.show(ii, checkbox.isChecked());
+          table.update();
+        }
+      });
+    }
+    panel.add(new Button("Clear", new ClickListener() {
+      public void onClick(Widget sender) {
+        table.clear();
+      }      
+    }));
+    panel.add(new Button("Reset", new ClickListener() {
+      public void onClick(Widget sender) {
+        table.reset();
+      }      
+    }));
+    panel.add(new Button("Simulate Failure", new ClickListener() {
+      public void onClick(Widget sender) {
+        table.onFailure(null);
+      }      
+    }));
+    root.add(panel);
+  }
+
+  private PagingTable createTable() {
     // Set up the columns we want to be displayed
     final CheckBox checkAll = new CheckBox();
     Column[] columns = {
@@ -80,7 +116,7 @@ public class PagingTableEntryPoint implements EntryPoint {
     }
     // Now configure the table
     ColumnLayout layout = new ColumnLayout(columns);
-    final PagingTable table = new PagingTable(layout, new PagingBar(0, TOTAL_SIZE, 10, new int[] { 5, 10, 20 }));
+    final PagingTable table = new PagingTable(layout, new PagingBar(0, TOTAL_SIZE, 10, new int[] { 5, 10, 20, 50, 100 }));
     ContentProvider provider = new ContentProvider() {
       // Simulate retrieval of sample data, in requested sort order
       public void load(int begin, int end, final int sortId, boolean ascending) {
@@ -146,6 +182,6 @@ public class PagingTableEntryPoint implements EntryPoint {
       }
     });
     table.setSize(10);
-    root.add(table);
+    return table;
   }
 }
