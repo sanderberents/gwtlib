@@ -40,12 +40,11 @@ import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -64,9 +63,13 @@ public class PagingTableEntryPoint implements EntryPoint {
   }
 
   private void init(RootPanel root) {
-    Grid grid = new Grid(3, 1);
+    final Grid grid = new Grid(3, 1);
     final PagingTable table = createTable();
+    table.setSize("100%", "100%");
     grid.setWidget(0, 0, table);
+    grid.getRowFormatter().setVerticalAlign(0, HasVerticalAlignment.ALIGN_TOP);
+    grid.getCellFormatter().setWidth(0, 0, "100%");
+    grid.getCellFormatter().setHeight(0, 0, "100%");
     HorizontalPanel hpanel = new HorizontalPanel();
     hpanel.add(new Label("Show Column:"));
     for(int i = 0; i < table.getColumnLayout().getTotalColumnCount(); ++i) {
@@ -100,7 +103,7 @@ public class PagingTableEntryPoint implements EntryPoint {
     }));
     grid.setWidget(2, 0, hpanel);
     root.add(grid);
-    //grid.setSize("100%", "100%");
+    grid.setSize("100%", "100%");
   }
 
   private PagingTable createTable() {

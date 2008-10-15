@@ -26,15 +26,18 @@ import org.gwtlib.client.table.RowsCache;
 import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.WindowResizeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SourcesClickEvents;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -60,7 +63,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Table extends AbstractComposite implements SourcesTableEvents {
   private static final String STYLE            = "gwtlib-Table";
-  private static final String STYLE_SCROLL     = "gwtlib-Table-scroll";
   private static final String STYLE_HEADER_ROW = "gwtlib-Header-Row";
   private static final String STYLE_HEADER     = "gwtlib-Header";
   private static final String STYLE_SORTABLE   = "gwtlib-Header-sortable";
@@ -80,7 +82,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     public static final int MULTI_SELECT  = 1 << 1;
   };
 
-  protected VerticalPanel _panel;
+  protected FlexTable _panel;
   protected FlexTable _table;
   protected ScrollPanel _scroll;
   protected ColumnLayout _layout;
@@ -106,25 +108,32 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     _layout = layout;
     _cache = new RowsCache();
     _listeners = new ArrayList();
-    _panel = new VerticalPanel();
-    //Element body = DOM.getChild(_panel.getElement(), 0);
-    //DOM.setStyleAttribute(body, "width", "100%");
-    //DOM.setStyleAttribute(body, "height", "100%"); 
-    _table = new FlexTable();
-    _table.addStyleName("contents");
 
-    //_scroll = new ScrollPanel(_table);
-    //_scroll.setStylePrimaryName(STYLE_SCROLL);
-    //_panel.add(_scroll);
-    _panel.add(_table);
-    _panel.setCellVerticalAlignment(_table, HasVerticalAlignment.ALIGN_TOP);
-    //_panel.setCellVerticalAlignment(_scroll, HasVerticalAlignment.ALIGN_TOP);
-    //_panel.setCellHeight(_scroll, "100%");
-    //_panel.setCellWidth(_scroll, "100%");
+    _table = new FlexTable();
+    _table.setSize("auto", "auto");
+    _scroll = new ScrollPanel(_table);
+
+    _panel = new FlexTable();
+    _panel.setWidget(0, 0, _scroll);
+    _panel.getRowFormatter().setVerticalAlign(0, HasVerticalAlignment.ALIGN_TOP);
+    _panel.getFlexCellFormatter().addStyleName(0, 0, "scroll-cell");
 
     if(initWidget) initWidget(_panel);
     _table.setStylePrimaryName(STYLE);
 
+    _scroll.setVisible(false);
+    DeferredCommand.addCommand(new Command() {
+      public void execute() {
+        initOptimalSize();
+      }
+    });
+
+    Window.addWindowResizeListener(new WindowResizeListener() {
+      public void onWindowResized(int width, int height) {
+        _scroll.setVisible(false);
+        initOptimalSize();
+      }
+    });
     _table.addTableListener(new com.google.gwt.user.client.ui.TableListener() {
       public void onCellClicked(com.google.gwt.user.client.ui.SourcesTableEvents sender, int row, int col) {
         GWT.log("onCellClicked " + row + "," + col, null);
@@ -141,6 +150,20 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         }
       }
     });
+  }
+  
+  private void initOptimalSize() {
+    Element e = _panel.getCellFormatter().getElement(0, 0);
+    int w = DOM.getElementPropertyInt(e, "offsetWidth");
+    int h = DOM.getElementPropertyInt(e, "offsetHeight");
+    //GWT.log("Initial table size is " + w + "," + h, null);
+    w -= 4; if(w < 0) w = 0;
+    h -= 4; if(h < 0) h = 0;
+    _scroll.setSize("" + w + "px", "" + h + "px");
+    _scroll.setVisible(true);
+    w = DOM.getElementPropertyInt(e, "offsetWidth");
+    h = DOM.getElementPropertyInt(e, "offsetHeight");
+    //GWT.log("Now table size is " + w + "," + h, null);
   }
   
   /**

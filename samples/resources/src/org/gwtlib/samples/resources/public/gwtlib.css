@@ -20,21 +20,18 @@
 .gwtlib-Table {
   font-family:Verdana;
   font-size:11px;
+  width:100%;
+  height:100%;
+  border:1px solid #ffcc00;
+}
+
+.scroll-cell {
   border:1px solid #ffcc00;
   width:100%;
   height:100%;
 }
 
-.gwtlib-Table .contents {
-  font-size:11px;
-  width:100%;
-  height:auto;
-}
-
-.gwtlib-Table-scroll {
-  font-size:11px;
-  width:100%;
-  height:100%;
+.paging-cell {
 }
 
 .gwtlib-Table-empty {
@@ -49,6 +46,7 @@
 }
 
 .gwtlib-Header-Row {
+  height:3em;
 }
 
 .gwtlib-Header {

@@ -16,6 +16,7 @@
 package org.gwtlib.client.table.ui;
 
 import org.gwtlib.client.table.ColumnLayout;
+import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.Widget;
@@ -35,15 +36,32 @@ public class PagingTable extends Table {
 
   /**
    * Creates a new paging table with the given column layout and paging bar.
+   * @param messages
+   * @param layout
+   * @param paging
+   */
+  public PagingTable(Messages messages, ColumnLayout layout, PagingBar paging) {
+    super(layout, false);
+    _messages = messages;
+    _paging = paging;
+    init(paging);
+  }
+
+  /**
+   * Creates a new paging table with the given column layout and paging bar.
    * @param layout
    * @param paging
    */
   public PagingTable(ColumnLayout layout, PagingBar paging) {
     super(layout, false);
     _paging = paging;
-    _panel.add(paging);
+    init(paging);
+  }
+  
+  private void init(PagingBar paging) {
+    _panel.setWidget(1, 0, paging);
+    _panel.getFlexCellFormatter().addStyleName(1, 0, "paging-cell");
     initWidget(_panel);
-    //setSize("100%", "100%");
 
     paging.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {

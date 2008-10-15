@@ -86,6 +86,7 @@ public class RPCTableEntryPoint implements EntryPoint {
       new Column(1, false, "Last Name", "50%")
     };
     Table table = new Table(new ColumnLayout(columns));
+    table.setSize("100%", "100%");
     table.setContentProvider(new PersonContentProvider(table));
     table.update();
     root.add(table);

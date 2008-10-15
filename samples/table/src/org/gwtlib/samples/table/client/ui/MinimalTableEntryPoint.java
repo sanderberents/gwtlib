@@ -57,6 +57,7 @@ public class MinimalTableEntryPoint implements EntryPoint {
     };
     table.setContentProvider(provider);
     table.setSize(3);
+    table.setSize("100%", "100%");
     root.add(table);
   }
 }
