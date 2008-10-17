@@ -125,16 +125,10 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     if(initWidget) initWidget(_panel);
     _table.setStylePrimaryName(STYLE);
 
-    _scroll.setVisible(false);
-    DeferredCommand.addCommand(new Command() {
-      public void execute() {
-        initOptimalSize();
-      }
-    });
+    initOptimalSize();
 
     Window.addWindowResizeListener(new WindowResizeListener() {
       public void onWindowResized(int width, int height) {
-        _scroll.setVisible(false);
         initOptimalSize();
       }
     });
@@ -157,17 +151,22 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
   
   protected void initOptimalSize() {
-    Element e = _panel.getCellFormatter().getElement(0, 0);
-    int w = DOM.getElementPropertyInt(e, "offsetWidth");
-    int h = DOM.getElementPropertyInt(e, "offsetHeight");
-    GWT.log("Initial table size is " + w + "," + h, null);
-    w -= 2; if(w < 0) w = 0;
-    h -= 2; if(h < 0) h = 0;
-    _scroll.setSize("" + w + "px", "" + h + "px");
-    _scroll.setVisible(true);
-    w = DOM.getElementPropertyInt(e, "offsetWidth");
-    h = DOM.getElementPropertyInt(e, "offsetHeight");
-    GWT.log("Now table size is " + w + "," + h, null);
+    _scroll.setVisible(false);
+    DeferredCommand.addCommand(new Command() {
+      public void execute() {
+        Element e = _panel.getCellFormatter().getElement(0, 0);
+        int w = DOM.getElementPropertyInt(e, "offsetWidth");
+        int h = DOM.getElementPropertyInt(e, "offsetHeight");
+        GWT.log("Initial table size is " + w + "," + h, null);
+        w -= 2; if(w < 0) w = 0;
+        h -= 2; if(h < 0) h = 0;
+        _scroll.setSize("" + w + "px", "" + h + "px");
+        _scroll.setVisible(true);
+        w = DOM.getElementPropertyInt(e, "offsetWidth");
+        h = DOM.getElementPropertyInt(e, "offsetHeight");
+        GWT.log("Now table size is " + w + "," + h, null);
+      }
+    });
   }
   
   /**
@@ -413,7 +412,6 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     }
     _begin = rows.getBegin();
     fireRenderedEvent();
-    _scroll.setVisible(false);
     initOptimalSize();
   }
 
@@ -432,7 +430,6 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     render(_begin);
     renderEmpty(_messages.error(caught == null ? null : caught.getMessage()), STYLE_ERROR);
     fireRenderedEvent();
-    _scroll.setVisible(false);
     initOptimalSize();
   }
   

@@ -194,7 +194,7 @@ public class PagingTableEntryPoint implements EntryPoint {
         table.update();
       }
     });
-    table.setSize(10);
+    table.update();
     return table;
   }
 }
