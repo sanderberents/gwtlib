@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Sander Berents
  */
 public class PagingTable extends Table {
+  private static final String STYLE = "gwtlib-PagingTable";
   protected PagingBar _paging;
 
   /**
@@ -61,7 +62,10 @@ public class PagingTable extends Table {
   private void init(PagingBar paging) {
     _panel.setWidget(1, 0, paging);
     _panel.getFlexCellFormatter().addStyleName(1, 0, "paging-cell");
+    _begin = paging.getPosition();
+    _size = paging.getPageSize();
     initWidget(_panel);
+    _panel.setStylePrimaryName(STYLE);
 
     paging.addChangeListener(new ChangeListener() {
       public void onChange(Widget sender) {

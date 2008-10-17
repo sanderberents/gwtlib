@@ -110,10 +110,14 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     _listeners = new ArrayList();
 
     _table = new FlexTable();
-    _table.setSize("auto", "auto");
+    _table.setCellSpacing(0);
+    _table.setCellSpacing(0);
+    _table.setSize("100%", "auto");
     _scroll = new ScrollPanel(_table);
 
     _panel = new FlexTable();
+    _panel.setCellSpacing(0);
+    _panel.setCellPadding(0);
     _panel.setWidget(0, 0, _scroll);
     _panel.getRowFormatter().setVerticalAlign(0, HasVerticalAlignment.ALIGN_TOP);
     _panel.getFlexCellFormatter().addStyleName(0, 0, "scroll-cell");
@@ -152,18 +156,18 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     });
   }
   
-  private void initOptimalSize() {
+  protected void initOptimalSize() {
     Element e = _panel.getCellFormatter().getElement(0, 0);
     int w = DOM.getElementPropertyInt(e, "offsetWidth");
     int h = DOM.getElementPropertyInt(e, "offsetHeight");
-    //GWT.log("Initial table size is " + w + "," + h, null);
-    w -= 4; if(w < 0) w = 0;
-    h -= 4; if(h < 0) h = 0;
+    GWT.log("Initial table size is " + w + "," + h, null);
+    w -= 2; if(w < 0) w = 0;
+    h -= 2; if(h < 0) h = 0;
     _scroll.setSize("" + w + "px", "" + h + "px");
     _scroll.setVisible(true);
     w = DOM.getElementPropertyInt(e, "offsetWidth");
     h = DOM.getElementPropertyInt(e, "offsetHeight");
-    //GWT.log("Now table size is " + w + "," + h, null);
+    GWT.log("Now table size is " + w + "," + h, null);
   }
   
   /**
@@ -409,6 +413,8 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     }
     _begin = rows.getBegin();
     fireRenderedEvent();
+    _scroll.setVisible(false);
+    initOptimalSize();
   }
 
   /**
@@ -426,6 +432,8 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     render(_begin);
     renderEmpty(_messages.error(caught == null ? null : caught.getMessage()), STYLE_ERROR);
     fireRenderedEvent();
+    _scroll.setVisible(false);
+    initOptimalSize();
   }
   
   public void addTableListener(TableListener listener) {

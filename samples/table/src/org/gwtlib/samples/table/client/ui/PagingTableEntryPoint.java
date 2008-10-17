@@ -122,7 +122,7 @@ public class PagingTableEntryPoint implements EntryPoint {
     for(int i = 0; i < rows.length; ++i) {
       Boolean check = new Boolean(false);
       StringBuffer label = new StringBuffer();
-      for(int j = 0; j < 5; ++j) label.append((char)('a' + i));
+      for(int j = 0; j < 25; ++j) label.append((char)('a' + i));
       Date date = new Date(NOW.getTime() + Random.nextInt(365 * 24 * 3600 * 1000));
       Integer number = new Integer(Random.nextInt(10000));
       rows[i] = new Row(i, new Object[] { check, label.toString(), date, number, date, number });

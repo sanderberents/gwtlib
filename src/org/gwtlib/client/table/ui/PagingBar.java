@@ -149,6 +149,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
 
   protected Widget create() {
     HorizontalPanel panel = new HorizontalPanel();
+    panel.setSpacing(0);
     panel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
     if(_positionWidget != null) panel.add(_positionWidget);
     if(_loadingWidget != null) panel.add(_loadingWidget);

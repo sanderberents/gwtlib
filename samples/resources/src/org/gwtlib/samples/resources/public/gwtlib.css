@@ -17,16 +17,23 @@
 /*************************************
  Table and PagingTable
  *************************************/
+.gwtlib-PagingTable {
+  width:100%;
+  height:100%;
+}
+
 .gwtlib-Table {
   font-family:Verdana;
   font-size:11px;
   width:100%;
   height:100%;
-  border:1px solid #ffcc00;
+  border-bottom:1px solid #ffcc00;
+  border-collapse:collapse;
 }
 
 .scroll-cell {
   border:1px solid #ffcc00;
+  border-collapse:collapse;
   width:100%;
   height:100%;
 }
@@ -98,9 +105,12 @@
  PagingBar
  *************************************/
 .gwtlib-PagingBar {
+  position:relative;
+  top:-1px;
   font-family:Verdana;
   font-size:11px;
   width:100%;
+  border:1px solid #ffcc00;
 }
 
 .gwtlib-PagingBar-position {
