@@ -2,6 +2,21 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+0.1.3 (2008-10-21)
+------------------
+
+New features:
+
+ - Basic table scrolling support.
+ - Add table cell style.
+ - Add StyledListBox.
+
+Bug fixes:
+
+ - Fix table rendering issues.
+ - Fix table page size selector issues.
+ - Fix column hiding issues.
+
 0.1.2 (2008-05-07)
 ------------------
 
