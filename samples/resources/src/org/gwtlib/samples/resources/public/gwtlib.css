@@ -257,4 +257,26 @@
 .gwtlib-StyleListBox-odd {
   background-color:#f2f5f9;
 }
+
+/*************************************
+ MenuBar
+ *************************************/
+.gwt-MenuBar {
+  font-family:Verdana;
+  font-size:11px;
+  background-color:#e5ecf9;
+  border:1px solid #BBBBBB;
+  cursor:default;
+}
+
+.gwt-MenuBar .gwt-MenuItem {
+  font-family:Verdana;
+  font-size:11px;
+  cursor:default;
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected {
+  background:#c3d9ff;
+}
+
  
