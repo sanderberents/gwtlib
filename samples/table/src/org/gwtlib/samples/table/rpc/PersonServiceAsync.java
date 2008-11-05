@@ -23,6 +23,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Sander Berents
  */
 public interface PersonServiceAsync {
-  void getPersons(int begin, int end, int sortId, boolean ascending, AsyncCallback callback);
+  void getPersons(int begin, int end, int sortId, boolean ascending, AsyncCallback<Person[]> callback);
 }
 

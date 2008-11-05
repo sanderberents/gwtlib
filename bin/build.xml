@@ -44,7 +44,7 @@
 
   <target name="compile" depends="init">
     <mkdir dir="${builddir}"/>
-    <javac srcdir="${basedir}/src" destdir="${builddir}" source="1.4">
+    <javac srcdir="${basedir}/src" destdir="${builddir}" source="1.5">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
@@ -62,7 +62,7 @@
              sourcepath="src"
              destdir="${javadocdir}"
              windowtitle="GWTLib"
-             source="1.4"
+             source="1.5"
              author="true"
              version="true"
              use="true"
@@ -70,7 +70,7 @@
       <doctitle><![CDATA[<h2>GWTLib</h2>]]></doctitle>
       <bottom><![CDATA[Copyright 2008 Sander Berents]]></bottom>
       <classpath refid="compile.classpath"/>
-      <link href="http://google-web-toolkit.googlecode.com/svn/javadoc/1.4"/>
+      <link href="http://google-web-toolkit.googlecode.com/svn/javadoc/1.5"/>
     </javadoc>
   </target>
 

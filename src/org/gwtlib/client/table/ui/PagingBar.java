@@ -347,7 +347,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
 
   /**
    * Returns the offset of the first item.
-   * @return
+   * @return Zero based offset.
    */
   public int getPosition() {
     int pos = _page * _pageSize;
@@ -442,7 +442,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
 
   /**
    * Returns the computed number of pages
-   * @return
+   * @return Number of pages.
    */
   protected int computeNumPages() {
     return (getLimitedSize() + _pageSize - 1) / _pageSize;

@@ -29,23 +29,22 @@ public class Rows implements Serializable {
   protected int _begin;
   protected int _sortId;
   protected boolean _ascending;
-  /** @gwt.typeArgs <org.gwtlib.client.table.Row> */
-  protected List _rows;
+  protected List<Row> _rows;
   
   public Rows() {
     _sortId = -1;
-    _rows = new ArrayList();
+    _rows = new ArrayList<Row>();
   }
   
   public Rows(Row[] rows, int begin) {
-    this(new ArrayList(Arrays.asList(rows)), begin, -1, false);
+    this(new ArrayList<Row>(Arrays.asList(rows)), begin, -1, false);
   }
 
   public Rows(Row[] rows, int begin, int sortId, boolean ascending) {
-    this(new ArrayList(Arrays.asList(rows)), begin, sortId, ascending);
+    this(new ArrayList<Row>(Arrays.asList(rows)), begin, sortId, ascending);
   }
 
-  Rows(List rows, int begin, int sortId, boolean ascending) {
+  Rows(List<Row> rows, int begin, int sortId, boolean ascending) {
     _begin = begin;
     _sortId = sortId;
     _ascending = ascending;
@@ -83,7 +82,7 @@ public class Rows implements Serializable {
   /**
    * Tests if a position lies inside this Rows object.
    * @param pos
-   * @return
+   * @return True if position falls inside this Rows object.
    */
   public boolean inside(int pos) {
     return pos >= _begin && pos < _begin + _rows.size();
@@ -102,7 +101,7 @@ public class Rows implements Serializable {
     } else {
       int start = other.getEnd() - _begin; // Skip overlapping ones
       if(start < 0) return false;
-      List tmp = new ArrayList(other._rows);
+      List<Row> tmp = new ArrayList<Row>(other._rows);
       for(int i = start; i < _rows.size(); ++i) tmp.add(_rows.get(i));
       _begin = other._begin;
       _rows = tmp;

@@ -99,7 +99,7 @@ public class PagingTable extends Table {
   
   /**
    * Returns the paging bar.
-   * @return
+   * @return Paging bar or null.
    */
   public PagingBar getPagingBar() {
     return _paging;

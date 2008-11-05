@@ -42,14 +42,13 @@ public class RPCTableEntryPoint implements EntryPoint {
 
   private class PersonContentProvider implements ContentProvider {
     private Table _table;
-    private AsyncCallback _callback;
+    private AsyncCallback<Person[]> _callback;
 
     PersonContentProvider(Table table) {
       _table = table;
-      _callback = new AsyncCallback() {
-        public void onSuccess(Object result) {
-          Person[] persons = (Person[])result;
-          Rows rows = transform(persons);
+      _callback = new AsyncCallback<Person[]>() {
+        public void onSuccess(Person[] result) {
+          Rows rows = transform(result);
           _table.onSuccess(rows);
         }
 

@@ -91,7 +91,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   protected int _begin = 0;
   protected int _size = 10;
   protected int _minsize = _size;
-  protected List _listeners;
+  protected List<TableListener> _listeners;
   protected Messages _messages = (Messages)GWT.create(Messages.class);
 
   public Table(ColumnLayout layout) {
@@ -107,7 +107,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     super(Style.SINGLE_SELECT);
     _layout = layout;
     _cache = new RowsCache();
-    _listeners = new ArrayList();
+    _listeners = new ArrayList<TableListener>();
 
     _table = new FlexTable();
     _table.setCellSpacing(0);
@@ -296,7 +296,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
 
   /**
    * Returns the column layout information.
-   * @return
+   * @return ColumnLayout object.
    */
   public ColumnLayout getColumnLayout() {
     return _layout;
@@ -304,7 +304,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
 
   /**
    * Returns currently displayed rows.
-   * @return
+   * @return Rows object.
    */
   public Rows getRows() {
     return getRows(_begin);

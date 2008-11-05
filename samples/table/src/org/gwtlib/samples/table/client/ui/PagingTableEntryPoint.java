@@ -138,28 +138,28 @@ public class PagingTableEntryPoint implements EntryPoint {
         for(int i = 0; i < rows.length; ++i) tmp[i] = rows[i];
         switch(sortId) {
           case 1:
-            Arrays.sort(tmp, new Comparator() {
-              public int compare(Object o1, Object o2) {
-                String v1 = (String)((Row)o1).getValue(sortId);
-                String v2 = (String)((Row)o2).getValue(sortId);
+            Arrays.sort(tmp, new Comparator<Row>() {
+              public int compare(Row o1, Row o2) {
+                String v1 = (String)o1.getValue(sortId);
+                String v2 = (String)o2.getValue(sortId);
                 return sign * (v1.compareTo(v2));
               }
             });
             break;
           case 4:
-            Arrays.sort(tmp, new Comparator() {
-              public int compare(Object o1, Object o2) {
-                Date v1 = (Date)((Row)o1).getValue(sortId);
-                Date v2 = (Date)((Row)o2).getValue(sortId);
+            Arrays.sort(tmp, new Comparator<Row>() {
+              public int compare(Row o1, Row o2) {
+                Date v1 = (Date)o1.getValue(sortId);
+                Date v2 = (Date)o2.getValue(sortId);
                 return sign * (v1.compareTo(v2));
               }
             });
             break;
           case 5:
-            Arrays.sort(tmp, new Comparator() {
-              public int compare(Object o1, Object o2) {
-                int v1 = ((Integer)((Row)o1).getValue(sortId)).intValue();
-                int v2 = ((Integer)((Row)o2).getValue(sortId)).intValue();
+            Arrays.sort(tmp, new Comparator<Row>() {
+              public int compare(Row o1, Row o2) {
+                int v1 = ((Integer)o1.getValue(sortId)).intValue();
+                int v2 = ((Integer)o2.getValue(sortId)).intValue();
                 return sign * (v1 < v2 ? -1 : (v1 == v2 ? 0 : 1));
               }
             });

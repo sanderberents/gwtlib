@@ -52,7 +52,7 @@ public class ColumnLayout {
  
   /**
    * Returns the total number of columns.
-   * @return
+   * @return Total number of columns.
    */
   public int getTotalColumnCount() {
     return _columns.length;
@@ -60,7 +60,7 @@ public class ColumnLayout {
 
   /**
    * Returns the number of visible columns.
-   * @return
+   * @return Number of visible columns.
    */
   public int getVisibleColumnCount() {
     int n = 0;

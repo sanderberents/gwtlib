@@ -31,7 +31,7 @@ public interface Renderer {
    * @param row
    * @param column
    * @param value
-   * @return
+   * @return Widget.
    */
   public Widget render(Row row, Column column, Object value);  
 }

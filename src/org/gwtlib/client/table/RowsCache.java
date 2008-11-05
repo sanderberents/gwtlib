@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * @author Sander Berents
  */
 public class RowsCache {
-  private ArrayList _cache = new ArrayList(); // List of Rows objects (Rows are merged if possible)
+  private ArrayList<Rows> _cache = new ArrayList<Rows>(); // List of Rows objects (Rows are merged if possible)
 
   /**
    * Store rows with the given starting position in the cache, merging 
@@ -54,7 +54,7 @@ public class RowsCache {
 
   /**
    * Retrieves a continuous set of rows from the cache.
-   * @param pos Offset of first row.
+   * @param begin Offset of first row.
    * @param end Offset of last row minus 1.
    * @param sortId
    * @param ascending
@@ -66,7 +66,7 @@ public class RowsCache {
     for(int i = 0; i < _cache.size(); i++) {
       Rows b = (Rows)_cache.get(i);
       if(b.inside(begin)) {
-        ArrayList tmp = new ArrayList();
+        ArrayList<Row> tmp = new ArrayList<Row>();
         Row[] rows = b.getRows();
         for(int j = begin - b.getBegin(); j < end - b.getBegin() && j < rows.length; ++j) tmp.add(rows[j]);
         return new Rows(tmp, begin, b.getSortId(), b.isAscending());
@@ -78,7 +78,7 @@ public class RowsCache {
   /**
    * Returns the row at the given position, if any.
    * @param pos
-   * @return
+   * @return Row or null.
    */
   public Row getRow(int pos) {
     for(int i = 0; i < _cache.size(); i++) {
@@ -91,7 +91,7 @@ public class RowsCache {
   /**
    * Returns the row with the given id, if any.
    * @param id
-   * @return
+   * @return Row or null.
    */
   Row findRow(int id) {
     for(int i = 0; i < _cache.size(); i++) {
