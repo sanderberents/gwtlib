@@ -2,6 +2,13 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+0.1.4 (2008-11-04)
+------------------
+
+New features:
+
+ - Extend standard menubar/item with menu item toggle support.
+
 0.1.3 (2008-10-21)
 ------------------
 
