@@ -24,7 +24,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
- * An example demonstrating the styled listbox and color listbox.
+ * An example demonstrating the menu with toggle support.
  * 
  * @author Sander Berents
  */

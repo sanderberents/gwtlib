@@ -27,9 +27,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   public static final int CHECK  = 1;
 // private static final int RADIO  = 2;
 
-  private static final String CHECK_TRUE  = "\u221a ";            // &radic; / &#8730; 
+  private static final String CHECK_TRUE  = getUserAgent().contains("msie") ? "\u2713" : "\u2713 "; // Checkmark 
   private static final String CHECK_FALSE = "\u00a0\u00a0\u00a0"; // Non-breaking space
-  private static final String CHECK_FALSE_HTML = "&nbsp;&nbsp;&nbsp;";
 
   private int _type;
   private boolean _check;
@@ -113,7 +112,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     if(type == CHECK && check) {
       return CHECK_TRUE + s;
     } else {
-      return asHTML ? CHECK_FALSE_HTML + s : CHECK_FALSE + s;
+      return CHECK_FALSE + s;
     }
   }
 
@@ -125,7 +124,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     if(type == CHECK && check) {
       return s.substring(CHECK_TRUE.length());
     } else {
-      return s.substring(asHTML ? CHECK_FALSE_HTML.length() : CHECK_FALSE.length());
+      return s.substring(CHECK_FALSE.length());
     }
   }
   
@@ -140,4 +139,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   public boolean isChecked() {
     return _check;
   }
+  
+  private static native String getUserAgent() /*-{
+    return navigator.userAgent.toLowerCase();
+  }-*/;
 }
