@@ -61,6 +61,7 @@ public class MenuBarEntryPoint implements EntryPoint {
     edit.addItem("Paste", command);
     view.addItem("Date", true, command, MenuItem.CHECK, false);
     view.addItem("Time", true, command, MenuItem.CHECK, true);
+    view.addSeparator();
     view.addItem("Description", command, MenuItem.CHECK, false);
     view.addItem("Quantity", command, MenuItem.CHECK, true);
 

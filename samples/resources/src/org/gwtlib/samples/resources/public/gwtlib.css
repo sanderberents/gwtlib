@@ -279,4 +279,11 @@
   background:#c3d9ff;
 }
 
+.gwt-MenuBar .gwt-MenuItemSeparator {
+  height:5px; 
+}
+
+.gwt-MenuBar .gwt-MenuItemSeparator .menuSeparatorInner { 
+  border-bottom:1px solid #BBBBBB;
+} 
  
