@@ -27,7 +27,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   public static final int CHECK  = 1;
 // private static final int RADIO  = 2;
 
-  private static final String CHECK_TRUE  = getUserAgent().contains("msie") ? "\u2713" : "\u2713 "; // Checkmark 
+  private static final String CHECK_TRUE  = checkmark(); 
   private static final String CHECK_FALSE = "\u00a0\u00a0\u00a0"; // Non-breaking space
 
   private int _type;
@@ -143,4 +143,14 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   private static native String getUserAgent() /*-{
     return navigator.userAgent.toLowerCase();
   }-*/;
+  
+  private static String checkmark() {
+    if(getUserAgent().contains("msie 6")) {
+      return "\u221a "; // IE6 doesn't support real checkmark so use square root symbol
+    } else if(getUserAgent().contains("msie")) {
+      return "\u2713";  // Real Unicode checkmark
+    } else {
+      return "\u2713 "; // Real Unicode checkmark and extra spacing
+    }
+  }
 }
