@@ -29,6 +29,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
 
   private static final String CHECK_TRUE  = checkmark(); 
   private static final String CHECK_FALSE = "\u00a0\u00a0\u00a0"; // Non-breaking space
+  private static final String CHECK_FALSE_HTML = "&nbsp;&nbsp;&nbsp;"; // Non-breaking space
 
   private int _type;
   private boolean _check;
@@ -111,6 +112,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   private static String addLead(String s, boolean asHTML, int type, boolean check) {
     if(type == CHECK && check) {
       return CHECK_TRUE + s;
+    } else if(asHTML) {
+      return CHECK_FALSE_HTML + s;
     } else {
       return CHECK_FALSE + s;
     }
@@ -123,6 +126,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   private static String removeLead(String s, boolean asHTML, int type, boolean check) {
     if(type == CHECK && check) {
       return s.substring(CHECK_TRUE.length());
+    } else if(asHTML) {
+      return s.substring(CHECK_FALSE_HTML.length());
     } else {
       return s.substring(CHECK_FALSE.length());
     }

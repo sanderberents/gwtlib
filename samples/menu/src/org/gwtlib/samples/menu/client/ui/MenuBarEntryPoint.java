@@ -20,7 +20,6 @@ import org.gwtlib.client.menu.ui.MenuItem;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -47,7 +46,6 @@ public class MenuBarEntryPoint implements EntryPoint {
     
     Command command = new Command() {
       public void execute() {
-        Window.alert("Click");
       }
     };
     file.addItem("Open", command);
