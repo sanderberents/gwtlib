@@ -28,7 +28,7 @@
 
   <path id="compile.classpath">
     <pathelement location="${gwtdir}/gwt-user.jar"/>
-    <pathelement location="${gwtdir}/gwt-dev-windows.jar"/>
+    <pathelement location="${gwtdir}/gwt-dev-${platform}.jar"/>
   </path>
 
   <target name="init">

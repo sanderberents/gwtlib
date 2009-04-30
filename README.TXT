@@ -57,6 +57,16 @@ In this file, add the line
 
 gwtdir=<PATH TO YOUR GWT DIRECTORY>
 
+For Linux, also add the line
+
+platform=linux
+
+For MacOSX, add
+
+platform=mac
+
+instead.
+
 If you now run ant using bin/build.xml, it will create the jar file as well as
 the zip file containing the complete distribution. If you only want to generate the
 jar file, run ant with target "jar". Use target "clean" for cleanup.
