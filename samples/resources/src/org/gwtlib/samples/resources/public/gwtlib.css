@@ -279,6 +279,13 @@
   background:#c3d9ff;
 }
 
+.gwt-MenuBar .gwt-MenuItemDisabled {
+  font-family:Verdana;
+  font-size:11px;
+  cursor:default;
+  color:#c3d9ff;
+}
+
 .gwt-MenuBar .gwt-MenuItemSeparator {
   height:5px; 
 }

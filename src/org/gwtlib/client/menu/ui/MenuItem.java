@@ -34,6 +34,13 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   private int _type;
   private boolean _check;
   private boolean _asHTML;
+  private Command _disabledCommand;
+  
+  private static final Command DUMMY_COMMAND = new Command() {
+    public void execute() {
+      // Do nothing
+    }
+  }; 
   
   public class ToggleCommand implements Command {
     private Command _command;
@@ -48,7 +55,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
         _check = !_check;
         if(_asHTML) setHTML(s); else setText(s);
       }
-      _command.execute();
+      if(_command != null) _command.execute();
     }
   };
 
@@ -88,7 +95,22 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     super(text, subMenu);
     setText(text);
   }
-  
+
+  public void setEnabled(boolean enabled) {
+    Command cmd = getCommand();
+    if(enabled) {
+      setStyleName("gwt-MenuItem");
+      if((cmd instanceof ToggleCommand && ((ToggleCommand)cmd)._command == DUMMY_COMMAND)) {
+        setCommand(_disabledCommand);
+      }
+    } else {
+      setStyleName("gwt-MenuItemDisabled"); // No using dependent style name for proper mouseover style
+      if((cmd instanceof ToggleCommand && ((ToggleCommand)cmd)._command != DUMMY_COMMAND) || !(cmd instanceof ToggleCommand)) {
+        _disabledCommand = getCommand();
+        setCommand(DUMMY_COMMAND);
+      }
+    }
+} 
   public String getHTML() {
     return removeLead(super.getHTML(), true);    
   }

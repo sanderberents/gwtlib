@@ -20,6 +20,7 @@ import org.gwtlib.client.menu.ui.MenuItem;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -46,6 +47,7 @@ public class MenuBarEntryPoint implements EntryPoint {
     
     Command command = new Command() {
       public void execute() {
+        Window.alert("Click");
       }
     };
     file.addItem("Open", command);
@@ -62,6 +64,12 @@ public class MenuBarEntryPoint implements EntryPoint {
     view.addSeparator();
     view.addItem("Description", command, MenuItem.CHECK, false);
     view.addItem("Quantity", command, MenuItem.CHECK, true);
+    view.addSeparator();
+    MenuItem item = (MenuItem)view.addItem("Disabled", (Command)command);
+    item.setEnabled(false);
+    item = (MenuItem)view.addItem("Enabled", (Command)command);
+    item.setEnabled(false);
+    item.setEnabled(true);
 
     root.add(menu);
   }
