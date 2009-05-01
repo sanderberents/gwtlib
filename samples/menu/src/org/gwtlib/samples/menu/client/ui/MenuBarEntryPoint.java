@@ -37,19 +37,23 @@ public class MenuBarEntryPoint implements EntryPoint {
   }
 
   private void init(RootPanel root) {
-    MenuBar menu = new MenuBar();
-    MenuBar file = new MenuBar(true);
-    MenuBar edit = new MenuBar(true);
-    MenuBar view = new MenuBar(true);
-    menu.addItem("File", file);
-    menu.addItem("Edit", edit);
-    menu.addItem("View", view);
-    
+    MenuItem item;
     Command command = new Command() {
       public void execute() {
         Window.alert("Click");
       }
     };
+    MenuBar menu = new MenuBar();
+    MenuBar file = new MenuBar(true);
+    MenuBar edit = new MenuBar(true);
+    MenuBar view = new MenuBar(true);
+    menu.addItem("File", file);
+    item = (MenuItem)menu.addItem("Edit", edit);
+    item.setEnabled(false);
+    menu.addItem("View", view);
+    item = (MenuItem)menu.addItem("Help", command);
+    item.setEnabled(false);
+    
     file.addItem("Open", command);
     file.addItem("Close", command);
     file.addItem("Save", command);
@@ -65,7 +69,7 @@ public class MenuBarEntryPoint implements EntryPoint {
     view.addItem("Description", command, MenuItem.CHECK, false);
     view.addItem("Quantity", command, MenuItem.CHECK, true);
     view.addSeparator();
-    MenuItem item = (MenuItem)view.addItem("Disabled", (Command)command, MenuItem.INDENT);
+    item = (MenuItem)view.addItem("Disabled", (Command)command, MenuItem.INDENT);
     item.setEnabled(false);
     item = (MenuItem)view.addItem("Enabled", (Command)command, MenuItem.INDENT);
     item.setEnabled(false);
