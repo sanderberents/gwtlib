@@ -2,6 +2,19 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+0.1.5 (2009-05-01)
+------------------
+
+New features:
+
+ - Upgrade to GWT 1.5.
+ - Menu enabling/disabling support.
+
+Bug fixes:
+
+ - Improve menu toggle support.
+ - Add support for Linux and MacOSX to build script.
+
 0.1.4 (2008-11-04)
 ------------------
 

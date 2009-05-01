@@ -44,12 +44,14 @@ The included examples are:
   * PagingTable
     A demonstration of many paging table features, e.g. sorting, selection, paging, etc.
 
+  * MenuBar
+    A demonstration of menu item toggling and enabling/disabling menu items.
 
 
 BUILDING GWTLIB
 ------------------------------------------------------------------------------
 
-The prerequisites for building GWTLib are GWT 1.4 and ant. Create a file named 
+The prerequisites for building GWTLib are GWT 1.5 and ant. Create a file named 
 "build.properties" in the base directory, or a file named "gwtlib.build.properties" 
 in your home directory.
 
