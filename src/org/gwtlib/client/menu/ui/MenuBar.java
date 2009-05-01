@@ -15,6 +15,8 @@
  */
 package org.gwtlib.client.menu.ui;
 
+import java.util.List;
+
 import com.google.gwt.user.client.Command;
 
 /**
@@ -32,6 +34,12 @@ public class MenuBar extends com.google.gwt.user.client.ui.MenuBar {
 
   public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd) {
     MenuItem item = new MenuItem(text, asHTML, cmd);
+    addItem(item);
+    return item;
+  }
+
+  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, int type) {
+    MenuItem item = new MenuItem(text, asHTML, cmd, type, false);
     addItem(item);
     return item;
   }
@@ -54,6 +62,12 @@ public class MenuBar extends com.google.gwt.user.client.ui.MenuBar {
     return item;
   }
 
+  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, int type) {
+    MenuItem item = new MenuItem(text, cmd, type, false);
+    addItem(item);
+    return item;
+  }
+
   public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, int type, boolean check) {
     MenuItem item = new MenuItem(text, cmd, type, check);
     addItem(item);
@@ -64,6 +78,10 @@ public class MenuBar extends com.google.gwt.user.client.ui.MenuBar {
     MenuItem item = new MenuItem(text, popup);
     addItem(item);
     return item;
+  }
+  
+  public List<com.google.gwt.user.client.ui.MenuItem> getItems() {
+    return super.getItems();
   }
 }
 

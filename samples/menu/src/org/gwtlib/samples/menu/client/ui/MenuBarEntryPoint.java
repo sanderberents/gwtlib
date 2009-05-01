@@ -65,9 +65,9 @@ public class MenuBarEntryPoint implements EntryPoint {
     view.addItem("Description", command, MenuItem.CHECK, false);
     view.addItem("Quantity", command, MenuItem.CHECK, true);
     view.addSeparator();
-    MenuItem item = (MenuItem)view.addItem("Disabled", (Command)command);
+    MenuItem item = (MenuItem)view.addItem("Disabled", (Command)command, MenuItem.INDENT);
     item.setEnabled(false);
-    item = (MenuItem)view.addItem("Enabled", (Command)command);
+    item = (MenuItem)view.addItem("Enabled", (Command)command, MenuItem.INDENT);
     item.setEnabled(false);
     item.setEnabled(true);
 
