@@ -111,7 +111,15 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
         setCommand(DUMMY_COMMAND);
       }
     }
-} 
+    // Enable/disable children, if any
+    MenuBar submenu = (MenuBar)getSubMenu();
+    if(submenu != null) {
+      for(int i = 0; i < submenu.getItems().size(); ++i) {
+        ((MenuItem)submenu.getItems().get(i)).setEnabled(enabled);
+      }
+    }
+  }
+
   public String getHTML() {
     return removeLead(super.getHTML(), true);    
   }

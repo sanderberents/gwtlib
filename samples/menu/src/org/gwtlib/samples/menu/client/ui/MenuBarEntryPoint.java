@@ -48,8 +48,7 @@ public class MenuBarEntryPoint implements EntryPoint {
     MenuBar edit = new MenuBar(true);
     MenuBar view = new MenuBar(true);
     menu.addItem("File", file);
-    item = (MenuItem)menu.addItem("Edit", edit);
-    item.setEnabled(false);
+    MenuItem editItem = (MenuItem)menu.addItem("Edit", edit);
     menu.addItem("View", view);
     item = (MenuItem)menu.addItem("Help", command);
     item.setEnabled(false);
@@ -63,6 +62,7 @@ public class MenuBarEntryPoint implements EntryPoint {
     edit.addItem("Cut", command);
     edit.addItem("Copy", command);
     edit.addItem("Paste", command);
+    editItem.setEnabled(false); // Disable after adding children so they get disabled too
     view.addItem("Date", true, command, MenuItem.CHECK, false);
     view.addItem("Time", true, command, MenuItem.CHECK, true);
     view.addSeparator();
