@@ -29,6 +29,9 @@ public class TableListenerAdapter implements TableListener {
   public void onCellClicked(SourcesTableEvents sender, int row, int column) {
   }
 
+  public void onCellClicked(SourcesTableEvents sender, Row row, Column column) {
+  }
+
   public void onRowClicked(SourcesTableEvents sender, Row row) {
   }
 

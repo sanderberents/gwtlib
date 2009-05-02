@@ -86,6 +86,10 @@
   background-color:#ffffaa
 }
 
+.gwtlib-Column-selected {
+  background-color:#ffffaa
+}
+
 .gwtlib-Column-ascending {
   background-image:url("img/up.gif");
   background-position:center right;
@@ -99,6 +103,10 @@
 }
 
 .gwtlib-Cell {
+}
+
+.gwtlib-Cell-selected {
+  background-color:#ffff00
 }
 
 /*************************************

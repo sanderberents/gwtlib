@@ -64,20 +64,22 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Sander Berents
  */
 public class Table extends AbstractComposite implements SourcesTableEvents {
-  private static final String STYLE            = "gwtlib-Table";
-  private static final String STYLE_HEADER_ROW = "gwtlib-Header-Row";
-  private static final String STYLE_HEADER     = "gwtlib-Header";
-  private static final String STYLE_SORTABLE   = "gwtlib-Header-sortable";
-  private static final String STYLE_ASCENDING  = "gwtlib-Column-ascending";
-  private static final String STYLE_DESCENDING = "gwtlib-Column-descending";
-  private static final String STYLE_ROW        = "gwtlib-Row";
-  private static final String STYLE_ROW_EVEN   = "gwtlib-Row-even";
-  private static final String STYLE_ROW_ODD    = "gwtlib-Row-odd";
-  private static final String STYLE_ROW_EMPTY  = "gwtlib-Row-empty";
-  private static final String STYLE_ROW_SELECT = "gwtlib-Row-selected";
-  private static final String STYLE_CELL       = "gwtlib-Cell";
-  private static final String STYLE_NO_DATA    = "gwtlib-Table-empty";
-  private static final String STYLE_ERROR      = "gwtlib-Table-error";
+  private static final String STYLE               = "gwtlib-Table";
+  private static final String STYLE_HEADER_ROW    = "gwtlib-Header-Row";
+  private static final String STYLE_HEADER        = "gwtlib-Header";
+  private static final String STYLE_SORTABLE      = "gwtlib-Header-sortable";
+  private static final String STYLE_ASCENDING     = "gwtlib-Column-ascending";
+  private static final String STYLE_DESCENDING    = "gwtlib-Column-descending";
+  private static final String STYLE_ROW           = "gwtlib-Row";
+  private static final String STYLE_ROW_EVEN      = "gwtlib-Row-even";
+  private static final String STYLE_ROW_ODD       = "gwtlib-Row-odd";
+  private static final String STYLE_ROW_EMPTY     = "gwtlib-Row-empty";
+  private static final String STYLE_ROW_SELECT    = "gwtlib-Row-selected";
+  private static final String STYLE_COLUMN_SELECT = "gwtlib-Column-selected";
+  private static final String STYLE_CELL          = "gwtlib-Cell";
+  private static final String STYLE_CELL_SELECT   = "gwtlib-Cell-selected";
+  private static final String STYLE_NO_DATA       = "gwtlib-Table-empty";
+  private static final String STYLE_ERROR         = "gwtlib-Table-error";
 
   public interface Style {
     public static final int SINGLE_SELECT = 1 << 0;
@@ -138,15 +140,18 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       public void onCellClicked(com.google.gwt.user.client.ui.SourcesTableEvents sender, int row, int col) {
         GWT.log("onCellClicked " + row + "," + col, null);
         fireCellClickedEvent(row, col);
+        int c = toActualColumnPos(col);
+        Column column = _layout.getColumn(c);
         if(row == 0) {
-          int c = toActualColumnPos(col);
-          Column column = _layout.getColumn(c);
           if(column.isSortable()) {
             sort(c, column.getSortDirection() != Column.Sort.ASCENDING);
           }
         } else {
           Row r = _cache.getRow(_begin + row - 1);
-          if(r != null) fireRowClickedEvent(r);
+          if(r != null) {
+            fireCellClickedEvent(r, column);
+            fireRowClickedEvent(r);
+          }
         }
       }
     });
@@ -218,12 +223,26 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       _table.getRowFormatter().setStyleName(r, STYLE_ROW); 
       _table.getRowFormatter().addStyleName(r, i % 2 == 0 ? STYLE_ROW_EVEN : STYLE_ROW_ODD);
       if(row.hasState(Row.State.SELECT)) _table.getRowFormatter().addStyleName(r, STYLE_ROW_SELECT);
+      for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
+        Column column = _layout.getColumn(j);
+        if(column.isVisible()) {
+          _table.getCellFormatter().removeStyleName(r, c, STYLE_COLUMN_SELECT);
+          _table.getCellFormatter().removeStyleName(r, c, STYLE_CELL_SELECT);
+          if(column.hasState(Column.State.SELECT)) {
+            _table.getCellFormatter().addStyleName(r, c, STYLE_COLUMN_SELECT);
+            if(row.hasState(Row.State.SELECT)) _table.getCellFormatter().addStyleName(r, c, STYLE_CELL_SELECT);
+          }
+          c++;
+        }
+      }
     }
     int nclear = Math.min(_size - rows.size(), _table.getRowCount() - rows.size() - 1);
     while(nclear-- > 0) { 
       for(int j = 0, c = 0; j < _layout.getTotalColumnCount(); ++j) {
         Column column = _layout.getColumn(j);
         if(column.isVisible()) {
+          _table.getCellFormatter().removeStyleName(r, c, STYLE_COLUMN_SELECT);
+          _table.getCellFormatter().removeStyleName(r, c, STYLE_CELL_SELECT);
           _table.getRowFormatter().setStyleName(r, STYLE_ROW); 
           _table.getRowFormatter().addStyleName(r, STYLE_ROW_EMPTY); 
           _table.clearCell(r, c++);
@@ -455,6 +474,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   protected void fireCellClickedEvent(int row, int column) {
+    for(TableListener listener : _listeners) {
+      listener.onCellClicked(this, row, column);
+    }
+  }
+
+  protected void fireCellClickedEvent(Row row, Column column) {
     for(TableListener listener : _listeners) {
       listener.onCellClicked(this, row, column);
     }

@@ -31,6 +31,11 @@ public interface TableListener {
   public void onCellClicked(SourcesTableEvents sender, int row, int column);
 
   /**
+   * Fired when a body cell is clicked.
+   */
+  public void onCellClicked(SourcesTableEvents sender, Row row, Column column);
+
+  /**
    * Fired when a body row is clicked.
    */
   public void onRowClicked(SourcesTableEvents sender, Row row);

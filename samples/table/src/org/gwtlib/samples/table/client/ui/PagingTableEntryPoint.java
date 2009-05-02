@@ -42,7 +42,6 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
@@ -129,7 +128,7 @@ public class PagingTableEntryPoint implements EntryPoint {
   private PagingTable createTable() {
     // Set up the columns we want to be displayed
     final CheckBox checkAll = new CheckBox();
-    Column[] columns = {
+    final Column[] columns = {
       new Column(0, false, checkAll, "20", new CheckBoxRenderer()),
       new Column(1, true, "Text (StringRenderer)", "60%"),
       new Column(2, false, "Date (StringRenderer)", "10%"),
@@ -200,6 +199,11 @@ public class PagingTableEntryPoint implements EntryPoint {
     };
     table.setContentProvider(provider);
     table.addTableListener(new TableListenerAdapter() {
+      public void onCellClicked(SourcesTableEvents sender, Row row, Column column) {
+        for(int i = 0; i < columns.length; ++i) columns[i].setState(Column.State.NONE);
+        column.setState(Column.State.SELECT);
+      }
+
       public void onRowClicked(SourcesTableEvents sender, Row row) {
         GWT.log("Row clicked (id " + row.getId() + ")", null);
         for(int i = 0; i < rows.length; ++i) rows[i].setState(Row.State.NONE);

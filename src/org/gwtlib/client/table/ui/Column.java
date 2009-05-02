@@ -38,6 +38,11 @@ public class Column extends AbstractComposite {
   private static final String STYLE           = "gwtlib-Column";
   private static final String STYLE_SORTABLE  = "sortable";
 
+  public interface State {
+    public static final int NONE   = 0;
+    public static final int SELECT = 1 << 0;
+  };
+
   public interface Sort {
     public static final int NONE       = 0;
     public static final int ASCENDING  = 1;
@@ -48,6 +53,7 @@ public class Column extends AbstractComposite {
   protected int _dir = Sort.NONE;
   protected Renderer _renderer;
   protected boolean _sortable;
+  protected int _state;
   
   public Column(int id, boolean sortable, String label, String width) {
     this(id, sortable, label, false, width, new StringRenderer());
@@ -82,6 +88,18 @@ public class Column extends AbstractComposite {
   
   public int getId() {
     return _id;
+  }
+
+  public int getState() {
+    return _state;
+  }
+  
+  public boolean hasState(int state) {
+    return (_state & state) != 0;
+  }
+
+  public void setState(int state) {
+    _state = state;
   }
 
   public boolean isSortable() {
