@@ -45,6 +45,7 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -63,6 +64,18 @@ public class PagingTableEntryPoint implements EntryPoint {
   }
 
   private void init(RootPanel root) {
+/*
+    TabPanel tabPanel = new TabPanel();
+    tabPanel.setSize("100%", "100%");
+    tabPanel.add(createGrid(), "First");
+    tabPanel.add(createGrid(), "Second");
+    tabPanel.selectTab(0);
+    root.add(tabPanel);
+*/
+    root.add(createGrid());
+  }
+
+  private Grid createGrid() {
     final Grid grid = new Grid(3, 1);
     final PagingTable table = createTable();
     table.setSize("100%", "100%");
@@ -102,8 +115,8 @@ public class PagingTableEntryPoint implements EntryPoint {
       }      
     }));
     grid.setWidget(2, 0, hpanel);
-    root.add(grid);
     grid.setSize("100%", "100%");
+    return grid;
   }
 
   private PagingTable createTable() {

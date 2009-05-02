@@ -158,13 +158,17 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         int w = DOM.getElementPropertyInt(e, "offsetWidth");
         int h = DOM.getElementPropertyInt(e, "offsetHeight");
         GWT.log("Initial table size is " + w + "," + h, null);
-        w -= 2; if(w < 0) w = 0;
-        h -= 2; if(h < 0) h = 0;
-        _scroll.setSize("" + w + "px", "" + h + "px");
-        _scroll.setVisible(true);
-        w = DOM.getElementPropertyInt(e, "offsetWidth");
-        h = DOM.getElementPropertyInt(e, "offsetHeight");
-        GWT.log("Now table size is " + w + "," + h, null);
+        if(w == 0 || h == 0) {
+          _scroll.setVisible(true); // Skip all this if it is used inside a TabPanel
+        } else {
+          w -= 2; if(w < 0) w = 0;
+          h -= 2; if(h < 0) h = 0;
+          _scroll.setSize("" + w + "px", "" + h + "px");
+          _scroll.setVisible(true);
+          w = DOM.getElementPropertyInt(e, "offsetWidth");
+          h = DOM.getElementPropertyInt(e, "offsetHeight");
+          GWT.log("Now table size is " + w + "," + h, null);
+        }
       }
     });
   }
