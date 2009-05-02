@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class StringRenderer implements Renderer {
   protected boolean _wordWrap;
   protected boolean _asHTML;
+  protected String _title;
 
   /**
    * Creates a renderer for rendering word-wrapped non-HTML strings.
@@ -47,7 +48,18 @@ public class StringRenderer implements Renderer {
   }
 
   /**
-   * Creates a renderer for rendering optionally word-wrapped HTML or non-HTML strings.
+   * Creates a renderer for rendering optionally word-wrapped non-HTML strings.
+   * @param wordWrap
+   * @param title
+   */
+  public StringRenderer(boolean wordWrap, String title) {
+    this(wordWrap, false);
+    _title = title;
+  }
+
+  /**
+   * Creates a renderer for rendering optionally word-wrapped HTML or non-HTML 
+   * strings with tooltips.
    * @param wordWrap
    * @param asHTML
    */
@@ -61,7 +73,15 @@ public class StringRenderer implements Renderer {
       return null;
     } else {
       String text = value.toString();
-      return _asHTML ? new HTML(text, _wordWrap) : new Label(text, _wordWrap);
+      if(_asHTML) {
+        HTML html = new HTML(text, _wordWrap);
+        if(_title != null) html.setTitle(_title);
+        return html;
+      } else {
+        Label label = new Label(text, _wordWrap);
+        if(_title != null) label.setTitle(_title);
+        return label;
+      }
     }
   }
 }

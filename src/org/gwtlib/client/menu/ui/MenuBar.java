@@ -20,7 +20,7 @@ import java.util.List;
 import com.google.gwt.user.client.Command;
 
 /**
- * MenuBar with toggle menu item support.
+ * MenuBar with toggle, enable and disable menu item support.
  * 
  * @author Sander Berents
  */

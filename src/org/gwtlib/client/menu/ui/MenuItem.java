@@ -18,7 +18,7 @@ package org.gwtlib.client.menu.ui;
 import com.google.gwt.user.client.Command;
 
 /**
- * MenuItem with toggle support.
+ * MenuItem with toggle, enable and disable support.
  * 
  * @author Sander Berents
  */

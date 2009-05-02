@@ -22,7 +22,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Button renderer.
+ * Image renderer.
  * 
  * @author Sander Berents
  */

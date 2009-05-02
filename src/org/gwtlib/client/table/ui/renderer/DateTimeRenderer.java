@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class DateTimeRenderer implements Renderer {
   protected DateTimeFormat _format;
   protected boolean _wordWrap;
+  protected String _title;
 
   /**
    * Creates a renderer for rendering word-wrapped dates.
@@ -51,8 +52,22 @@ public class DateTimeRenderer implements Renderer {
     _wordWrap = wordWrap;
   }
 
+  /**
+   * Creates a renderer for rendering optionally word-wrapped dates with tooltips.
+   * @param format
+   * @param wordWrap
+   * @param title
+   */
+  public DateTimeRenderer(DateTimeFormat format, boolean wordWrap, String title) {
+    _format = format;
+    _wordWrap = wordWrap;
+    _title = title;
+  }
+
   public Widget render(Row row, Column column, Object value) {
     String text = _format.format((Date)value);
-    return new Label(text, _wordWrap);
+    Label label = new Label(text, _wordWrap);
+    if(_title != null) label.setTitle(_title);
+    return label;
   }
 }

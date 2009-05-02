@@ -134,17 +134,17 @@ public class PagingTableEntryPoint implements EntryPoint {
     final CheckBox checkAll = new CheckBox();
     final Column[] columns = {
       new Column(0, false, checkAll, "20", new CheckBoxRenderer()),
-      new Column(1, true, "Text (StringRenderer)", "60%"),
+      new Column(1, true, "Text (StringRenderer)", "10%"),
       new Column(2, false, "Date (StringRenderer)", "10%"),
       new Column(3, false, "Number (StringRenderer)", "10%"),
       new Column(4, true, "Date (DateTimeRenderer)", "10%", new DateTimeRenderer(DateTimeFormat.getFormat("yyyy-MM-dd"))),
       new Column(5, true, "Number (NumberRenderer)", "10%", new NumberRenderer(NumberFormat.getDecimalFormat())),
-      new Column(6, true, "(ListBoxRenderer)", "10%", new ListBoxRenderer(new String[] { "One", "Two", "Three" }, 
+      new Column(6, false, "(ListBoxRenderer)", "10%", new ListBoxRenderer(new String[] { "One", "Two", "Three" }, 
                                                                           "Select an item")),
-      new Column(7, true, "(ButtonRenderer)", "10%", new ButtonRenderer("Click here")),
-      new Column(8, true, "(TextBoxRenderer)", "10%", new TextBoxRenderer(50, 5, "Enter your message")),
-      new Column(9, true, "(HyperlinkRenderer)", "10%", new HyperlinkRenderer("A Hyperlink")),
-      new Column(10, true, "(ImageRenderer)", "10%", new ImageRenderer("An Image")),
+      new Column(7, false, "(ButtonRenderer)", "10%", new ButtonRenderer("Click here")),
+      new Column(8, false, "(TextBoxRenderer)", "10%", new TextBoxRenderer(50, 5, "Enter your message")),
+      new Column(9, false, "(HyperlinkRenderer)", "10%", new HyperlinkRenderer("A Hyperlink")),
+      new Column(10, false, "(ImageRenderer)", "10%", new ImageRenderer("An Image")),
     };
     // Generate some semi-random data for our example
     final Row[] rows = new Row[TOTAL_SIZE];

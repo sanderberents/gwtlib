@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class NumberRenderer implements Renderer {
   protected NumberFormat _format;
   protected boolean _wordWrap;
+  protected String _title;
 
   /**
    * Creates a renderer for rendering word-wrapped numbers.
@@ -49,20 +50,34 @@ public class NumberRenderer implements Renderer {
     _wordWrap = wordWrap;
   }
 
+  /**
+   * Creates a renderer for rendering optionally word-wrapped numbers with tooltips.
+   * @param format
+   * @param wordWrap
+   * @param title
+   */
+  public NumberRenderer(NumberFormat format, boolean wordWrap, String title) {
+    _format = format;
+    _wordWrap = wordWrap;
+    _title = title;
+  }
+
   public Widget render(Row row, Column column, Object value) {
+    Label label = null;
     if(value instanceof Double) {
       String text = _format.format(((Double)value).doubleValue());
-      return new Label(text, _wordWrap);
+      label = new Label(text, _wordWrap);
     } else if(value instanceof Float) {
       String text = _format.format(((Float)value).floatValue());
-      return new Label(text, _wordWrap);
+      label = new Label(text, _wordWrap);
     } else if(value instanceof Long) {
       String text = _format.format(((Long)value).longValue());
-      return new Label(text, _wordWrap);
+      label = new Label(text, _wordWrap);
     } else if(value instanceof Integer) {
       String text = _format.format(((Integer)value).intValue());
-      return new Label(text, _wordWrap);
+      label = new Label(text, _wordWrap);
     }
-    return null;
+    if(label != null && _title != null) label.setTitle(_title);
+    return label;
   }
 }
