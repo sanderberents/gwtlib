@@ -31,6 +31,8 @@ import org.gwtlib.client.table.ui.TableListenerAdapter;
 import org.gwtlib.client.table.ui.renderer.ButtonRenderer;
 import org.gwtlib.client.table.ui.renderer.CheckBoxRenderer;
 import org.gwtlib.client.table.ui.renderer.DateTimeRenderer;
+import org.gwtlib.client.table.ui.renderer.HyperlinkRenderer;
+import org.gwtlib.client.table.ui.renderer.ImageRenderer;
 import org.gwtlib.client.table.ui.renderer.ListBoxRenderer;
 import org.gwtlib.client.table.ui.renderer.NumberRenderer;
 import org.gwtlib.client.table.ui.renderer.TextBoxRenderer;
@@ -47,6 +49,8 @@ import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -139,6 +143,8 @@ public class PagingTableEntryPoint implements EntryPoint {
                                                                           "Select an item")),
       new Column(7, true, "(ButtonRenderer)", "10%", new ButtonRenderer("Click here")),
       new Column(8, true, "(TextBoxRenderer)", "10%", new TextBoxRenderer(50, 5, "Enter your message")),
+      new Column(9, true, "(HyperlinkRenderer)", "10%", new HyperlinkRenderer("A Hyperlink")),
+      new Column(10, true, "(ImageRenderer)", "10%", new ImageRenderer("An Image")),
     };
     // Generate some semi-random data for our example
     final Row[] rows = new Row[TOTAL_SIZE];
@@ -149,7 +155,8 @@ public class PagingTableEntryPoint implements EntryPoint {
       Date date = new Date(NOW.getTime() + Random.nextInt(365 * 24 * 3600 * 1000));
       Integer number = new Integer(Random.nextInt(10000));
       rows[i] = new Row(i, new Object[] {
-        check, label.toString(), date, number, date, number, "One", number.toString(), number.toString()
+        check, label.toString(), date, number, date, number, "One", number.toString(), 
+        number.toString(), "Hyperlink", "img/down.gif"
       });
     }
     // Now configure the table
@@ -217,6 +224,10 @@ public class PagingTableEntryPoint implements EntryPoint {
           row.setValue(0, new Boolean(((CheckBox)widget).isChecked()));
         } else if (widget instanceof Button) {
           Window.alert(((Button)widget).getHTML());
+        } else if (widget instanceof Hyperlink) {
+          Window.alert(((Hyperlink)widget).getHTML());
+        } else if (widget instanceof Image) {
+          Window.alert(((Image)widget).getUrl());
         }
       }
 
