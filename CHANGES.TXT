@@ -2,6 +2,23 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+0.1.6 (2009-05-02)
+------------------
+
+New features:
+
+ - Add ListBoxRenderer, ButtonRenderer, TextBoxRenderer, HyperlinkRenderer and
+   ImageRenderer.
+ - Tooltip support for all renderers.
+ - Add column select state and corresponding 'gwtlib-Column-selected' style.
+ - Apply 'gwtlib-Cell-selected' style to cells for which both the row and column
+   have the select state set.
+
+Bug fixes:
+
+ - Skip table resize handling when reported width or height are zero so it can 
+   still be used inside a TabPanel.
+
 0.1.5 (2009-05-01)
 ------------------
 
