@@ -35,6 +35,9 @@ public class TableListenerAdapter implements TableListener {
   public void onClick(SourcesTableEvents sender, Row row, Column column, Widget widget) {
   }
 
+  public void onChange(SourcesTableEvents sender, Row row, Column column, Widget widget) {
+  }
+
   public void onHeaderSelected(SourcesTableEvents sender, boolean select) {
   }
 

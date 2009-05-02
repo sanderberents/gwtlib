@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Sander Berents
+ * Copyright 2009 Sander Berents
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,32 +18,31 @@ package org.gwtlib.client.table.ui.renderer;
 import org.gwtlib.client.table.Row;
 import org.gwtlib.client.table.ui.Column;
 
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * CheckBox renderer.
+ * Button renderer.
  * 
  * @author Sander Berents
  */
-public class CheckBoxRenderer implements Renderer {
+public class ButtonRenderer implements Renderer {
   protected String _title;
   
-  public CheckBoxRenderer() {
+  public ButtonRenderer() {
   }
 
-  public CheckBoxRenderer(String title) {
+  public ButtonRenderer(String title) {
     _title = title;
   }
 
   public Widget render(Row row, Column column, Object value) {
-    if(value == null || !(value instanceof Boolean)) {
+    if(value == null || !(value instanceof String)) {
       return null;
     } else {
-      CheckBox checkbox = new CheckBox();
-      checkbox.setChecked(((Boolean)value).booleanValue());
-      if(_title != null) checkbox.setTitle(_title);
-      return checkbox;
+      Button button = new Button((String)value);
+      if(_title != null) button.setTitle(_title);
+      return button;
     }
   }
 }

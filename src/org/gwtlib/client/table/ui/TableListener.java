@@ -36,9 +36,14 @@ public interface TableListener {
   public void onRowClicked(SourcesTableEvents sender, Row row);
 
   /**
-   * Fired when a renderer widget is clicked.
+   * Fired when a renderer widget that implements SourcesClickEvents is clicked.
    */
   public void onClick(SourcesTableEvents sender, Row row, Column column, Widget widget);
+
+  /**
+   * Fired when a renderer widget that implements SourcesChangeEvents is changed.
+   */
+  public void onChange(SourcesTableEvents sender, Row row, Column column, Widget widget);
 
   /**
    * Fired when the header is selected or deselected by clicking on the optional checkbox.

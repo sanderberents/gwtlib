@@ -32,11 +32,13 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.WindowResizeListener;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SourcesChangeEvents;
 import com.google.gwt.user.client.ui.SourcesClickEvents;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -345,6 +347,13 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
               }
             });
           }
+          if(widget instanceof SourcesChangeEvents) {
+            ((SourcesChangeEvents)widget).addChangeListener(new ChangeListener() {
+              public void onChange(Widget sender) {
+                fireChangeEvent(row, column, widget);
+              }
+            });
+          }
           fireRenderCellEvent(row, column, widget);
           _table.setWidget(r, c, widget);
           _table.getFlexCellFormatter().addStyleName(r, c, STYLE_CELL);
@@ -446,73 +455,69 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   }
 
   protected void fireCellClickedEvent(int row, int column) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onCellClicked(this, row, column);
     }
   }
 
   protected void fireRowClickedEvent(Row row) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onRowClicked(this, row);
     }
   }
 
   protected void fireClickEvent(Row row, Column column, Widget widget) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onClick(this, row, column, widget);
     }
   }
 
+  protected void fireChangeEvent(Row row, Column column, Widget widget) {
+    for(TableListener listener : _listeners) {
+      listener.onChange(this, row, column, widget);
+    }
+  }
+
   protected boolean fireShowColumnEvent(Column column, boolean visible) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       if(!listener.onShowColumn(this, column, visible)) return false;
     }
     return true;
   }
 
   protected boolean fireSortColumnEvent(Column column, boolean ascending) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       if(!listener.onSortColumn(this, column, ascending)) return false;
     }
     return true;
   }
 
   protected void fireLoadEvent() {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onLoad(this);
     }
   }
 
   protected void fireLoadedEvent(boolean success) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onLoaded(this, success);
     }
   }
 
   protected void fireRenderEvent() {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onRender(this);
     }
   }
 
   protected void fireRenderedEvent() {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onRendered(this);
     }
   }
 
   protected void fireRenderCellEvent(Row row, Column column, Widget widget) {
-    for(int i = 0; i < _listeners.size(); ++i) {
-      TableListener listener = (TableListener)_listeners.get(i);
+    for(TableListener listener : _listeners) {
       listener.onRenderCell(this, row, column, widget);
     }
   }

@@ -28,24 +28,31 @@ import org.gwtlib.client.table.ui.PagingBar;
 import org.gwtlib.client.table.ui.PagingTable;
 import org.gwtlib.client.table.ui.SourcesTableEvents;
 import org.gwtlib.client.table.ui.TableListenerAdapter;
+import org.gwtlib.client.table.ui.renderer.ButtonRenderer;
 import org.gwtlib.client.table.ui.renderer.CheckBoxRenderer;
 import org.gwtlib.client.table.ui.renderer.DateTimeRenderer;
+import org.gwtlib.client.table.ui.renderer.ListBoxRenderer;
 import org.gwtlib.client.table.ui.renderer.NumberRenderer;
+import org.gwtlib.client.table.ui.renderer.TextBoxRenderer;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Random;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -129,6 +136,10 @@ public class PagingTableEntryPoint implements EntryPoint {
       new Column(3, false, "Number (StringRenderer)", "10%"),
       new Column(4, true, "Date (DateTimeRenderer)", "10%", new DateTimeRenderer(DateTimeFormat.getFormat("yyyy-MM-dd"))),
       new Column(5, true, "Number (NumberRenderer)", "10%", new NumberRenderer(NumberFormat.getDecimalFormat())),
+      new Column(6, true, "(ListBoxRenderer)", "10%", new ListBoxRenderer(new String[] { "One", "Two", "Three" }, 
+                                                                          "Select an item")),
+      new Column(7, true, "(ButtonRenderer)", "10%", new ButtonRenderer("Click here")),
+      new Column(8, true, "(TextBoxRenderer)", "10%", new TextBoxRenderer(50, 5, "Enter your message")),
     };
     // Generate some semi-random data for our example
     final Row[] rows = new Row[TOTAL_SIZE];
@@ -138,7 +149,9 @@ public class PagingTableEntryPoint implements EntryPoint {
       for(int j = 0; j < 25; ++j) label.append((char)('a' + i));
       Date date = new Date(NOW.getTime() + Random.nextInt(365 * 24 * 3600 * 1000));
       Integer number = new Integer(Random.nextInt(10000));
-      rows[i] = new Row(i, new Object[] { check, label.toString(), date, number, date, number });
+      rows[i] = new Row(i, new Object[] {
+        check, label.toString(), date, number, date, number, "One", number.toString(), number.toString()
+      });
     }
     // Now configure the table
     ColumnLayout layout = new ColumnLayout(columns);
@@ -198,6 +211,18 @@ public class PagingTableEntryPoint implements EntryPoint {
         GWT.log("Renderer widget clicked", null);
         if(widget instanceof CheckBox) {
           row.setValue(0, new Boolean(((CheckBox)widget).isChecked()));
+        } else if (widget instanceof Button) {
+          Window.alert(((Button)widget).getHTML());
+        }
+      }
+
+      public void onChange(SourcesTableEvents sender, Row row, Column column, Widget widget) {
+        GWT.log("Renderer widget changed", null);
+        if(widget instanceof ListBox) {
+          ListBox listBox = (ListBox)widget;
+          row.setValue(6, listBox.getValue(listBox.getSelectedIndex()));
+        } else if(widget instanceof TextBox) {
+          row.setValue(8, ((TextBox)widget).getText());
         }
       }
     });

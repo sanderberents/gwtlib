@@ -1,5 +1,5 @@
 /*
- * Copyright 2008 Sander Berents
+ * Copyright 2009 Sander Berents
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -18,32 +18,42 @@ package org.gwtlib.client.table.ui.renderer;
 import org.gwtlib.client.table.Row;
 import org.gwtlib.client.table.ui.Column;
 
-import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * CheckBox renderer.
+ * TextBox renderer.
  * 
  * @author Sander Berents
  */
-public class CheckBoxRenderer implements Renderer {
+public class TextBoxRenderer implements Renderer {
+  protected int _maxLength;
+  protected int _visibleLength;
   protected String _title;
   
-  public CheckBoxRenderer() {
+  public TextBoxRenderer() {
   }
 
-  public CheckBoxRenderer(String title) {
+  public TextBoxRenderer(String title) {
+    _title = title;
+  }
+
+  public TextBoxRenderer(int maxLength, int visibleLength, String title) {
+    _maxLength = maxLength;
+    _visibleLength = visibleLength;
     _title = title;
   }
 
   public Widget render(Row row, Column column, Object value) {
-    if(value == null || !(value instanceof Boolean)) {
+    if(value == null || !(value instanceof String)) {
       return null;
     } else {
-      CheckBox checkbox = new CheckBox();
-      checkbox.setChecked(((Boolean)value).booleanValue());
-      if(_title != null) checkbox.setTitle(_title);
-      return checkbox;
+      TextBox textbox = new TextBox();
+      textbox.setText((String)value);
+      if(_maxLength > 0) textbox.setMaxLength(_maxLength);
+      if(_visibleLength > 0) textbox.setVisibleLength(_visibleLength);
+      if(_title != null) textbox.setTitle(_title);
+      return textbox;
     }
   }
 }
