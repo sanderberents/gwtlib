@@ -15,6 +15,41 @@
  */
 
 /*************************************
+ MessageBox
+ *************************************/
+.gwtlib-MessageBox-InfoImage {
+  background-image:url("img/information.png");
+  background-position:center right;
+  background-repeat:no-repeat;
+  width:48px;
+  height:48px;
+}
+
+.gwtlib-MessageBox-AlertImage {
+  background-image:url("img/alert.png");
+  background-position:center right;
+  background-repeat:no-repeat;
+  width:48px;
+  height:48px;
+}
+
+.gwtlib-MessageBox-ErrorImage {
+  background-image:url("img/error.png");
+  background-position:center right;
+  background-repeat:no-repeat;
+  width:48px;
+  height:48px;
+}
+
+.gwtlib-MessageBox-QuestionImage {
+  background-image:url("img/question.png");
+  background-position:center right;
+  background-repeat:no-repeat;
+  width:48px;
+  height:48px;
+}
+
+/*************************************
  Table and PagingTable
  *************************************/
 .gwtlib-PagingTable {

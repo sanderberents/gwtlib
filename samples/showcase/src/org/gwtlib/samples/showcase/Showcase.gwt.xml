@@ -1,0 +1,10 @@
+<module>
+  <inherits name="org.gwtlib.samples.resources.Resources"/>
+
+  <source path="client"/>
+<!--
+  <source path="rpc"/>
+  -->
+
+  <entry-point class="org.gwtlib.samples.showcase.client.ui.ShowcaseEntryPoint"/>
+</module>
