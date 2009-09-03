@@ -187,6 +187,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   private static String checkmark() {
     if(getUserAgent().contains("msie 6")) {
       return "\u221a "; // IE6 doesn't support real checkmark so use square root symbol
+    } else if(getUserAgent().contains("msie 7")) {
+      return "\u221a "; // IE7 acting up too
     } else if(getUserAgent().contains("msie")) {
       return "\u2713";  // Real Unicode checkmark
     } else {
