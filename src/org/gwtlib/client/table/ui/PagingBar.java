@@ -277,6 +277,8 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     go.addClickListener(new ClickListener() {
       public void onClick(Widget sender) {
         setPage(Integer.parseInt(gotoPage.getText()) - 1);
+        gotoPage.setText("");
+        go.setEnabled(false);
         fireChange(sender);
       }
     });
@@ -293,6 +295,8 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
             go.setEnabled(page >= 0 && page < computeNumPages());
             if(keyCode == KEY_ENTER && go.isEnabled()) {
               setPage(Integer.parseInt(gotoPage.getText()) - 1);
+              gotoPage.setText("");
+              go.setEnabled(false);
               fireChange(sender);
             }
           }
