@@ -573,7 +573,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     return pos;
   }
 
-  private void setColumnSortStyle(int col, int dir) {
+  public void setColumnSortStyle(int col, int dir) {
     int row = 0;
     FlexTable.FlexCellFormatter formatter = _table.getFlexCellFormatter();
     switch(dir) {

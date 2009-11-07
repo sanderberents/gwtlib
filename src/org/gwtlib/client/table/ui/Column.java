@@ -106,7 +106,7 @@ public class Column extends AbstractComposite {
     return _sortable;
   }
 
-  void setSortDirection(int dir) {
+  public void setSortDirection(int dir) {
     _dir = dir;
   }
 
