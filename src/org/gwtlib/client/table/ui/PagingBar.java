@@ -314,7 +314,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   }
 
   protected void updateGotoWidget(Widget widget) {
-    widget.setVisible(_size > 0);
+    widget.setVisible(computeNumPages() > 1);
     // Update allowed number of characters in the goto page textbox in case page size has changed (Yuck!)
     if(widget instanceof HorizontalPanel) {
       HorizontalPanel panel = (HorizontalPanel)widget;
@@ -432,7 +432,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
       updateBrowserWidget(_browserWidget);
       _browserWidget.setVisible(computeNumPages() > 1);
     }
-    if(_gotoWidget != null) _gotoWidget.setVisible(computeNumPages() > 1);
+    if(_gotoWidget != null) updateGotoWidget(_gotoWidget);
     if(_pageSizesWidget != null) _pageSizesWidget.setVisible(_size > 0 && _pageSizes != null && _pageSizes.length > 1);
     setVisible(computeNumPages() > 0);
   }
