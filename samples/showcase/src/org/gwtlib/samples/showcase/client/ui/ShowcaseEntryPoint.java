@@ -16,13 +16,14 @@
 package org.gwtlib.samples.showcase.client.ui;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.TreeListener;
 
 /**
  * Showcase.
@@ -47,17 +48,15 @@ public class ShowcaseEntryPoint implements EntryPoint {
   private void init(RootPanel root) {
     _deckPanel = new DeckPanel();
     _tree = createTree();
-    _tree.addTreeListener(new TreeListener() {
-      public void onTreeItemSelected(TreeItem item) {
+    _tree.addSelectionHandler(new SelectionHandler<TreeItem>() {
+      public void onSelection(SelectionEvent<TreeItem> event) {
+        TreeItem item = event.getSelectedItem();
         if(item.getUserObject() != null) {
           ContentWidget widget = (ContentWidget)item.getUserObject();
           widget.init();
           int i = _deckPanel.getWidgetIndex(widget);
           if(i != -1) _deckPanel.showWidget(i);
         }
-      }
-
-      public void onTreeItemStateChanged(TreeItem item) {
       }
     });
 

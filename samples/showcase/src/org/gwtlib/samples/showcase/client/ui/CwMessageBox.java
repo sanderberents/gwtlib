@@ -19,9 +19,9 @@ import org.gwtlib.client.ui.MessageBox;
 import org.gwtlib.client.ui.MessageBoxListener;
 import org.gwtlib.client.ui.MessageBox.ButtonType;
 
-import com.google.gwt.user.client.Window;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -44,8 +44,8 @@ public class CwMessageBox extends ContentWidget {
     HorizontalPanel hPanel = new HorizontalPanel();
     hPanel.setSpacing(10);
     
-    hPanel.add(new Button("Info", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Info", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.info("Info", "Permission is allowed", new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //log("Closed message box");
@@ -53,8 +53,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Alert", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Alert", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.alert("Alert", "This document has not been saved", new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //log("Closed message box");
@@ -62,8 +62,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Error", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Error", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.error("Error", "An error has occurred", new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //log("Closed message box");
@@ -71,8 +71,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Confirm", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Confirm", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.confirm("Confirm", "Are you sure you want to do that?", new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //log("Closed message box");
@@ -80,8 +80,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Confirm/Cancel", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Confirm/Cancel", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.confirm("Confirm", "Are you sure you want to do that?", 
                            MessageBox.BTN_YES | MessageBox.BTN_NO | MessageBox.BTN_CANCEL, 
                            new MessageBoxListener() {
@@ -91,8 +91,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Prompt", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Prompt", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.prompt("Prompt", "Please enter your name", new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //Window.alert("You entered: " + sender.getText());
@@ -101,8 +101,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Multiline Prompt", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Multiline Prompt", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.prompt("Prompt", "Please enter your name", true, new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //Window.alert("You entered: " + sender.getText());
@@ -111,8 +111,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Password", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Password", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         MessageBox.password("Password", "Please enter your password", new MessageBoxListener() {
           public void onMessageBoxClosed(MessageBox sender, ButtonType buttonClicked) {
             //Window.alert("You entered: " + sender.getText());
@@ -121,8 +121,8 @@ public class CwMessageBox extends ContentWidget {
         }).show();
       }
     }));
-    hPanel.add(new Button("Widget", new ClickListener() {
-      public void onClick(Widget sender) {
+    hPanel.add(new Button("Widget", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         ListBox lb = new ListBox();
         lb.addItem("foo");
         lb.addItem("bar");

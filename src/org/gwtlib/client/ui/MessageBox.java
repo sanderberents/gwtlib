@@ -15,8 +15,9 @@
  */
 package org.gwtlib.client.ui;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -27,7 +28,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -328,8 +328,8 @@ public class MessageBox extends DialogBox {
     if((buttons & BTN_YES) != 0) {
       Button btn = new Button("Yes");
       _buttonPanel.add(btn);
-      btn.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      btn.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           hide();
           listener.onMessageBoxClosed(self, ButtonType.YES);
         }
@@ -338,8 +338,8 @@ public class MessageBox extends DialogBox {
     if((buttons & BTN_NO) != 0) {
       Button btn = new Button("No");
       _buttonPanel.add(btn);
-      btn.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      btn.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           hide();
           listener.onMessageBoxClosed(self, ButtonType.NO);
         }
@@ -348,8 +348,8 @@ public class MessageBox extends DialogBox {
     if((buttons & BTN_OK) != 0) {
       Button btn = new Button("OK");
       _buttonPanel.add(btn);
-      btn.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      btn.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           hide();
           listener.onMessageBoxClosed(self, ButtonType.OK);
         }
@@ -358,8 +358,8 @@ public class MessageBox extends DialogBox {
     if((buttons & BTN_CANCEL) != 0) {
       Button btn = new Button("Cancel");
       _buttonPanel.add(btn);
-      btn.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
+      btn.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
           hide();
           listener.onMessageBoxClosed(self, ButtonType.CANCEL);
         }
