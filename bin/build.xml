@@ -22,13 +22,14 @@
   named "gwtlib.build.properties" in your home directory.
 -->
 <project name="gwtlib" default="zip" basedir="..">
+  <property environment="Environment" />
   <property file="${user.home}/gwtlib.build.properties"/>
   <property file="${basedir}/build.properties"/>
   <property file="${basedir}/bin/default.properties"/>
 
   <path id="compile.classpath">
     <pathelement location="${gwtdir}/gwt-user.jar"/>
-    <pathelement location="${gwtdir}/gwt-dev-${platform}.jar"/>
+    <pathelement location="${gwtdir}/gwt-dev.jar"/>
   </path>
 
   <target name="init">
