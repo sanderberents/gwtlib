@@ -2,6 +2,21 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+1.0.0 (2010-03-19)
+------------------
+
+New features:
+
+ - Upgrade to new event system. [Alan Hadsell]
+ - Japanese message resources.
+ - MessageBox class (experimental).
+
+Bug fixes:
+
+ - Fix IE7 menu checkmark issue.
+ - Clear page number in paging table after selecting 'go'.
+ - Fix paging bar goto textbox length upon page size or number of items changes.
+
 0.1.6 (2009-05-02)
 ------------------
 

@@ -51,23 +51,13 @@ The included examples are:
 BUILDING GWTLIB
 ------------------------------------------------------------------------------
 
-The prerequisites for building GWTLib are GWT 1.5 and ant. Create a file named 
+The prerequisites for building GWTLib are GWT 2.x and ant. Create a file named 
 "build.properties" in the base directory, or a file named "gwtlib.build.properties" 
 in your home directory.
 
 In this file, add the line
 
 gwtdir=<PATH TO YOUR GWT DIRECTORY>
-
-For Linux, also add the line
-
-platform=linux
-
-For MacOSX, add
-
-platform=mac
-
-instead.
 
 If you now run ant using bin/build.xml, it will create the jar file as well as
 the zip file containing the complete distribution. If you only want to generate the
