@@ -70,11 +70,11 @@ public class ShowcaseEntryPoint implements EntryPoint {
   
   private Tree createTree() {
     Tree tree = new Tree();
-    TreeItem widgets = tree.addItem("Widgets");
-    TreeItem lists = tree.addItem("Lists and Menus");
+    /*TreeItem widgets =*/ tree.addItem("Widgets");
+    /*TreeItem lists =*/ tree.addItem("Lists and Menus");
     TreeItem popups = tree.addItem("Popups");
     popups.addItem(createTreeItem("Message Box", new CwMessageBox()));
-    TreeItem tables = tree.addItem("Tables");
+    /*TreeItem tables =*/ tree.addItem("Tables");
     
     return tree;
   }

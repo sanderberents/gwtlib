@@ -41,15 +41,16 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Sander Berents
  */
 public class MessageBox extends DialogBox {
+/*
   private enum Type {
     ALERT, CONFIRM, PROMPT, MULTI_PROMPT, WAIT, PROGRESSS
   }
-
+*/
   public enum ButtonType {
     OK, CANCEL, YES, NO
   }
 
-  private static final String STYLE                = "gwtlib-MessageBox";
+  //private static final String STYLE                = "gwtlib-MessageBox";
   private static final String STYLE_INFO_IMAGE     = "gwtlib-MessageBox-InfoImage";
   private static final String STYLE_ALERT_IMAGE    = "gwtlib-MessageBox-AlertImage";
   private static final String STYLE_ERROR_IMAGE    = "gwtlib-MessageBox-ErrorImage";
@@ -65,13 +66,13 @@ public class MessageBox extends DialogBox {
   
   private DockPanel _dockPanel;
   private HorizontalPanel _buttonPanel;
-  private Type _type;
-  private String _imageStyleName;
+  //private Type _type;
+  //private String _imageStyleName;
   private String _title;
   private String _message;
-  private String _progressText;
-  private int _buttons;
-  private double _progress;
+  //private String _progressText;
+  //private int _buttons;
+  //private double _progress;
   private TextBox _textBox;
   private TextArea _textArea;
   
@@ -408,14 +409,5 @@ public class MessageBox extends DialogBox {
     
   }
 */
-  /*
-   * <div class="gwt-HTML"><br>Additional Progress Bars:<br></div><div class="gwt-ProgressBar-shell" style="position: relative;">
-   * <div class="gwt-ProgressBar-bar" style="height: 100%; width: 76%;"></div>
-   * <div class="gwt-ProgressBar-text gwt-ProgressBar-text-secondHalf" style="position: absolute; top: 0px; left: 177px;">76%</div>
-   * </div><div class="gwt-HTML"><br></div><div class="gwt-ProgressBar-shell gwt-ProgressBar-thin" style="position: relative;">
-   * <div class="gwt-ProgressBar-bar" style="height: 100%; width: 76%;"></div>
-   * <div class="gwt-ProgressBar-text gwt-ProgressBar-text-secondHalf" style="position: absolute; top: 0px; display: none;">76%</div>
-   * </div></body></html>
-   */
 }
 
