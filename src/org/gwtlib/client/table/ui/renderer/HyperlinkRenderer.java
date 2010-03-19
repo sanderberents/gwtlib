@@ -32,10 +32,11 @@ public class HyperlinkRenderer implements Renderer {
   protected String _title;
   
   public HyperlinkRenderer() {
+    this("", null);
   }
 
   public HyperlinkRenderer(String title) {
-    _title = title;
+    this("", title);
   }
 
   public HyperlinkRenderer(String targetHistoryToken, String title) {
