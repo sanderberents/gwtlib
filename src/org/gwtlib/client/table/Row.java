@@ -22,6 +22,7 @@ import java.io.Serializable;
  *
  * @author Sander Berents
  */
+@SuppressWarnings("serial")
 public class Row implements Serializable {
   public interface State {
     public static final int NONE   = 0;

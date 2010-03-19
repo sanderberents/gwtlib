@@ -41,7 +41,7 @@ public class CheckBoxRenderer implements Renderer {
       return null;
     } else {
       CheckBox checkbox = new CheckBox();
-      checkbox.setChecked(((Boolean)value).booleanValue());
+      checkbox.setValue(((Boolean)value).booleanValue());
       if(_title != null) checkbox.setTitle(_title);
       return checkbox;
     }

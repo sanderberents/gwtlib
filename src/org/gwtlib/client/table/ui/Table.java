@@ -26,20 +26,23 @@ import org.gwtlib.client.table.RowsCache;
 import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasChangeHandlers;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.WindowResizeListener;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SourcesChangeEvents;
-import com.google.gwt.user.client.ui.SourcesClickEvents;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -131,13 +134,19 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
 
     initOptimalSize();
 
-    Window.addWindowResizeListener(new WindowResizeListener() {
-      public void onWindowResized(int width, int height) {
+    Window.addResizeHandler(new ResizeHandler() {
+      //@Override
+      public void onResize(ResizeEvent event) {
         initOptimalSize();
       }
     });
-    _table.addTableListener(new com.google.gwt.user.client.ui.TableListener() {
-      public void onCellClicked(com.google.gwt.user.client.ui.SourcesTableEvents sender, int row, int col) {
+
+    _table.addClickHandler(new ClickHandler() {
+      //@Override
+      public void onClick(ClickEvent event) {
+        int row = _table.getCellForEvent(event).getRowIndex();
+        int col = _table.getCellForEvent(event).getCellIndex();
+
         GWT.log("onCellClicked " + row + "," + col, null);
         fireCellClickedEvent(row, col);
         int c = toActualColumnPos(col);
@@ -145,18 +154,18 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         if(row == 0) {
           if(column.isSortable()) {
             sort(c, column.getSortDirection() != Column.Sort.ASCENDING);
-          }
-        } else {
-          Row r = _cache.getRow(_begin + row - 1);
-          if(r != null) {
-            fireCellClickedEvent(r, column);
-            fireRowClickedEvent(r);
+          } else {
+            Row r = _cache.getRow(_begin + row - 1);
+            if(r != null) {
+              fireCellClickedEvent(r, column);
+              fireRowClickedEvent(r);
+            }
           }
         }
       }
     });
   }
-  
+
   protected void initOptimalSize() {
     _scroll.setVisible(false);
     DeferredCommand.addCommand(new Command() {
@@ -179,7 +188,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       }
     });
   }
-  
+
   /**
    * Sets the content provider. This is required.
    * @param provider
@@ -187,7 +196,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
   public void setContentProvider(ContentProvider provider) {
     _provider = provider;
   }
-  
+
   /**
    * Sets the number of rows to display in the table and redraws it.
    * @param size
@@ -359,17 +368,20 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         final Column column = _layout.getColumn(j);
         if(column.isVisible()) {
           final Widget widget = column.getRenderer().render(row, column, row.getValue(j));
-          if(widget instanceof SourcesClickEvents) {
-            ((SourcesClickEvents)widget).addClickListener(new ClickListener() {
-              public void onClick(Widget sender) {
-                fireClickEvent(row, column, widget);
+          if(widget instanceof HasClickHandlers) {
+            ((HasClickHandlers)widget).addClickHandler(new ClickHandler() {
+              //@Override
+              public void onClick(ClickEvent event) {
+                fireClickEvent(row, column, widget);				
               }
             });
           }
-          if(widget instanceof SourcesChangeEvents) {
-            ((SourcesChangeEvents)widget).addChangeListener(new ChangeListener() {
-              public void onChange(Widget sender) {
+          if(widget instanceof HasChangeHandlers) {
+            ((HasChangeHandlers)widget).addChangeHandler(new ChangeHandler() {
+              //@Override
+              public void onChange(ChangeEvent event) {
                 fireChangeEvent(row, column, widget);
+
               }
             });
           }
@@ -464,7 +476,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     fireRenderedEvent();
     initOptimalSize();
   }
-  
+
   public void addTableListener(TableListener listener) {
     _listeners.add(listener);
   }
@@ -580,15 +592,15 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
       case Column.Sort.ASCENDING:
         formatter.removeStyleName(row, col, STYLE_DESCENDING);
         formatter.addStyleName(row, col, STYLE_ASCENDING);
-      break;
+        break;
       case Column.Sort.DESCENDING:
         formatter.removeStyleName(row, col, STYLE_ASCENDING);
         formatter.addStyleName(row, col, STYLE_DESCENDING);
-      break;
+        break;
       default:
         formatter.removeStyleName(row, col, STYLE_ASCENDING);
         formatter.removeStyleName(row, col, STYLE_DESCENDING);
-      break;
+        break;
     }
   }
 }

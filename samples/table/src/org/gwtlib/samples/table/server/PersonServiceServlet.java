@@ -25,6 +25,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * 
  * @author Sander Berents
  */
+@SuppressWarnings("serial")
 public class PersonServiceServlet extends RemoteServiceServlet implements PersonService {
   private static final Person[] PERSONS = {
     new Person("Galileo", "Galilei"),

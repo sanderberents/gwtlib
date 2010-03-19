@@ -18,21 +18,27 @@ package org.gwtlib.client.table.ui;
 import org.gwtlib.client.ui.Messages;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.ChangeListenerCollection;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.KeyboardListenerAdapter;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.SourcesChangeEvents;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -70,7 +76,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Sander Berents
  */
-public class PagingBar extends Composite implements SourcesChangeEvents {
+public class PagingBar extends Composite implements HasValueChangeHandlers<Integer> {
   private static final String STYLE             = "gwtlib-PagingBar";
   private static final String STYLE_POSITION    = "gwtlib-PagingBar-position";
   private static final String STYLE_BROWSER     = "gwtlib-PagingBar-browser";
@@ -80,7 +86,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   private static final String STYLE_PAGE        = "gwtlib-PagingBar-browser-page";
   private static final String STYLE_LOADING     = "gwtlib-PagingBar-loading";
   private static final String STYLE_ENABLED     = "enabled";
-  
+
   private static final String[] STYLES_BROWSER  = {
     "gwtlib-PagingBar-browser-first", "gwtlib-PagingBar-browser-prev", 
     "gwtlib-PagingBar-browser-next", "gwtlib-PagingBar-browser-last"
@@ -106,9 +112,8 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   private Widget _browserWidget;
   private Widget _gotoWidget;
   private Widget _pageSizesWidget;
-  protected ChangeListenerCollection _listeners = new ChangeListenerCollection();
   protected Messages _messages = (Messages)GWT.create(Messages.class);
-  
+
   public PagingBar(int size, int pageSize) {
     this(0, size, pageSize, null);
   }
@@ -159,13 +164,13 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     if(_pageSizesWidget != null) panel.add(_pageSizesWidget);
     return panel;
   }
-  
+
   protected Widget createPositionWidget() {
     Label label = new Label();
     label.setStylePrimaryName(STYLE_POSITION);
     return label;
   }
-  
+
   protected void updatePositionWidget(Widget widget) {
     int pos = getPosition();
     int pos1 = pos + 1;
@@ -204,7 +209,7 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     panel.setStylePrimaryName(STYLE_BROWSER);
     return panel;
   }
-  
+
   protected void updateBrowserWidget(Widget widget) {
     HorizontalPanel panel = (HorizontalPanel)widget;
     int minpage = _page > 2 ? _page - 2 : 0;
@@ -225,8 +230,8 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   }
 
   protected Widget createBrowserItemWidget(final int type, boolean enabled) {
-    final ClickListener clickListener = new ClickListener() {
-      public void onClick(Widget sender) {
+    final ClickHandler clickHandler = new ClickHandler() {
+      public void onClick(ClickEvent event) {
         switch(type) {
           case FIRST:
             _page = 0;
@@ -241,13 +246,13 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
             _page = _pages - 1;
             break;
         }
-        fireChange(sender);
+        fireChange();
       }
     };
     PushButton button = new PushButton();
     button.setStylePrimaryName(STYLES_BROWSER[type]);
     button.setEnabled(enabled);
-    if(enabled) button.addClickListener(clickListener);
+    if(enabled) button.addClickHandler(clickHandler);
     return button;
   }
 
@@ -256,11 +261,11 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     label.setStylePrimaryName(STYLE_PAGE);
     if(enabled) {
       label.addStyleDependentName(STYLE_ENABLED);
-      label.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          String text = ((Label)sender).getText();
+      label.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+          String text = ((Label) event.getSource()).getText();
           _page = Integer.parseInt(text) - 1;
-          fireChange(sender);
+          fireChange();
         }
       });
     }
@@ -274,17 +279,18 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
     gotoPage.setVisibleLength(maxlen);
     final PushButton go = new PushButton();
     go.setStylePrimaryName(STYLE_GOTO_BUTTON);
-    go.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
+    go.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
         setPage(Integer.parseInt(gotoPage.getText()) - 1);
         gotoPage.setText("");
         go.setEnabled(false);
-        fireChange(sender);
+        fireChange();
       }
     });
     go.setEnabled(false);
-    gotoPage.addKeyboardListener(new KeyboardListenerAdapter() {
-      public void onKeyDown(final Widget sender, final char keyCode, int modifiers) {
+    gotoPage.addKeyDownHandler(new KeyDownHandler() {
+      public void onKeyDown(final KeyDownEvent event) {
+        final int keyCode = event.getNativeKeyCode(); 
         DeferredCommand.addCommand(new Command() {
           public void execute() {
             int page = -1;
@@ -293,11 +299,11 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
             } catch(NumberFormatException e) {
             }
             go.setEnabled(page >= 0 && page < computeNumPages());
-            if(keyCode == KEY_ENTER && go.isEnabled()) {
+            if(keyCode == KeyCodes.KEY_ENTER && go.isEnabled()) {
               setPage(Integer.parseInt(gotoPage.getText()) - 1);
               gotoPage.setText("");
               go.setEnabled(false);
-              fireChange(sender);
+              fireChange();
             }
           }
         });
@@ -345,13 +351,13 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
         sizes.addItem(String.valueOf(_pageSizes[i]));
         if(_pageSize == _pageSizes[i]) sizes.setSelectedIndex(i);
       }
-      sizes.addChangeListener(new ChangeListener() {
-        public void onChange(Widget sender) {
+      sizes.addChangeHandler(new ChangeHandler() {
+        public void onChange(ChangeEvent event) {
           int i = sizes.getSelectedIndex();
           if(i >= 0) {
             setPageSize(Integer.parseInt(sizes.getItemText(i)));
             setPage(0);
-            fireChange(sender); 
+            fireChange(); 
           }
         }
       });
@@ -440,19 +446,15 @@ public class PagingBar extends Composite implements SourcesChangeEvents {
   /**
    * The fireChange method is invoked when any click event or change event
    * occurs. It fires a change event for all listeners and updates the PagingBar.
-   * @param sender
    */
-  protected void fireChange(Widget sender) {
-    if(_listeners != null) _listeners.fireChange(this);
+  protected void fireChange() {
+    ValueChangeEvent.fire(this, getPosition());
     update();
   }
 
-  public void addChangeListener(ChangeListener listener) {
-    _listeners.add(listener);
-  }
-
-  public void removeChangeListener(ChangeListener listener) {
-    _listeners.remove(listener);
+  //  @Override
+  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Integer> handler) {
+    return this.addHandler(handler, ValueChangeEvent.getType());
   }
 
   /**

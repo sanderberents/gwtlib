@@ -39,13 +39,14 @@ import org.gwtlib.client.table.ui.renderer.TextBoxRenderer;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -54,7 +55,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -74,14 +74,14 @@ public class PagingTableEntryPoint implements EntryPoint {
   }
 
   private void init(RootPanel root) {
-/*
+    /*
     TabPanel tabPanel = new TabPanel();
     tabPanel.setSize("100%", "100%");
     tabPanel.add(createGrid(), "First");
     tabPanel.add(createGrid(), "Second");
     tabPanel.selectTab(0);
     root.add(tabPanel);
-*/
+     */
     root.add(createGrid());
   }
 
@@ -97,30 +97,30 @@ public class PagingTableEntryPoint implements EntryPoint {
     hpanel.add(new Label("Show Column:"));
     for(int i = 0; i < table.getColumnLayout().getTotalColumnCount(); ++i) {
       final CheckBox checkbox = new CheckBox(String.valueOf(i));
-      checkbox.setChecked(true);
+      checkbox.setValue(true);
       hpanel.add(checkbox);
       final int ii = i;
-      checkbox.addClickListener(new ClickListener() {
-        public void onClick(Widget sender) {
-          table.show(ii, checkbox.isChecked());
+      checkbox.addClickHandler(new ClickHandler() {
+        public void onClick(ClickEvent event) {
+          table.show(ii, checkbox.getValue());
           table.update();
         }
       });
     }
     grid.setWidget(1, 0, hpanel);
     hpanel = new HorizontalPanel();
-    hpanel.add(new Button("Clear", new ClickListener() {
-      public void onClick(Widget sender) {
+    hpanel.add(new Button("Clear", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         table.clear();
       }      
     }));
-    hpanel.add(new Button("Reset", new ClickListener() {
-      public void onClick(Widget sender) {
+    hpanel.add(new Button("Reset", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         table.reset();
       }      
     }));
-    hpanel.add(new Button("Simulate Failure", new ClickListener() {
-      public void onClick(Widget sender) {
+    hpanel.add(new Button("Simulate Failure", new ClickHandler() {
+      public void onClick(ClickEvent event) {
         table.onFailure(null);
       }      
     }));
@@ -133,18 +133,18 @@ public class PagingTableEntryPoint implements EntryPoint {
     // Set up the columns we want to be displayed
     final CheckBox checkAll = new CheckBox();
     final Column[] columns = {
-      new Column(0, false, checkAll, "20", new CheckBoxRenderer()),
-      new Column(1, true, "Text (StringRenderer)", "10%"),
-      new Column(2, false, "Date (StringRenderer)", "10%"),
-      new Column(3, false, "Number (StringRenderer)", "10%"),
-      new Column(4, true, "Date (DateTimeRenderer)", "10%", new DateTimeRenderer(DateTimeFormat.getFormat("yyyy-MM-dd"))),
-      new Column(5, true, "Number (NumberRenderer)", "10%", new NumberRenderer(NumberFormat.getDecimalFormat())),
-      new Column(6, false, "(ListBoxRenderer)", "10%", new ListBoxRenderer(new String[] { "One", "Two", "Three" }, 
-                                                                          "Select an item")),
-      new Column(7, false, "(ButtonRenderer)", "10%", new ButtonRenderer("Click here")),
-      new Column(8, false, "(TextBoxRenderer)", "10%", new TextBoxRenderer(50, 5, "Enter your message")),
-      new Column(9, false, "(HyperlinkRenderer)", "10%", new HyperlinkRenderer("A Hyperlink")),
-      new Column(10, false, "(ImageRenderer)", "10%", new ImageRenderer("An Image")),
+        new Column(0, false, checkAll, "20", new CheckBoxRenderer()),
+        new Column(1, true, "Text (StringRenderer)", "10%"),
+        new Column(2, false, "Date (StringRenderer)", "10%"),
+        new Column(3, false, "Number (StringRenderer)", "10%"),
+        new Column(4, true, "Date (DateTimeRenderer)", "10%", new DateTimeRenderer(DateTimeFormat.getFormat("yyyy-MM-dd"))),
+        new Column(5, true, "Number (NumberRenderer)", "10%", new NumberRenderer(NumberFormat.getDecimalFormat())),
+        new Column(6, false, "(ListBoxRenderer)", "10%", new ListBoxRenderer(new String[] { "One", "Two", "Three" }, 
+        "Select an item")),
+        new Column(7, false, "(ButtonRenderer)", "10%", new ButtonRenderer("Click here")),
+        new Column(8, false, "(TextBoxRenderer)", "10%", new TextBoxRenderer(50, 5, "Enter your message")),
+        new Column(9, false, "(HyperlinkRenderer)", "10%", new HyperlinkRenderer("A Hyperlink")),
+        new Column(10, false, "(ImageRenderer)", "10%", new ImageRenderer("An Image")),
     };
     // Generate some semi-random data for our example
     final Row[] rows = new Row[TOTAL_SIZE];
@@ -155,8 +155,8 @@ public class PagingTableEntryPoint implements EntryPoint {
       Date date = new Date(NOW.getTime() + Random.nextInt(365 * 24 * 3600 * 1000));
       Integer number = new Integer(Random.nextInt(10000));
       rows[i] = new Row(i, new Object[] {
-        check, label.toString(), date, number, date, number, "One", number.toString(), 
-        number.toString(), "Hyperlink", "img/down.gif"
+          check, label.toString(), date, number, date, number, "One", number.toString(), 
+          number.toString(), "Hyperlink", "img/down.gif"
       });
     }
     // Now configure the table
@@ -221,7 +221,7 @@ public class PagingTableEntryPoint implements EntryPoint {
       public void onClick(SourcesTableEvents sender, Row row, Column column, Widget widget) {
         GWT.log("Renderer widget clicked", null);
         if(widget instanceof CheckBox) {
-          row.setValue(0, new Boolean(((CheckBox)widget).isChecked()));
+          row.setValue(0, new Boolean(((CheckBox)widget).getValue()));
         } else if (widget instanceof Button) {
           Window.alert(((Button)widget).getHTML());
         } else if (widget instanceof Hyperlink) {
@@ -241,9 +241,9 @@ public class PagingTableEntryPoint implements EntryPoint {
         }
       }
     });
-    checkAll.addClickListener(new ClickListener() {
-      public void onClick(Widget sender) {
-        for(int i = 0; i < rows.length; ++i) rows[i].setValue(0, new Boolean(checkAll.isChecked()));
+    checkAll.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        for(int i = 0; i < rows.length; ++i) rows[i].setValue(0, new Boolean(checkAll.getValue()));
         table.update();
       }
     });

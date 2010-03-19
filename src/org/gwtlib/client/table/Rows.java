@@ -25,6 +25,7 @@ import java.util.List;
  * 
  * @author Sander Berents
  */
+@SuppressWarnings("serial")
 public class Rows implements Serializable {
   protected int _begin;
   protected int _sortId;

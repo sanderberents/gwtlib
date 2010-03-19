@@ -22,6 +22,7 @@ import java.io.Serializable;
  * 
  * @author Sander Berents
  */
+@SuppressWarnings("serial")
 public class Person implements Serializable {
   protected String _first;
   protected String _last;
