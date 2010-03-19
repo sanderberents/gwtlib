@@ -23,16 +23,15 @@ import com.google.gwt.user.client.Command;
  * @author Sander Berents
  */
 public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
-  public static final int NORMAL = 0;
-  public static final int INDENT = 1;
-  public static final int CHECK  = 2;
-// private static final int RADIO  = 3;
+	
+  /** Menu item type */
+  public enum Type { NORMAL, INDENT, CHECK };  
 
   private static final String CHECK_TRUE  = checkmark(); 
   private static final String CHECK_FALSE = "\u00a0\u00a0\u00a0"; // Non-breaking space
   private static final String CHECK_FALSE_HTML = "&nbsp;&nbsp;&nbsp;"; // Non-breaking space
 
-  private int _type;
+  private Type _type;
   private boolean _check;
   private boolean _asHTML;
   private Command _disabledCommand;
@@ -51,14 +50,10 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     }
 
     public void execute() {
-      if(_type == CHECK) {
-        String s = _asHTML ? getHTML() : getText();
-        _check = !_check;
-        if(_asHTML) setHTML(s); else setText(s);
-      }
-      if(_command != null) _command.execute();
+    	setChecked(!_check);
+    	if(_command != null) _command.execute();
     }
-  };
+  }
 
   public MenuItem(String text, boolean asHTML, Command cmd) {
     super(text, asHTML, cmd);
@@ -66,7 +61,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     if(asHTML) setHTML(text); else setText(text);
   }
 
-  public MenuItem(String text, boolean asHTML, Command cmd, int type, boolean check) {
+  public MenuItem(String text, boolean asHTML, Command cmd, Type type, boolean check) {
     super(text, asHTML, cmd);
     _asHTML = asHTML;
     _type = type;
@@ -85,7 +80,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     setText(text);
   }
 
-  public MenuItem(String text, Command cmd, int type, boolean check) {
+  public MenuItem(String text, Command cmd, Type type, boolean check) {
     super(text, cmd);
     _type = type;
     _check = check;
@@ -119,6 +114,16 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
       }
     }
   }
+  
+  public void setChecked(boolean checked) {
+    if (_check != checked ) {
+      if(_type == Type.CHECK) {
+        String s = _asHTML ? getHTML() : getText();
+        _check = !_check;
+        if(_asHTML) setHTML(s); else setText(s);
+      }
+    }
+  }
 
   public String getHTML() {
     return removeLead(super.getHTML(), true);    
@@ -140,10 +145,10 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     return addLead(s, asHTML, _type, _check);
   }
 
-  private static String addLead(String s, boolean asHTML, int type, boolean check) {
-    if(type == NORMAL) {
+  private static String addLead(String s, boolean asHTML, Type type, boolean check) {
+    if(type == Type.NORMAL) {
       return s;
-    } else if(type == CHECK && check) {
+    } else if(type == Type.CHECK && check) {
       return CHECK_TRUE + s;
     } else if(asHTML) {
       return CHECK_FALSE_HTML + s;
@@ -156,10 +161,10 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     return removeLead(s, asHTML, _type, _check);
   }
 
-  private static String removeLead(String s, boolean asHTML, int type, boolean check) {
-    if(type == NORMAL) {
+  private static String removeLead(String s, boolean asHTML, Type type, boolean check) {
+    if(type == Type.NORMAL) {
       return s;
-    } else if(type == CHECK && check) {
+    } else if(type == Type.CHECK && check) {
       return s.substring(CHECK_TRUE.length());
     } else if(asHTML) {
       return s.substring(CHECK_FALSE_HTML.length());

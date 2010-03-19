@@ -38,13 +38,13 @@ public class MenuBar extends com.google.gwt.user.client.ui.MenuBar {
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, int type) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, MenuItem.Type type) {
     MenuItem item = new MenuItem(text, asHTML, cmd, type, false);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, int type, boolean check) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, MenuItem.Type type, boolean check) {
     MenuItem item = new MenuItem(text, asHTML, cmd, type, check);
     addItem(item);
     return item;
@@ -62,13 +62,13 @@ public class MenuBar extends com.google.gwt.user.client.ui.MenuBar {
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, int type) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, MenuItem.Type type) {
     MenuItem item = new MenuItem(text, cmd, type, false);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, int type, boolean check) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, MenuItem.Type type, boolean check) {
     MenuItem item = new MenuItem(text, cmd, type, check);
     addItem(item);
     return item;

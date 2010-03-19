@@ -63,15 +63,15 @@ public class MenuBarEntryPoint implements EntryPoint {
     edit.addItem("Copy", command);
     edit.addItem("Paste", command);
     editItem.setEnabled(false); // Disable after adding children so they get disabled too
-    view.addItem("Date", true, command, MenuItem.CHECK, false);
-    view.addItem("Time", true, command, MenuItem.CHECK, true);
+    view.addItem("Date", true, command, MenuItem.Type.CHECK, false);
+    view.addItem("Time", true, command, MenuItem.Type.CHECK, true);
     view.addSeparator();
-    view.addItem("Description", command, MenuItem.CHECK, false);
-    view.addItem("Quantity", command, MenuItem.CHECK, true);
+    view.addItem("Description", command, MenuItem.Type.CHECK, false);
+    view.addItem("Quantity", command, MenuItem.Type.CHECK, true);
     view.addSeparator();
-    item = (MenuItem)view.addItem("Disabled", (Command)command, MenuItem.INDENT);
+    item = (MenuItem)view.addItem("Disabled", (Command)command, MenuItem.Type.INDENT);
     item.setEnabled(false);
-    item = (MenuItem)view.addItem("Enabled", (Command)command, MenuItem.INDENT);
+    item = (MenuItem)view.addItem("Enabled", (Command)command, MenuItem.Type.INDENT);
     item.setEnabled(false);
     item.setEnabled(true);
 
