@@ -15,10 +15,10 @@
  */
 package org.gwtlib.client.list.ui;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.ChangeListener;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A Color ListBox.
@@ -26,8 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Sander Berents
  */
 public class ColorListBox extends StyleListBox {
-  ChangeListener _listener = new ChangeListener() {
-    public void onChange(Widget sender) {
+  ChangeHandler _handler = new ChangeHandler() {
+    public void onChange(ChangeEvent event) {
       int sel = getSelectedIndex();
       if(sel == -1) {
         DOM.removeElementAttribute(getElement(), "style");
@@ -45,7 +45,7 @@ public class ColorListBox extends StyleListBox {
 
   public ColorListBox(boolean isMultipleSelect) {
     super(isMultipleSelect);
-    addChangeListener(_listener);
+    addChangeHandler(_handler);
   }
   
   public void setColors(String[] colors) {
@@ -62,11 +62,11 @@ public class ColorListBox extends StyleListBox {
   
   public void setItemSelected(int index, boolean selected) {
     super.setItemSelected(index, selected);
-    _listener.onChange(this);
+    _handler.onChange(null);
   }
 
   public void setSelectedIndex(int index) {
     super.setSelectedIndex(index);
-    _listener.onChange(this);
+    _handler.onChange(null);
   }
 }
