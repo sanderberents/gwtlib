@@ -92,7 +92,7 @@ public class MessageBox extends DialogBox {
    * @param caption
    * @param message
    * @param listener
-   * @return
+   * @return Information message box
    */
   public static MessageBox info(String caption, String message, final MessageBoxListener listener) {
     return info(caption, message, BTN_OK, listener);
@@ -104,7 +104,7 @@ public class MessageBox extends DialogBox {
    * @param message
    * @param buttons
    * @param listener
-   * @return
+   * @return Information message box
    */
   public static MessageBox info(String caption, String message, int buttons, final MessageBoxListener listener) {
     return info(caption, message, false, buttons, listener);
@@ -117,7 +117,7 @@ public class MessageBox extends DialogBox {
    * @param asHTML
    * @param buttons
    * @param listener
-   * @return
+   * @return Information message box
    */
   public static MessageBox info(String caption, String message, boolean asHTML, int buttons, final MessageBoxListener listener) {
     return message(caption, message, asHTML, buttons, listener, STYLE_INFO_IMAGE);
@@ -128,7 +128,7 @@ public class MessageBox extends DialogBox {
    * @param caption
    * @param message
    * @param listener
-   * @return
+   * @return Alert message box
    */
   public static MessageBox alert(String caption, String message, MessageBoxListener listener) {
     return alert(caption, message, BTN_OK, listener);
@@ -140,7 +140,7 @@ public class MessageBox extends DialogBox {
    * @param message
    * @param buttons
    * @param listener
-   * @return
+   * @return Alert message box
    */
   public static MessageBox alert(String caption, String message, int buttons, MessageBoxListener listener) {
     return alert(caption, message, false, buttons, listener);
@@ -153,7 +153,7 @@ public class MessageBox extends DialogBox {
    * @param asHTML
    * @param buttons
    * @param listener
-   * @return
+   * @return Alert message box
    */
   public static MessageBox alert(String caption, String message, boolean asHTML, int buttons, MessageBoxListener listener) {
     return message(caption, message, asHTML, buttons, listener, STYLE_ALERT_IMAGE);
@@ -164,7 +164,7 @@ public class MessageBox extends DialogBox {
    * @param caption
    * @param message
    * @param listener
-   * @return
+   * @return Error message box
    */
   public static MessageBox error(String caption, String message, MessageBoxListener listener) {
     return error(caption, message, BTN_OK, listener);
@@ -176,7 +176,7 @@ public class MessageBox extends DialogBox {
    * @param message
    * @param buttons
    * @param listener
-   * @return
+   * @return Error message box
    */
   public static MessageBox error(String caption, String message, int buttons, MessageBoxListener listener) {
     return error(caption, message, false, buttons, listener);
@@ -189,43 +189,43 @@ public class MessageBox extends DialogBox {
    * @param asHTML
    * @param buttons
    * @param listener
-   * @return
+   * @return Error message box
    */
   public static MessageBox error(String caption, String message, boolean asHTML, int buttons, MessageBoxListener listener) {
     return message(caption, message, asHTML, buttons, listener, STYLE_ERROR_IMAGE);
   }
   
   /**
-   * Creates an error message box with the given title, message and YES/NO buttons.
+   * Creates an confirmation message box with the given title, message and YES/NO buttons.
    * @param caption
    * @param message
    * @param listener
-   * @return
+   * @return Confirmation message box
    */
   public static MessageBox confirm(String caption, String message, MessageBoxListener listener) {
     return confirm(caption, message, BTN_YES_NO, listener);
   }
 
   /**
-   * Creates an error message box with the given title, message and buttons.
+   * Creates an confirmation message box with the given title, message and buttons.
    * @param caption
    * @param message
    * @param buttons
    * @param listener
-   * @return
+   * @return Confirmation message box
    */
   public static MessageBox confirm(String caption, String message, int buttons, MessageBoxListener listener) {
     return confirm(caption, message, false, buttons, listener);
   }
 
   /**
-   * Creates an error message box with the given title, message and buttons.
+   * Creates an confirmation message box with the given title, message and buttons.
    * @param caption
    * @param message
    * @param asHTML
    * @param buttons
    * @param listener
-   * @return
+   * @return Confirmation message box
    */
   public static MessageBox confirm(String caption, String message, boolean asHTML, int buttons, MessageBoxListener listener) {
     return message(caption, message, asHTML, buttons, listener, STYLE_QUESTION_IMAGE);
