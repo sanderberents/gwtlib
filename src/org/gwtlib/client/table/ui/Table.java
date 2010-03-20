@@ -135,14 +135,14 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     initOptimalSize();
 
     Window.addResizeHandler(new ResizeHandler() {
-      //@Override
+      @Override
       public void onResize(ResizeEvent event) {
         initOptimalSize();
       }
     });
 
     _table.addClickHandler(new ClickHandler() {
-      //@Override
+      @Override
       public void onClick(ClickEvent event) {
         int row = _table.getCellForEvent(event).getRowIndex();
         int col = _table.getCellForEvent(event).getCellIndex();
@@ -370,7 +370,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
           final Widget widget = column.getRenderer().render(row, column, row.getValue(j));
           if(widget instanceof HasClickHandlers) {
             ((HasClickHandlers)widget).addClickHandler(new ClickHandler() {
-              //@Override
+              @Override
               public void onClick(ClickEvent event) {
                 fireClickEvent(row, column, widget);				
               }
@@ -378,7 +378,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
           }
           if(widget instanceof HasChangeHandlers) {
             ((HasChangeHandlers)widget).addChangeHandler(new ChangeHandler() {
-              //@Override
+              @Override
               public void onChange(ChangeEvent event) {
                 fireChangeEvent(row, column, widget);
 

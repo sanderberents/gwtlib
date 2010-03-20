@@ -452,7 +452,7 @@ public class PagingBar extends Composite implements HasValueChangeHandlers<Integ
     update();
   }
 
-  //  @Override
+  @Override
   public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Integer> handler) {
     return this.addHandler(handler, ValueChangeEvent.getType());
   }

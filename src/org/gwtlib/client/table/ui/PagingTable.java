@@ -68,8 +68,7 @@ public class PagingTable extends Table {
     _panel.setStylePrimaryName(STYLE);
 
     paging.addValueChangeHandler(new ValueChangeHandler<Integer>() {
-
-      //@Override
+      @Override
       public void onValueChange(ValueChangeEvent<Integer> event) {
         if(_size == _paging.getPageSize()) {
           setPosition(_paging.getPosition());
