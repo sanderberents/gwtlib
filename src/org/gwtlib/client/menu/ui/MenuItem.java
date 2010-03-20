@@ -25,11 +25,12 @@ import com.google.gwt.user.client.Command;
 public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
 	
   /** Menu item type */
-  public enum Type { NORMAL, INDENT, CHECK };  
+  public enum Type { NORMAL, INDENT, CHECK, RADIO };  
 
   private static final String CHECK_TRUE  = checkmark(); 
   private static final String CHECK_FALSE = "\u00a0\u00a0\u00a0"; // Non-breaking space
   private static final String CHECK_FALSE_HTML = "&nbsp;&nbsp;&nbsp;"; // Non-breaking space
+  private static final String RADIO_TRUE  = radio(); 
 
   private Type _type;
   private boolean _check;
@@ -50,8 +51,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     }
 
     public void execute() {
-    	setChecked(!_check);
-    	if(_command != null) _command.execute();
+      setChecked(!_check);
+      if(_command != null) _command.execute();
     }
   }
 
@@ -121,6 +122,39 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
         String s = _asHTML ? getHTML() : getText();
         _check = !_check;
         if(_asHTML) setHTML(s); else setText(s);
+      } else if(_type == Type.RADIO && !_check) {
+        MenuBar parentMenu = (MenuBar)getParentMenu();
+        // Find current item in parent menu
+        // parentMenu.getItemIndex(this) seems to count separators, while getItems() does not, so find it in the ugly way.
+        int size = parentMenu.getItems().size();
+        int n;
+        for(n = 0; n != size; ++n) {
+          MenuItem item = (MenuItem)parentMenu.getItems().get(n);
+          if(this == item) break;
+        }
+        int i = n - 1, step = -1;
+        while(true) {
+          if(i < 0) {
+            i = n + 1;
+            step = 1;
+          } else if(i == size) {
+            break;
+          }
+          MenuItem item = (MenuItem)parentMenu.getItems().get(i);
+          if(item._type != Type.RADIO) {
+            i = size * step;
+          } else {
+            if(item._check) {
+              String s = item._asHTML ? item.getHTML() : item.getText();
+              item._check = false;
+              if(item._asHTML) item.setHTML(s); else item.setText(s);
+            }
+            i += step;
+          }
+        }
+        String s = _asHTML ? getHTML() : getText();
+        _check = !_check;
+        if(_asHTML) setHTML(s); else setText(s);
       }
     }
   }
@@ -150,6 +184,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
       return s;
     } else if(type == Type.CHECK && check) {
       return CHECK_TRUE + s;
+    } else if(type == Type.RADIO && check) {
+      return RADIO_TRUE + s;
     } else if(asHTML) {
       return CHECK_FALSE_HTML + s;
     } else {
@@ -166,6 +202,8 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
       return s;
     } else if(type == Type.CHECK && check) {
       return s.substring(CHECK_TRUE.length());
+    } else if(type == Type.RADIO && check) {
+      return s.substring(RADIO_TRUE.length());
     } else if(asHTML) {
       return s.substring(CHECK_FALSE_HTML.length());
     } else {
@@ -189,7 +227,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     return navigator.userAgent.toLowerCase();
   }-*/;
   
-  private static String checkmark() {
+  protected static String checkmark() {
     if(getUserAgent().contains("msie 6")) {
       return "\u221a "; // IE6 doesn't support real checkmark so use square root symbol
     } else if(getUserAgent().contains("msie 7")) {
@@ -198,6 +236,18 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
       return "\u2713";  // Real Unicode checkmark
     } else {
       return "\u2713 "; // Real Unicode checkmark and extra spacing
+    }
+  }
+
+  protected static String radio() {
+    if(getUserAgent().contains("msie 6")) {
+      return "\u0095 "; // IE6
+    } else if(getUserAgent().contains("msie 7")) {
+      return "\u0095 "; // IE7
+    } else if(getUserAgent().contains("msie")) {
+      return "\u0095";  // IE
+    } else {
+      return "\u2022 "; // Some extra spacing
     }
   }
 }
