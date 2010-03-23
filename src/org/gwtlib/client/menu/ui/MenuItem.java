@@ -36,6 +36,7 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   private boolean _check;
   private boolean _asHTML;
   private Command _disabledCommand;
+  private int _group; // Used for radio items only
   
   private static final Command DUMMY_COMMAND = new Command() {
     public void execute() {
@@ -70,6 +71,11 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     if(asHTML) setHTML(text); else setText(text);
   }
 
+  public MenuItem(String text, boolean asHTML, Command cmd, Type type, boolean check, int group) {
+    this(text, asHTML, cmd, type, check);
+    _group = group;
+  }
+
   public MenuItem(String text, boolean asHTML, MenuBar subMenu) {
     super(text, asHTML, subMenu);
     _asHTML = asHTML;
@@ -86,6 +92,11 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     _type = type;
     _check = check;
     setText(text);
+  }
+
+  public MenuItem(String text, Command cmd, Type type, boolean check, int group) {
+    this(text, cmd, type, check);
+    _group = group;
   }
 
   public MenuItem(String text, MenuBar subMenu) {
@@ -117,39 +128,21 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   }
   
   public void setChecked(boolean checked) {
-    if (_check != checked ) {
+    if(_check != checked ) {
       if(_type == Type.CHECK) {
         String s = _asHTML ? getHTML() : getText();
         _check = !_check;
         if(_asHTML) setHTML(s); else setText(s);
       } else if(_type == Type.RADIO && !_check) {
         MenuBar parentMenu = (MenuBar)getParentMenu();
-        // Find current item in parent menu
-        // parentMenu.getItemIndex(this) seems to count separators, while getItems() does not, so find it in the ugly way.
-        int size = parentMenu.getItems().size();
-        int n;
-        for(n = 0; n != size; ++n) {
-          MenuItem item = (MenuItem)parentMenu.getItems().get(n);
-          if(this == item) break;
-        }
-        int i = n - 1, step = -1;
-        while(true) {
-          if(i < 0) {
-            i = n + 1;
-            step = 1;
-          } else if(i == size) {
-            break;
-          }
-          MenuItem item = (MenuItem)parentMenu.getItems().get(i);
-          if(item._type != Type.RADIO) {
-            i = size * step;
-          } else {
-            if(item._check) {
+        for(com.google.gwt.user.client.ui.MenuItem gitem : parentMenu.getItems()) {
+          if(gitem instanceof MenuItem) {
+            MenuItem item = (MenuItem)gitem;
+            if(item._type == Type.RADIO && item._group == _group && item._check) {
               String s = item._asHTML ? item.getHTML() : item.getText();
               item._check = false;
               if(item._asHTML) item.setHTML(s); else item.setText(s);
             }
-            i += step;
           }
         }
         String s = _asHTML ? getHTML() : getText();
@@ -223,6 +216,10 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
     return _check;
   }
   
+  public Type isType() {
+    return _type;
+  }
+  
   private static native String getUserAgent() /*-{
     return navigator.userAgent.toLowerCase();
   }-*/;
@@ -240,14 +237,6 @@ public class MenuItem extends com.google.gwt.user.client.ui.MenuItem {
   }
 
   protected static String radio() {
-    if(getUserAgent().contains("msie 6")) {
-      return "\u0095 "; // IE6
-    } else if(getUserAgent().contains("msie 7")) {
-      return "\u0095 "; // IE7
-    } else if(getUserAgent().contains("msie")) {
-      return "\u0095";  // IE
-    } else {
-      return "\u2022 "; // Some extra spacing
-    }
+    return "\u25cf ";
   }
 }

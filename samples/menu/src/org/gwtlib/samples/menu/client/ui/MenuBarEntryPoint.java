@@ -66,8 +66,11 @@ public class MenuBarEntryPoint implements EntryPoint {
     view.addItem("Date", true, command, MenuItem.Type.CHECK, false);
     view.addItem("Time", true, command, MenuItem.Type.CHECK, true);
     view.addSeparator();
-    view.addItem("First", true, command, MenuItem.Type.RADIO, false);
-    view.addItem("Second", true, command, MenuItem.Type.RADIO, true);
+    view.addItem("Radio 1", true, command, MenuItem.Type.RADIO, false);
+    view.addItem("Radio 2", true, command, MenuItem.Type.RADIO, true);
+    view.addSeparator();
+    view.addItem("Radio 3", command, MenuItem.Type.RADIO, false, 1);
+    view.addItem("Radio 4", command, MenuItem.Type.RADIO, true, 1);
     view.addSeparator();
     view.addItem("Description", command, MenuItem.Type.CHECK, false);
     view.addItem("Quantity", command, MenuItem.Type.CHECK, true);

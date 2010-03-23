@@ -32,49 +32,61 @@ public class MenuBar extends com.google.gwt.user.client.ui.MenuBar {
     super(vertical);
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, boolean asHTML, Command cmd) {
     MenuItem item = new MenuItem(text, asHTML, cmd);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, MenuItem.Type type) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, boolean asHTML, Command cmd, MenuItem.Type type) {
     MenuItem item = new MenuItem(text, asHTML, cmd, type, false);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, Command cmd, MenuItem.Type type, boolean check) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, boolean asHTML, Command cmd, MenuItem.Type type, boolean check) {
     MenuItem item = new MenuItem(text, asHTML, cmd, type, check);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, boolean asHTML, MenuBar popup) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, boolean asHTML, Command cmd, MenuItem.Type type, boolean check, int group) {
+    MenuItem item = new MenuItem(text, asHTML, cmd, type, check, group);
+    addItem(item);
+    return item;
+  }
+
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, boolean asHTML, MenuBar popup) {
     MenuItem item = new MenuItem(text, asHTML, popup);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, Command cmd) {
     MenuItem item = new MenuItem(text, cmd);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, MenuItem.Type type) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, Command cmd, MenuItem.Type type) {
     MenuItem item = new MenuItem(text, cmd, type, false);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, Command cmd, MenuItem.Type type, boolean check) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, Command cmd, MenuItem.Type type, boolean check) {
     MenuItem item = new MenuItem(text, cmd, type, check);
     addItem(item);
     return item;
   }
 
-  public com.google.gwt.user.client.ui.MenuItem addItem(java.lang.String text, MenuBar popup) {
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, Command cmd, MenuItem.Type type, boolean check, int group) {
+    MenuItem item = new MenuItem(text, cmd, type, check, group);
+    addItem(item);
+    return item;
+  }
+
+  public com.google.gwt.user.client.ui.MenuItem addItem(String text, MenuBar popup) {
     MenuItem item = new MenuItem(text, popup);
     addItem(item);
     return item;
