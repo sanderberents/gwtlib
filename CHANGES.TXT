@@ -2,6 +2,14 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+1.1.0 (2010-03-23)
+------------------
+
+New features:
+
+ - Radio menu item support. 
+ - Allow subclass of MenuItem to provide custom checkmark or radio symbol.
+
 1.0.0 (2010-03-19)
 ------------------
 
