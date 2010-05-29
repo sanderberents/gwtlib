@@ -105,6 +105,7 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     this(layout, true);
   }
 
+  @Deprecated
   public Table(Messages messages, ColumnLayout layout) {
     this(layout, true);
     _messages = messages;

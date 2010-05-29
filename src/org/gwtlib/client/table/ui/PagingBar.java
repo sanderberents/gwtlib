@@ -118,6 +118,7 @@ public class PagingBar extends Composite implements HasValueChangeHandlers<Integ
     this(0, size, pageSize, null);
   }
 
+  @Deprecated
   public PagingBar(Messages messages, int size, int pageSize) {
     this(0, size, pageSize, null);
     _messages = messages;
