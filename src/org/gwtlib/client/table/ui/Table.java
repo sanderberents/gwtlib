@@ -155,12 +155,12 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
         if(row == 0) {
           if(column.isSortable()) {
             sort(c, column.getSortDirection() != Column.Sort.ASCENDING);
-          } else {
-            Row r = _cache.getRow(_begin + row - 1);
-            if(r != null) {
-              fireCellClickedEvent(r, column);
-              fireRowClickedEvent(r);
-            }
+          }
+        } else {
+          Row r = _cache.getRow(_begin + row - 1);
+          if(r != null) {
+            fireCellClickedEvent(r, column);
+            fireRowClickedEvent(r);
           }
         }
       }
