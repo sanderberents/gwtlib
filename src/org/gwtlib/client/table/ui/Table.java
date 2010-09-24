@@ -40,6 +40,7 @@ import com.google.gwt.user.client.DeferredCommand;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -145,22 +146,25 @@ public class Table extends AbstractComposite implements SourcesTableEvents {
     _table.addClickHandler(new ClickHandler() {
       @Override
       public void onClick(ClickEvent event) {
-        int row = _table.getCellForEvent(event).getRowIndex();
-        int col = _table.getCellForEvent(event).getCellIndex();
-
-        GWT.log("onCellClicked " + row + "," + col, null);
-        fireCellClickedEvent(row, col);
-        int c = toActualColumnPos(col);
-        Column column = _layout.getColumn(c);
-        if(row == 0) {
-          if(column.isSortable()) {
-            sort(c, column.getSortDirection() != Column.Sort.ASCENDING);
-          }
-        } else {
-          Row r = _cache.getRow(_begin + row - 1);
-          if(r != null) {
-            fireCellClickedEvent(r, column);
-            fireRowClickedEvent(r);
+        HTMLTable.Cell cell = _table.getCellForEvent(event);
+        if(cell != null) {
+          int row = cell.getRowIndex();
+          int col = cell.getCellIndex();
+  
+          GWT.log("onCellClicked " + row + "," + col, null);
+          fireCellClickedEvent(row, col);
+          int c = toActualColumnPos(col);
+          Column column = _layout.getColumn(c);
+          if(row == 0) {
+            if(column.isSortable()) {
+              sort(c, column.getSortDirection() != Column.Sort.ASCENDING);
+            }
+          } else {
+            Row r = _cache.getRow(_begin + row - 1);
+            if(r != null) {
+              fireCellClickedEvent(r, column);
+              fireRowClickedEvent(r);
+            }
           }
         }
       }
