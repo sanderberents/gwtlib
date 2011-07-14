@@ -2,6 +2,15 @@
                               GWTLIB CHANGE LOG
 ------------------------------------------------------------------------------
 
+1.1.1 (2011-07-14)
+------------------
+
+Bug fixes:
+
+ - Fix possible null pointer exception in table onClick handler.
+ - Fix table CellClickedEvent and RowClickedEvent issues. 
+ - Change paging bar text.
+
 1.1.0 (2010-03-23)
 ------------------
 
