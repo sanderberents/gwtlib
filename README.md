@@ -3,11 +3,11 @@ GWTLib is a lightweight GWT widget library that currently includes `MenuBar`, `P
 
 The `MenuBar` widget is an extension of the standard GWT `MenuBar` that adds checkmark and radio menu item toggling and enabling/disabling.
 
-![http://sites.google.com/site/gwtlib/menubar/MenuBarSample.png](http://sites.google.com/site/gwtlib/menubar/MenuBarSample.png)
+![MenuBar Sample](doc/img/MenuBarSample.png)
 
 The `PagingBar` widget can be used to navigate through any given number of items. The total number of items, the page size (which may be one) and the page size presets can all be configured.
 
-![http://gwtlib.googlepages.com/PagingBarSample.png](http://gwtlib.googlepages.com/PagingBarSample.png)
+![PagingBar Sample](doc/img/PagingBarSample.png)
 
 The `Table` widget has the following features:
 
@@ -19,13 +19,13 @@ The `Table` widget has the following features:
 
 In its most simple form, it just renders strings:
 
-![http://gwtlib.googlepages.com/MinimalTable.gif](http://gwtlib.googlepages.com/MinimalTable.gif)
+![Minimal Table](doc/img/MinimalTable.gif)
 
 The `PagingTable` combines the `Table` and `PagingBar` widgets and adds pagination to the standard table. Like `Table` itself, it is not limited to displaying strings, but can display any widget in its cells using the included or custom `Renderer` implementations.
 
-![http://gwtlib.googlepages.com/PagingTableSample.gif](http://gwtlib.googlepages.com/PagingTableSample.gif)
+![PagingTable Sample](doc/img/PagingTableSample.gif)
 
-![http://gwtlib.googlepages.com/PagingTableSample2.png](http://gwtlib.googlepages.com/PagingTableSample2.png)
+![PagingTable Sample](doc/img/PagingTableSample2.png)
 
 The `StyleListBox` widget adds style support to individual items of the standard GWT `ListBox`.
 
